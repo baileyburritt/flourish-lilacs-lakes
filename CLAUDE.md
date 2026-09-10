@@ -10,7 +10,7 @@ Flourish: Lilacs & Lakes — a regional discovery and trip-planning app for Roch
 
 **It is not an application yet.** It is five AI-exported (Google Stitch) static HTML screens plus design documentation. There is no repo, no package manager, no build step, no test runner, no backend, and nothing survives a page refresh — every save, bookmark, and form submit is a DOM mutation. Treat the screens as a design proof, not as a codebase that is nearly done.
 
-There are no build, lint, or test commands. To preview a screen, open its `code.html` directly in a browser; each file is fully self-contained and renders standalone with no server.
+The five screens themselves have no build, lint, or test commands. To preview one, open its `code.html` directly in a browser; each file is fully self-contained and renders standalone with no server.
 
 ## Layout
 
@@ -23,6 +23,8 @@ Each screen lives in its own directory with a `code.html` and a `screen.png` ref
 | `trip_planner_flourish/` | Trip Planner — multi-day itinerary builder |
 | `destination_detail_private_gem_flourish/` | Destination Detail & Private Gem |
 | `new_private_gem_flourish/` | New Private Gem — quick-entry capture form |
+
+`app/` is the real application (ticket A3 on): an Expo/React Native project, one codebase targeting iOS, Android and web. It is currently an empty scaffold — none of the five screens have been ported into it yet, and porting them is explicitly out of scope until the shared component/token extraction work in a later ticket. From `app/`: `npm run web` (dev server) / `npm run build:web` (static export) work in this environment; `npm run android` / `npm run ios` require an Android SDK+emulator or a Mac, neither of which is present in every environment this repo is worked in.
 
 `flourish_lilacs_lakes_technical_handoff_prd.md` holds the intended data model, API sketch, and integration plan. Its schema is **incomplete** — it undercounts what the screens already capture (notably audio memos) — so do not treat it as authoritative over the review findings.
 
