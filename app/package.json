@@ -11,7 +11,14 @@
     "react-native-web": "^0.21.2"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/jest": "29.5.14",
     "@types/react": "~19.2.2",
+    "babel-preset-expo": "~57.0.0",
+    "jest": "~29.7.0",
+    "jest-expo": "~57.0.5",
+    "serve": "^14.2.6",
     "typescript": "~6.0.3"
   },
   "scripts": {
@@ -20,7 +27,18 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "build:web": "expo export -p web",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "npm run test:unit && npm run test:tokens && npm run test:e2e",
+    "test:unit": "jest",
+    "test:tokens": "node scripts/check-token-conformance.js",
+    "test:e2e": "playwright test"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "preset": "jest-expo",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/e2e/"
+    ]
+  }
 }
