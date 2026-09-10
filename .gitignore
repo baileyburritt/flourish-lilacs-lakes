@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+
+# Expo / React Native
+.expo/
+.expo-shared/
+dist/
+web-build/
+ios/
+android/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+
+# build output
+build/
+coverage/
+
+# logs
+*.log
+npm-debug.log*
+
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# editor
+.vscode/
+.idea/

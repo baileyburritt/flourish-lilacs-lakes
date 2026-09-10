@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><title>Flourish / ROC &amp; Lakes</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#44474d", "tertiary-fixed-dim": "#ffb68c", "surface-variant": "#d5e3fc", "secondary": "#6f48b2", "background": "#f8f9ff", "surface-container-high": "#dce9ff", "tertiary": "#280d00", "on-tertiary-fixed-variant": "#753400", "on-background": "#0d1c2e", "on-primary-container": "#7e92b2", "on-tertiary-container": "#d97736", "outline": "#74777e", "surface-bright": "#f8f9ff", "surface-container": "#e6eeff", "on-secondary": "#ffffff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed": "#321200", "secondary-fixed-dim": "#d4bbff", "surface": "#f8f9ff", "surface-container-low": "#eff4ff", "on-primary-fixed-variant": "#354764", "error": "#ba1a1a", "on-secondary-fixed-variant": "#572e99", "on-secondary-container": "#491d8a", "primary-fixed": "#d5e3ff", "tertiary-container": "#481d00", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "secondary-fixed": "#ebdcff", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "on-primary": "#ffffff", "secondary-container": "#b78efe", "outline-variant": "#c4c6ce", "surface-dim": "#ccdbf3", "primary-fixed-dim": "#b4c7ea", "inverse-surface": "#233144", "inverse-primary": "#b4c7ea", "surface-container-highest": "#d5e3fc", "primary": "#00152f", "on-primary-fixed": "#061c36", "on-surface": "#0d1c2e", "tertiary-fixed": "#ffdbc9", "surface-tint": "#4c5f7d", "on-secondary-fixed": "#260058", "error-container": "#ffdad6", "primary-container": "#162a45" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.75rem", "space-2xl": "2rem", "space-xs": "0.5rem", "space-xxs": "0.25rem", "space-md": "1rem", "gutter-tablet": "1.5rem", "space-xl": "1.5rem", "margin-mobile": "1rem", "space-lg": "1.25rem", "gutter-mobile": "1rem", "space-3xl": "3rem", "margin-tablet": "2rem" }, "fontFamily": { "label-lg": ["Plus Jakarta Sans"], "display-lg": ["Outfit"], "headline-lg": ["Outfit"], "display-lg-mobile": ["Outfit"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Outfit"], "label-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-md": ["Outfit"] }, "fontSize": { "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-lg-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "21px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100%;min-height:100%;margin:0;padding:0;background-color:#f8f9ff;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(22,42,69,0.05)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs min-w-0 flex-1"><img alt="Flourish ROC Logo" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUtGuVahmjU_5dMAYKUWqkVjYRbQldqBnvVYaxZ_LWmU2QuICoknI_g9bbFL-lnfr3Mmfjme7i-9QAZclGUp3ruIOSiM7L9xPWMci622eQBUkxpsnVE89B7nnL0e6331n9m4Z6KGYZbTLtS1EWpo2qFvAqhM60aKbb_ib1lAG5N_L1XcnwZv9ZU_um9hiwccr_aY7UCIftEHpHrKvQEIbMzrkH7HS9u30tAY0GhianJ87yNh1MkYZuAQ"/><div class="flex flex-col min-w-0 leading-tight"><span class="font-headline-sm text-headline-sm text-primary font-bold truncate tracking-tight">Flourish</span><span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold uppercase tracking-wider">ROC &amp; Lakes</span></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><button aria-label="Search spots, trails, events" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high/60 transition-colors" type="button"><span class="material-symbols-outlined text-primary-container text-[22px]">search</span></button><button aria-label="Open User Profile" class="w-11 h-11 flex items-center justify-center rounded-full hover:opacity-90 transition-opacity" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(22,42,69,0.15)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvAbBG-waX1NZATaCxZrXhHmJYkFs3pA3ddkGdKm_jkacRLyhnEwDFTgKnF7QkkG4prtaXLf8LB6ptLtNseQ_ituq_Y78J93nC-8LlA3B7jdMYgF76HE7Ktj1KUnW-wTT_FGz98G9eXEA0gmsv4CJT6aoA7SJDEArUbCpn1vXtaw8fOLos6mk_9iRelTadtkeFSxaK9AdwrZ60NoCuu9RHBwCXGsy6obAY59NRhKnxG_E64CHYmtSrEw"/></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full px-margin-mobile space-y-space-xl">
+<!-- Header Title & Subtitle -->
+<section class="flex flex-col space-y-space-xxs">
+<div class="inline-flex items-center gap-space-xs text-on-tertiary-container font-label-sm text-label-sm uppercase tracking-wider">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container animate-pulse"></span>
+      Finger Lakes &amp; ROC Stages
+    </div>
+<h1 class="font-headline-lg text-headline-lg text-primary tracking-tight font-bold">Live Sounds &amp; Festivals</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">From world-class jazz club corners to sun-drenched lakeside amphitheaters.</p>
+</section>
+<!-- Interactive Filter Chips -->
+<section class="flex items-center gap-space-xs overflow-x-auto no-scrollbar py-space-xxs -mx-margin-mobile px-margin-mobile">
+<button class="filter-chip active flex-shrink-0 px-4 py-2 rounded-full font-label-sm text-label-sm bg-secondary text-on-secondary shadow-sm transition-all duration-200" type="button">
+      All Events
+    </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant hover:text-primary transition-all duration-200" type="button">
+      Jazz &amp; Blues
+    </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant hover:text-primary transition-all duration-200" type="button">
+      Orchestra &amp; Eastman
+    </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant hover:text-primary transition-all duration-200" type="button">
+      Outdoor Concerts
+    </button>
+<button class="filter-chip flex-shrink-0 px-4 py-2 rounded-full font-label-sm text-label-sm bg-surface-container-high text-on-surface-variant hover:text-primary transition-all duration-200" type="button">
+      Winery Sessions
+    </button>
+</section>
+<!-- Headliner / Marquee Banner: RIJF -->
+<section class="relative rounded-xl overflow-hidden shadow-lg bg-primary text-on-primary">
+<div class="relative h-64 w-full">
+<img class="w-full h-full object-cover" data-alt="Vibrant night jazz festival concert at Gibbs Street East End Rochester, radiant blue and warm stage spotlights, illuminated brass trumpet performer on stage, atmospheric glowing summer festival crowd in lake mist tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDixCTagwayeOWgcRFIa9vtIH2QX6QLCwpzIhMtJNtU9shSFV0TGYF3OG8naLNSqFoGBrdEkjeQQa3Ivl7_IO0lgytFfb3d3F18Cz2fwKPJsM9y2rST9-7fIYEBkqoOqdYfytr3hJEpYLAn-Z4nQwWQvOlgfWeW1RUKUDwENSKty5pPbPC8_3UTVUGfj_o2QumdyJGqJ6ZUFn-lIpYzX4Xp6SNBYdx7mspWwRfxMxL0_vwFi0agZhvl2A"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary via-primary/60 to-transparent"></div>
+<!-- Top badges -->
+<div class="absolute top-space-md left-space-md right-space-md flex items-center justify-between">
+<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm shadow-md backdrop-blur-md">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
+          Signature Festival
+        </span>
+<button aria-label="Bookmark Rochester Jazz Festival" class="w-9 h-9 rounded-full bg-surface/20 backdrop-blur-md text-on-primary flex items-center justify-center hover:bg-surface/30 transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark</span>
+</button>
+</div>
+<!-- Content Box -->
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col space-y-space-xs">
+<div class="flex items-center gap-2 text-tertiary-fixed font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[16px]">calendar_month</span>
+<span>June 20–28, 2025 • 9 Days of World Talent</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-primary font-bold leading-tight">Rochester International Jazz Festival (RIJF)</h2>
+<p class="font-body-sm text-body-sm text-on-primary-container line-clamp-2">East End District &amp; Kodak Hall at Eastman Theatre. 300+ concerts spanning world-class luminaries to free street stages.</p>
+<div class="pt-space-xxs flex items-center gap-space-xs">
+<a class="flex-1 py-2.5 px-space-md bg-on-tertiary-container text-on-tertiary rounded-full font-label-md text-label-md text-center shadow hover:opacity-95 transition-opacity" href="#">
+            Festival Passes &amp; Lineup
+          </a>
+<button aria-label="Play RIJF teaser snippet" class="w-10 h-10 rounded-full bg-surface-container-high/40 text-on-primary flex items-center justify-center backdrop-blur-md hover:bg-surface-container-high/60 transition-colors" type="button">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Section Header -->
+<div class="flex items-center justify-between pt-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[22px]">graphic_eq</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Curated Upcoming Gigs</h3>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant font-semibold">4 Highlights</span>
+</div>
+<!-- Cards List -->
+<section class="flex flex-col space-y-space-md">
+<!-- Card 1: Eastman Kilbourn Hall -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(22,42,69,0.06)] flex flex-col space-y-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Intimate acoustic hall at Eastman School of Music Rochester, ornate wood architecture, warm amber chandelier glow on grand piano" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCw7eLTXMZD66zu0LvYDnIaLLMEL5HtlxIPTO0uXCkVsj1mRltCpc_DgNGs6xB82Ayz_HSOrIoZuhQSsNe-kXarAQg7eWGsmRGTFfYSLADxviZOUzKqRQVbk4jG6omcWgJcq94N2wOwitqcf-3Tawq7v2g8a8dWeHVTEr1Hqa5_b0e32Hiy7j05NaVEYbKjk3Gx2UfmEo0nNeC6KHoYh0EaByyT6D6uN14x1zvWJbGMCTIxHre4724zfA"/>
+<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-primary/80 backdrop-blur-sm text-on-primary font-label-sm text-label-sm">
+            Downtown
+          </div>
+</div>
+<div class="flex flex-col justify-between min-w-0 flex-1">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Classical &amp; Jazz</span>
+<button aria-label="Favorite Kilbourn Hall Recital" class="text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate mt-0.5">Kilbourn Hall Faculty Recital</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Eastman School of Music • Gibbs St</p>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container">schedule</span>
+<span>Friday • 7:30 PM</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center justify-between pt-space-xxs gap-space-xs bg-surface-container-low rounded-lg p-2">
+<button class="preview-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary play-icon">volume_up</span>
+<span>Sample (0:30)</span>
+</button>
+<a class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center gap-1 hover:opacity-90 transition-opacity" href="#">
+<span>Tickets</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 2: CMAC Summer Stage -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(22,42,69,0.06)] flex flex-col space-y-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Spectacular outdoor amphitheater concert lawn overlooking Canandaigua Lake at golden sunset with vibrant violet sky, warm crowd under wooden shell canopy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDtC-onCBEJqqpTDpLJqEmcpykSPBLmx60g9lskZj-B9e89AKb2pZP2-JzQVwXvHabI31SuwOMRBg_U0pTmXdFFumnD-qptn_BGSfhvyM_W7P85rdffIFNAfcTsgV9jKf-8JXx6WMy4VqXgr5Cbe4dyRWxpq56-yeq0t-CtuMYpy0m2GkGDA9u6RUS6EtZwJ_Bx0naWC_nvbB-bbaAa_I2HRkuWWttXhsXH3a7X1bRzgOndc0XWwzsjdA"/>
+<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-primary/80 backdrop-blur-sm text-on-primary font-label-sm text-label-sm">
+            Lakeside
+          </div>
+</div>
+<div class="flex flex-col justify-between min-w-0 flex-1">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-bold uppercase tracking-wider">Amphitheater</span>
+<button aria-label="Favorite CMAC concert" class="text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate mt-0.5">CMAC Summer Sunset Stage</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Canandaigua Lakefront Grounds</p>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container">schedule</span>
+<span>Next Saturday • 6:00 PM Gate</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center justify-between pt-space-xxs gap-space-xs bg-surface-container-low rounded-lg p-2">
+<button class="preview-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary play-icon">volume_up</span>
+<span>Sample (0:45)</span>
+</button>
+<a class="px-4 py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md flex items-center gap-1 hover:opacity-90 transition-opacity" href="#">
+<span>Tickets</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 3: Heron Hill & Keuka Lake Live Sessions -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(22,42,69,0.06)] flex flex-col space-y-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Rustic hillside winery vineyard pavilion overlooking blue Keuka lake, solo acoustic singer songwriter performing on guitar with wine glasses on cedar barrel tables" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDCWkpaJU1AmDFMZsIcoJMdviVoMUlFcsjLtjHil100FgXXubDOj_cSXlflNujY7WRvGv60sPWR_yItou8lG73dCqZBNtmHCGHByTXT_Cg_n6tbQBNcOdvu5KMis8W1i995hUTCO5vpK0n0I-cjRrFVaeoxHQVJnJpIaWHciwUp5_ScRQkVIx9kkInKC7T1oNr67s4gTyXqKD4Uq27eb67eLDo_UlxJHj-WJ61Y56a6QNEeTNB0LdTjw"/>
+<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-primary/80 backdrop-blur-sm text-on-primary font-label-sm text-label-sm">
+            Keuka
+          </div>
+</div>
+<div class="flex flex-col justify-between min-w-0 flex-1">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Acoustic &amp; Tasting</span>
+<button aria-label="Favorite Winery live session" class="text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate mt-0.5">Winery Sunset Live Sessions</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">Heron Hill Winery • Hammondsport</p>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container">schedule</span>
+<span>Sunday • 4:00 PM – 7:00 PM</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center justify-between pt-space-xxs gap-space-xs bg-surface-container-low rounded-lg p-2">
+<button class="preview-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary play-icon">volume_up</span>
+<span>Sample (0:20)</span>
+</button>
+<a class="px-4 py-1.5 rounded-full bg-on-tertiary-container text-on-tertiary font-label-md text-label-md flex items-center gap-1 hover:opacity-90 transition-opacity" href="#">
+<span>Free RSVP</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Card 4: Hochstein at Noon -->
+<article class="bg-surface-container-lowest rounded-xl p-space-md shadow-[0_2px_12px_rgba(22,42,69,0.06)] flex flex-col space-y-space-sm">
+<div class="flex gap-space-sm">
+<div class="relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Chamber ensemble string quartet performing in historic Hochstein Performance Hall Rochester, sun streaming through stained glass onto polished wood stage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAab2cXcDcT-zPi2Fh186UP2sxEHxNLQZXzDIhijeC5zXoYxfMi1OooT5CDZNwlcX_i-xNtOpZPHtbwrI1gcmHI84mFJRbk9-i3-GmHvFQ4515Bkw0Bimsh1LsrBRYhYu74XApK5mZ3kvYnEmbRB39tNgk-gmW1aZ2aBCGnVYatSAuJiQdXz_elcvCw1nGsUlpdkCEMvAACzjC_p8fEHXx36xGD0LRTr3VPxQiDOUJXe397nB0WtQCxtg"/>
+<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-primary/80 backdrop-blur-sm text-on-primary font-label-sm text-label-sm">
+            Free
+          </div>
+</div>
+<div class="flex flex-col justify-between min-w-0 flex-1">
+<div>
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Lunchtime Series</span>
+<button aria-label="Favorite Hochstein at Noon" class="text-on-surface-variant hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">favorite_border</span>
+</button>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold truncate mt-0.5">Hochstein at Noon</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1">50 N Plymouth Ave • Downtown</p>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-on-tertiary-container">schedule</span>
+<span>Every Wednesday • 12:10 PM</span>
+</div>
+</div>
+</div>
+<!-- Action Row -->
+<div class="flex items-center justify-between pt-space-xxs gap-space-xs bg-surface-container-low rounded-lg p-2">
+<button class="preview-btn flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-container-lowest text-primary font-label-sm text-label-sm hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary play-icon">volume_up</span>
+<span>Sample (0:25)</span>
+</button>
+<a class="px-4 py-1.5 rounded-full bg-surface-container-high text-primary font-label-md text-label-md flex items-center gap-1 hover:bg-surface-variant transition-colors" href="#">
+<span>Details</span>
+<span class="material-symbols-outlined text-[16px]">info</span>
+</a>
+</div>
+</article>
+</section>
+<!-- User Reminder Callout: Private Itinerary Notes -->
+<section class="rounded-xl bg-surface-container-high/70 p-space-md shadow-sm relative overflow-hidden">
+<div class="flex items-start gap-space-sm">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center flex-shrink-0 shadow-sm mt-0.5">
+<span class="material-symbols-outlined text-[20px]">edit_note</span>
+</div>
+<div class="flex flex-col space-y-1 min-w-0 flex-1">
+<h4 class="font-headline-sm text-headline-sm text-primary font-semibold">Heard of a popup gig or open mic?</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Save underground park jams, microbrewery buskers, and East End jazz jams directly into your private travel notebook.</p>
+<div class="pt-2">
+<button class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow hover:bg-primary-container transition-colors" id="add-gig-note-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">add</span>
+<span>Add to Itinerary Notes</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Interactive Note Modal / Quick Drawer (Hidden by default) -->
+<div class="fixed inset-x-0 bottom-0 z-50 transform translate-y-full transition-transform duration-300 ease-out max-w-lg mx-auto px-margin-mobile pb-28" id="note-drawer">
+<div class="bg-surface-container-lowest rounded-2xl p-space-md shadow-2xl flex flex-col space-y-space-sm border-t-2 border-secondary/20">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">music_note</span>
+<span class="font-headline-sm text-headline-sm text-primary">Quick Gig Note</span>
+</div>
+<button class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-primary" id="close-drawer-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<input class="w-full px-space-sm py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-outline" placeholder="Band or Venue (e.g. Daily Refresher jazz trio)" type="text"/>
+<textarea class="w-full px-space-sm py-2 rounded-lg bg-surface-container text-on-surface font-body-sm text-body-sm focus:outline-none focus:ring-2 focus:ring-secondary/50 placeholder:text-outline" placeholder="Date, cover, or lakeside tips..." rows="2"></textarea>
+<div class="flex justify-end gap-2 pt-1">
+<button class="w-full py-2.5 rounded-full bg-secondary text-on-secondary font-label-md text-label-md font-semibold hover:opacity-90 transition-opacity" id="save-note-btn" type="button">
+          Save to Itinerary
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Filter chips active state toggle
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.filter-chip').forEach(c => {
+        c.classList.remove('bg-secondary', 'text-on-secondary', 'shadow-sm');
+        c.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+      });
+      chip.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+      chip.classList.add('bg-secondary', 'text-on-secondary', 'shadow-sm');
+    });
+  });
+
+  // Audio sample preview micro-interaction
+  document.querySelectorAll('.preview-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const icon = btn.querySelector('.play-icon');
+      const textSpan = btn.querySelector('span:last-child');
+      const isPlaying = icon.textContent === 'pause_circle';
+
+      // Reset all buttons
+      document.querySelectorAll('.preview-btn').forEach(b => {
+        b.querySelector('.play-icon').textContent = 'volume_up';
+        b.querySelector('.play-icon').classList.remove('text-on-tertiary-container');
+        b.querySelector('.play-icon').classList.add('text-secondary');
+      });
+
+      if (!isPlaying) {
+        icon.textContent = 'pause_circle';
+        icon.classList.remove('text-secondary');
+        icon.classList.add('text-on-tertiary-container');
+        textSpan.textContent = 'Playing...';
+        setTimeout(() => {
+          if (icon.textContent === 'pause_circle') {
+            icon.textContent = 'volume_up';
+            icon.classList.remove('text-on-tertiary-container');
+            icon.classList.add('text-secondary');
+            textSpan.textContent = 'Sample';
+          }
+        }, 4000);
+      } else {
+        icon.textContent = 'volume_up';
+        textSpan.textContent = 'Sample';
+      }
+    });
+  });
+
+  // Itinerary Note Quick Drawer toggle
+  const noteBtn = document.getElementById('add-gig-note-btn');
+  const drawer = document.getElementById('note-drawer');
+  const closeBtn = document.getElementById('close-drawer-btn');
+  const saveBtn = document.getElementById('save-note-btn');
+
+  if (noteBtn && drawer) {
+    noteBtn.addEventListener('click', () => {
+      drawer.classList.remove('translate-y-full');
+    });
+  }
+
+  if (closeBtn && drawer) {
+    closeBtn.addEventListener('click', () => {
+      drawer.classList.add('translate-y-full');
+    });
+  }
+
+  if (saveBtn && drawer) {
+    saveBtn.addEventListener('click', () => {
+      saveBtn.textContent = 'Saved to Notes!';
+      saveBtn.classList.replace('bg-secondary', 'bg-on-tertiary-container');
+      setTimeout(() => {
+        drawer.classList.add('translate-y-full');
+        saveBtn.textContent = 'Save to Itinerary';
+        saveBtn.classList.replace('bg-on-tertiary-container', 'bg-secondary');
+      }, 900);
+    });
+  }
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(22,42,69,0.06)]" data-active-classes="text-primary font-semibold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="explore" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">explore</span><span class="font-label-sm text-label-sm">Explore</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="music-and-live" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">festival</span><span class="font-label-sm text-label-sm">Music &amp; Live</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="itinerary" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">route</span><span class="font-label-sm text-label-sm">Itinerary</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="my-spots-and-gems" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">auto_awesome</span><span class="font-label-sm text-label-sm">My Spots</span></a></div></nav></body></html>

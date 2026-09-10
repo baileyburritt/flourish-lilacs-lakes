@@ -1,0 +1,406 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"><title>Flourish / ROC &amp; Lakes</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-surface-variant": "#44474d", "tertiary-fixed-dim": "#ffb68c", "surface-variant": "#d5e3fc", "secondary": "#6f48b2", "background": "#f8f9ff", "surface-container-high": "#dce9ff", "tertiary": "#280d00", "on-tertiary-fixed-variant": "#753400", "on-background": "#0d1c2e", "on-primary-container": "#7e92b2", "on-tertiary-container": "#d97736", "outline": "#74777e", "surface-bright": "#f8f9ff", "surface-container": "#e6eeff", "on-secondary": "#ffffff", "inverse-on-surface": "#eaf1ff", "on-tertiary-fixed": "#321200", "secondary-fixed-dim": "#d4bbff", "surface": "#f8f9ff", "surface-container-low": "#eff4ff", "on-primary-fixed-variant": "#354764", "error": "#ba1a1a", "on-secondary-fixed-variant": "#572e99", "on-secondary-container": "#491d8a", "primary-fixed": "#d5e3ff", "tertiary-container": "#481d00", "surface-container-lowest": "#ffffff", "on-error": "#ffffff", "secondary-fixed": "#ebdcff", "on-tertiary": "#ffffff", "on-error-container": "#93000a", "on-primary": "#ffffff", "secondary-container": "#b78efe", "outline-variant": "#c4c6ce", "surface-dim": "#ccdbf3", "primary-fixed-dim": "#b4c7ea", "inverse-surface": "#233144", "inverse-primary": "#b4c7ea", "surface-container-highest": "#d5e3fc", "primary": "#00152f", "on-primary-fixed": "#061c36", "on-surface": "#0d1c2e", "tertiary-fixed": "#ffdbc9", "surface-tint": "#4c5f7d", "on-secondary-fixed": "#260058", "error-container": "#ffdad6", "primary-container": "#162a45" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "space-sm": "0.75rem", "space-2xl": "2rem", "space-xs": "0.5rem", "space-xxs": "0.25rem", "space-md": "1rem", "gutter-tablet": "1.5rem", "space-xl": "1.5rem", "margin-mobile": "1rem", "space-lg": "1.25rem", "gutter-mobile": "1rem", "space-3xl": "3rem", "margin-tablet": "2rem" }, "fontFamily": { "label-lg": ["Plus Jakarta Sans"], "display-lg": ["Outfit"], "headline-lg": ["Outfit"], "display-lg-mobile": ["Outfit"], "body-md": ["Plus Jakarta Sans"], "headline-sm": ["Outfit"], "label-sm": ["Plus Jakarta Sans"], "body-lg": ["Plus Jakarta Sans"], "body-sm": ["Plus Jakarta Sans"], "label-md": ["Plus Jakarta Sans"], "headline-md": ["Outfit"] }, "fontSize": { "label-lg": ["14px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "600" }], "display-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "headline-lg": ["28px", { "lineHeight": "34px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "display-lg-mobile": ["32px", { "lineHeight": "38px", "letterSpacing": "-0.015em", "fontWeight": "700" }], "body-md": ["14px", { "lineHeight": "21px", "fontWeight": "400" }], "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }], "label-sm": ["10px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "700" }], "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "body-sm": ["12px", { "lineHeight": "18px", "fontWeight": "400" }], "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "600" }], "headline-md": ["22px", { "lineHeight": "28px", "letterSpacing": "-0.005em", "fontWeight": "600" }] } } } };</script><style>@layer base{html,body{width:100%;min-height:100%;margin:0;padding:0;background-color:#f8f9ff;}.pb-safe{padding-bottom:env(safe-area-inset-bottom,0px);}.pt-safe{padding-top:env(safe-area-inset-top,0px);}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style></head><body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen"><header class="fixed top-0 w-full z-50 pt-safe bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(22,42,69,0.05)]"><div class="h-16 px-margin-mobile flex items-center justify-between gap-space-xs"><div class="flex items-center gap-space-xs min-w-0 flex-1"><img alt="Flourish ROC Logo" class="h-8 w-auto object-contain flex-shrink-0" src="https://lh3.googleusercontent.com/aida/AEtjO1V_5QPfU5Zn1rFNCSrb5scgjWHxvvGYpJOAbIocFI9nYzzQGU5EQZjnfOW40hpQ5gPDVqXRTR0w9Gxohh6kxnWxagdmVhd8PDrHdd_3u0nkcTMtSkH_ZtPTCsSFqynQZxSt2kAEyo5vZw0BkEESICXEDKCIiD-2q8NO83wo7FLktweldNRSjS5fMgroJVCT9C9aOaWg1Eb8MJPqANxrXvjiduY6TNCP-SDUF485pL3LBDypO8ZIUVBhHl3E"><div class="flex flex-col min-w-0 leading-tight"><span class="font-headline-sm text-headline-sm text-primary font-bold truncate tracking-tight">Flourish</span><span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold uppercase tracking-wider">Lilacs &amp; Lakes</span></div></div><div class="flex items-center gap-space-xs flex-shrink-0"><button aria-label="Search spots, trails, events" class="w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high/60 transition-colors" type="button"><span class="material-symbols-outlined text-primary-container text-[22px]">search</span></button><button aria-label="Open User Profile" class="w-11 h-11 flex items-center justify-center rounded-full hover:opacity-90 transition-opacity" type="button"><img alt="Profile" class="w-8 h-8 rounded-full object-cover shadow-[0_1px_4px_rgba(22,42,69,0.15)]" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvAbBG-waX1NZATaCxZrXhHmJYkFs3pA3ddkGdKm_jkacRLyhnEwDFTgKnF7QkkG4prtaXLf8LB6ptLtNseQ_ituq_Y78J93nC-8LlA3B7jdMYgF76HE7Ktj1KUnW-wTT_FGz98G9eXEA0gmsv4CJT6aoA7SJDEArUbCpn1vXtaw8fOLos6mk_9iRelTadtkeFSxaK9AdwrZ60NoCuu9RHBwCXGsy6obAY59NRhKnxG_E64CHYmtSrEw"></button></div></div></header><main class="flex-1 flex flex-col relative w-full pt-16 pb-24 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Search & Live Weather / Mood Ticker -->
+<section class="px-margin-mobile pt-space-xs pb-space-sm flex flex-col gap-space-sm">
+<div class="relative w-full">
+<div class="w-full h-13 py-space-xs pl-space-md pr-space-xs bg-surface-container-lowest shadow-sm rounded-full flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-tertiary-container text-[24px]">explore</span>
+<input class="flex-1 bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 min-w-0" placeholder="Gorges, riesling trails, artisan cafes..." type="text">
+<button aria-label="Filter discovery view" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary hover:bg-surface-variant transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Editorial Intro Banner -->
+<div class="pt-space-xs pb-space-xxs flex flex-col">
+<div class="flex items-center gap-space-xxs mb-1">
+<span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-widest">Regional Discovery Journal</span>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-primary font-bold tracking-tight">
+        Discover Rochester &amp; Finger Lakes
+      </h1>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1 leading-snug">
+        Waterfalls, sunlit vineyards, historic mansions &amp; untold gems across Western NY.
+      </p>
+</div>
+<!-- Category Pill Filter Bar (Swipeable) -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 pt-1 -mx-margin-mobile px-margin-mobile scrollbar-none" id="filter-container">
+<button class="filter-chip px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all whitespace-nowrap bg-secondary/15 text-secondary shadow-sm" data-filter="all" type="button">
+        All Highlights
+      </button><button class="filter-chip px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-primary flex items-center gap-1.5" data-filter="flower-city" type="button"><img src="https://lh3.googleusercontent.com/aida/AEtjO1UJOirVqn9xpqQzsuLGCwJsDMoFJ4mtxa9sUtsBAmtlRRmJK9fs4wbNu_NECS2HbPJt7BV-PLAjHXYfxVTHAJbWijNuaCPCyFfTdR647SbDnol4qYgFA19Ppqa0DGE_tmj3T8s4vJ9A98djYQmpTOnyMktloVIUELYLks00xs0wWJFNbDLmnY1n6lU1gBfSv478qCeY8sqiAznA5cRKzSeHydky-rdf9tXIXSAhScxL0B4DV_pCAnOt2W0P" alt="Rochester Flower City Logo" class="w-4 h-4 object-contain">Flower City (ROC)</button>
+<button class="filter-chip px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-primary" data-filter="waterfalls" type="button">
+        Waterfalls &amp; Gorges
+      </button>
+<button class="filter-chip px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-primary" data-filter="wine" type="button">
+        Wine &amp; Craft Breweries
+      </button>
+<button class="filter-chip px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-primary" data-filter="historic" type="button">
+        Historic &amp; Arts
+      </button>
+<button class="filter-chip px-space-md py-1.5 rounded-full font-label-md text-label-md transition-all whitespace-nowrap bg-surface-container text-on-surface-variant hover:text-primary" data-filter="city" type="button">
+        City Gems
+      </button>
+</div>
+</section>
+<!-- Featured Spotlight Carousel -->
+<section class="mt-space-sm mb-space-lg">
+<div class="px-margin-mobile flex items-center justify-between mb-space-xs">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-tertiary-container">Curated Expedition</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Signature Wonders</h2>
+</div>
+<span class="font-label-md text-label-md text-secondary cursor-pointer hover:underline">See 12 spots</span>
+</div>
+<!-- Snap Carousel -->
+<div class="flex gap-space-md overflow-x-auto px-margin-mobile pb-space-sm pt-1 snap-x snap-mandatory scrollbar-none">
+<!-- Card 1: High Falls -->
+<article class="min-w-[84vw] sm:min-w-[340px] snap-center rounded-xl bg-surface-container-lowest shadow-md overflow-hidden flex flex-col group">
+<div class="relative w-full h-52 bg-cover bg-center overflow-hidden" data-alt="Breathtaking panorama of High Falls in downtown Rochester New York during golden sunset hour. Massive thundering waterfall crashing into Genesee River gorge with historic Pont de Rennes pedestrian footbridge in distance and industrial brick breweries silhouetted in soft warm lilac light." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAb3KWG4XZWOLjDjTqgnyPh5vmN8wd97AFatVZpRzy0AI7QjULd5u5yDHLOkLK8DBlg2jSl4Tdj7l2ZrSsao0a9X7X5eoOhIOdIX8YvhsDvMKVWjjtC_BWj4rf1QWXCLe_KjQC1puZIe59h8Ox1nQnGSqj7_U02WtuyoR2wp3HWizT8WGj2NDZ4sD4Kne2nudV6VYirqVB9UJ8OGgrBpjclcJm1oM91yN96UvGFzX8ke7TL3Kj3xTXVsQ')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+<div class="absolute top-space-xs left-space-xs flex items-center gap-1.5 bg-surface-container-lowest/90 backdrop-blur-md px-space-xs py-1 rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-container"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Urban Wonder</span>
+</div>
+<button aria-label="Bookmark High Falls" class="bookmark-btn absolute top-space-xs right-space-xs w-9 h-9 rounded-full bg-surface-container-lowest/85 backdrop-blur-md flex items-center justify-center text-primary shadow-sm hover:scale-105 transition-transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+<div class="absolute bottom-space-xs left-space-xs right-space-xs flex items-center justify-between text-on-primary">
+<div class="flex items-center gap-1.5 bg-primary/75 backdrop-blur-sm px-2.5 py-1 rounded-full"><img src="https://lh3.googleusercontent.com/aida/AEtjO1UJOirVqn9xpqQzsuLGCwJsDMoFJ4mtxa9sUtsBAmtlRRmJK9fs4wbNu_NECS2HbPJt7BV-PLAjHXYfxVTHAJbWijNuaCPCyFfTdR647SbDnol4qYgFA19Ppqa0DGE_tmj3T8s4vJ9A98djYQmpTOnyMktloVIUELYLks00xs0wWJFNbDLmnY1n6lU1gBfSv478qCeY8sqiAznA5cRKzSeHydky-rdf9tXIXSAhScxL0B4DV_pCAnOt2W0P" alt="Rochester Flower City Emblem" class="w-4 h-4 object-contain flex-shrink-0"><span class="font-label-sm text-label-sm text-on-primary font-medium">Downtown ROC • Flower City Landmark</span></div>
+<div class="flex items-center gap-1 bg-primary/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[15px] text-secondary-fixed-dim">schedule</span>
+<span class="font-label-sm text-label-sm text-on-primary">Always Open</span>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col flex-1 justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-secondary transition-colors">
+              High Falls &amp; Genesee Gorge
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+              A 96-foot cascading torrent surging directly through Rochester's historical mill quarter. Walk the Pont de Rennes bridge for mist and rooftop pints.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between border-t-0">
+<div class="flex items-center gap-space-xxs text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[18px]">waterfall_chart</span>
+<span class="font-body-sm text-body-sm font-medium text-primary">Urban Trailhead</span>
+</div>
+<a class="px-space-md py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" href="#">
+              Explore Route
+            </a>
+</div>
+</div>
+</article>
+<!-- Card 2: Letchworth State Park -->
+<article class="min-w-[84vw] sm:min-w-[340px] snap-center rounded-xl bg-surface-container-lowest shadow-md overflow-hidden flex flex-col group">
+<div class="relative w-full h-52 bg-cover bg-center overflow-hidden" data-alt="Majestic scenic view of Letchworth State Park known as the Grand Canyon of the East in Western New York. Dramatic 600-foot shale gorge walls carved by Genesee River with the Middle Falls roaring below, surrounded by dense pine forests, lush greenery, and ethereal mist under bright early morning sunlight." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBjN-jA8K3gHzqtB5m4fA6MRuZh7fiALiIGaeogVqexya0-uQgx4bkY1oXpCrZPk9zrcTz7xthcRUU3earYwTxWQ1XVT3DHOyxgB8m3WFFBTLAWbwnvz_YqOCbGRHc3Q58q6iGlcfuN5HGdKWAs4nl_FULWkmot4ShmLe53ph8crpnVMNHxL9Sc2KSYt5L-C2DAROov4ubxRvpAJX6sPagwux3EauJHEAjDvJrQrRUKTN0JxjUFwQ4jwQ')">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent"></div>
+<div class="absolute top-space-xs left-space-xs flex items-center gap-1.5 bg-surface-container-lowest/90 backdrop-blur-md px-space-xs py-1 rounded-full shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">State Park Jewel</span>
+</div>
+<button aria-label="Bookmark Letchworth" class="bookmark-btn absolute top-space-xs right-space-xs w-9 h-9 rounded-full bg-surface-container-lowest/85 backdrop-blur-md flex items-center justify-center text-primary shadow-sm hover:scale-105 transition-transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+<div class="absolute bottom-space-xs left-space-xs right-space-xs flex items-center justify-between text-on-primary">
+<div class="flex items-center gap-1 bg-primary/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[15px] text-tertiary-fixed-dim">directions_car</span>
+<span class="font-label-sm text-label-sm text-on-primary">48 min from ROC</span>
+</div>
+<div class="flex items-center gap-1 bg-primary/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
+<span class="material-symbols-outlined text-[15px] text-secondary-fixed-dim">grade</span>
+<span class="font-label-sm text-label-sm text-on-primary">4.9 (1.2k)</span>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col flex-1 justify-between">
+<div>
+<h3 class="font-headline-sm text-headline-sm text-primary group-hover:text-secondary transition-colors">
+              Letchworth: Grand Canyon of the East
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 line-clamp-2">
+              Three sheer waterfalls plunge between 600-foot gorge walls. Hike the Gorge Rim Trail or take an unforgettable hot-air balloon drift.
+            </p>
+</div>
+<div class="mt-space-sm pt-space-xs flex items-center justify-between border-t-0">
+<div class="flex items-center gap-space-xxs text-on-surface-variant">
+<span class="material-symbols-outlined text-secondary text-[18px]">hiking</span>
+<span class="font-body-sm text-body-sm font-medium text-primary">66 Miles of Trails</span>
+</div>
+<a class="px-space-md py-1.5 rounded-full bg-primary text-on-primary font-label-md text-label-md hover:bg-primary-container transition-colors shadow-sm" href="#">
+              View Guide
+            </a>
+</div>
+</div>
+</article>
+</div>
+</section>
+<!-- Seasonal Highlight: Lilac & Spring Blooms -->
+<section class="px-margin-mobile mb-space-2xl">
+<div class="relative w-full rounded-xl overflow-hidden bg-gradient-to-r from-secondary/15 via-secondary/10 to-surface-container-high p-space-md flex flex-col gap-space-sm shadow-sm">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-xs">
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-[22px]">local_florist</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-widest">Seasonal Bloom Alert</span>
+<h3 class="font-headline-sm text-headline-sm text-primary">Highland Park Lilac Season</h3>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-full bg-secondary/20 text-secondary font-label-sm text-label-sm font-bold">
+          Peak Blossom
+        </span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs pt-1">
+<div class="relative h-24 rounded-lg overflow-hidden bg-cover bg-center" data-alt="Dense purple lilac clusters in full bloom at Highland Park Rochester NY. Crisp macro photography of fragrant violet petals with soft dewdrops glowing under spring afternoon light." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCrNPHesqbLfmonFdmghvDvRzi9v5z-Q3IGVB6U6f0PtlLR7xhHU3iov8Hd_uKQ9MacnaM4Un7AvVJKDHoJFss8iy2AW366iv0Xf5jb0bGimzxo-XBIXPlkCDL94pnM3XFtdvRxlEHkLdiye6W2bDI-AOZxSytRZJ3ph-kQS8Tz-44nkkojHBvgCs0Zjog4s_UbYv4O-fAciT9LQCyhBX_lYWfKH-W3P3c1rtiKCbqFXhQk2GslhJeVaA')">
+<div class="absolute inset-0 bg-primary/10"></div>
+</div>
+<div class="relative h-24 rounded-lg overflow-hidden bg-cover bg-center" data-alt="The Lamberton Conservatory glasshouse at Highland Park Rochester NY with botanical palm fronds and vibrant blooming spring azaleas against historic Victorian greenhouse glass architecture." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBM1CKTz7052MxIZDRu7xZiyGxGYz_jbKzNZUD9P1-E3ZAx0m6Vm7M42fnlXJjCX_7CJQ2wedHcsMoHr5_NevugcBH1RzaJl4VBD4CEUS7rMddHer7MOeexfUfmd2S16ul4CLc7mgUzwY74p2z8nJYcYkEurxLOijcucBhGPOUDmD9CX1uqFy0xJG6_q0mQQLl3f8rRzWe2DC7F0Zra3p6OIlDRVovndF0nfwNz9G7EFeNTabVfnQIIbw')">
+<div class="absolute inset-0 bg-primary/10"></div>
+</div>
+<div class="relative h-24 rounded-lg overflow-hidden bg-cover bg-center" data-alt="Sunlit rolling hills of Highland Park with people enjoying picnic blankets surrounded by blooming pink dogwood trees, white lilacs, and historical park pathways designed by Frederick Law Olmsted." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB31N3jqjRSAJtYfH65vL7aRU6gqG4IwkMdfzxl_GaOw4mtzV5P3C6qAR-MKNeB-VjzJeMH55NinuzCrZTztLU2cEiN2yn5z0_SnE8wc5C7lBqMvjIM_7sO_dVvB9c6l0qy28akK6Z4qZcPFThL0tokt95WA0n1KVE8wdAveVd4YSpMUJHULvCpxG-yd80ACQ3Wlgt49rkH2kkjun5aDXgSx3Z-OwDt2EY9zWqROEyXmq62cbRsTMgMRw')">
+<div class="absolute inset-0 bg-primary/10"></div>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+        Over 1,200 fragrant lilac shrubs spanning 500 varieties across Olmsted-designed hills. Peak blooms forecasted over the next 10 days.
+      </p>
+<div class="flex items-center justify-between pt-1">
+<span class="font-label-md text-label-md text-primary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px] text-on-tertiary-container">schedule</span> 
+          Updated 3 hours ago
+        </span>
+<button class="px-space-md py-1.5 rounded-full bg-secondary text-on-secondary font-label-md text-label-md hover:bg-secondary/90 transition-colors shadow-sm" type="button">
+          Festival Guide
+        </button>
+</div>
+</div>
+</section>
+<!-- Curated Quick Getaways (2x2 Mobile Stack) -->
+<section class="px-margin-mobile mb-space-2xl">
+<div class="flex items-center justify-between mb-space-md">
+<div>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-tertiary-container">Weekend Roadtrips</span>
+<h2 class="font-headline-sm text-headline-sm text-primary">Curated Quick Getaways</h2>
+</div>
+<button class="font-label-md text-label-md text-secondary hover:underline" type="button">
+        All 34 Drives
+      </button>
+</div>
+<div class="grid grid-cols-1 gap-space-md">
+<!-- Card A: Canandaigua Lake -->
+<article class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex gap-space-sm items-center hover:shadow-md transition-shadow group">
+<div class="relative w-28 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-cover bg-center" data-alt="Canandaigua Lake shoreline with wooden boat docks, sparkling deep blue water, rolling vineyard hills in the Finger Lakes region, and modern lakeside patio dining. Warm afternoon sunlight with wine glasses on an outdoor cedar table." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCFg1pOJ6-jyf2Erzp1Hbno-ioXCwXd01q3RimQvG8IzEGVIVo3HpBDJqO__voMy_6dNKBGOlNpyqIORMWdRHeTKUWNrf-KAOc2N2xpZJ7VI3LdblDwMxLCb57r_LG1xAuRJfCRHJnlLl7v40j9s8BY_to4duK66-KCBrIqhyFpTH4ude7xeRofoleemH6Uk8nYZ-x21gBg8aiG_gnX-nZAKPj1CvbVPcLdGzoguQoTeVdF4EyzWmBopA')">
+<span class="absolute bottom-1 left-1 bg-primary/75 backdrop-blur-sm text-on-primary text-[10px] font-label-sm px-1.5 py-0.5 rounded">
+            42 min
+          </span>
+</div>
+<div class="flex flex-col min-w-0 flex-1 justify-between py-0.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold uppercase">Lake &amp; Vine</span>
+<button aria-label="Bookmark Canandaigua" class="bookmark-btn text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary truncate group-hover:text-secondary transition-colors">
+            Canandaigua Wine &amp; Trail
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+            Lakeside boathouses, artisan tasting rooms &amp; Kershaw Beach boardwalk.
+          </p>
+<div class="flex items-center gap-space-xs mt-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">wine_bar</span>
+<span class="font-label-sm text-label-sm">8 Finger Lakes Wineries</span>
+</div>
+</div>
+</article>
+<!-- Card B: Watkins Glen Gorge -->
+<article class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex gap-space-sm items-center hover:shadow-md transition-shadow group">
+<div class="relative w-28 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-cover bg-center" data-alt="Stone bridge arches crossing Watkins Glen State Park Gorge Trail with crystal clear water plunging behind stone cavern path. Ethereal green moss hanging from dark canyon rock under soft filtered daylight in upstate New York." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDef13KuZbbCw3IlGqqtmSm_kMD4cFHbinFtmJ1IObGZAVYIPGcA_2Y1jR-fqU5cQ5tMOYk0GUqhip9RHhY4DB5eFjgzwXk_N3rAJSmCaOzrIhiOr3QdrEPOHBo3YPObK2l_Y0o_OMThlWwFU4TRanWBGnk-WsxiJiv5BCCSc9ukk-ugHdAgi4zuwo7yL5KK-scCV0XxzqkFs72pTJ3CQZ-jluKQoNaXBo88-dx11Q1yMQPNadRZRce1Q')">
+<span class="absolute bottom-1 left-1 bg-primary/75 backdrop-blur-sm text-on-primary text-[10px] font-label-sm px-1.5 py-0.5 rounded">
+            1 hr 30
+          </span>
+</div>
+<div class="flex flex-col min-w-0 flex-1 justify-between py-0.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">Gorge Wonder</span>
+<button aria-label="Bookmark Watkins Glen" class="bookmark-btn text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary truncate group-hover:text-secondary transition-colors">
+            Watkins Glen Gorge Trail
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+            19 waterfalls woven through a stone labyrinth and rainbow spray mist.
+          </p>
+<div class="flex items-center gap-space-xs mt-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">waterfall_chart</span>
+<span class="font-label-sm text-label-sm">Seneca Lake Trailhead</span>
+</div>
+</div>
+</article>
+<!-- Card C: George Eastman Museum -->
+<article class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex gap-space-sm items-center hover:shadow-md transition-shadow group">
+<div class="relative w-28 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-cover bg-center" data-alt="Exterior facade of George Eastman Museum historic Georgian Revival mansion on East Avenue in Rochester NY. Beautiful formal sunken terrace gardens with sculpted marble fountains and climbing wisteria vines in afternoon light." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAz6jwH6rBO-ZT0pnYUaiSXdzhm9L6TmiP6jQHw9MQtU1uUkqoEQPS1fGEZsG4qIPMOZWHD5lBknrk4CYgvD-EFm_LOIRzAG8Ip3xjWRj_Ka-CxErHLwHz6UiUbxlUH213uxa8qrseyaeKKeFeVPV3kAlimVnMZ0PhAOProVBNUF4xDq7BQhKGz-gWylUavfe7MX-eUJh9bTSYYjuQkGdkdUxtWq4pdwyZJRzc_fCkkn3GhadPRjpJq6g')">
+<span class="absolute bottom-1 left-1 bg-primary/75 backdrop-blur-sm text-on-primary text-[10px] font-label-sm px-1.5 py-0.5 rounded">
+            8 min
+          </span>
+</div>
+<div class="flex flex-col min-w-0 flex-1 justify-between py-0.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-tertiary-container font-semibold uppercase">Historic Landmark</span>
+<button aria-label="Bookmark Eastman Museum" class="bookmark-btn text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary truncate group-hover:text-secondary transition-colors">
+            George Eastman Museum
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+            World's oldest photography museum &amp; historic Eastman estate terrace.
+          </p>
+<div class="flex items-center gap-space-xs mt-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[16px] text-secondary">camera</span>
+<span class="font-label-sm text-label-sm">East Ave Historic District</span>
+</div>
+</div>
+</article>
+<!-- Card D: Rochester Public Market -->
+<article class="bg-surface-container-lowest rounded-xl p-space-sm shadow-sm flex gap-space-sm items-center hover:shadow-md transition-shadow group">
+<div class="relative w-28 h-28 flex-shrink-0 rounded-lg overflow-hidden bg-cover bg-center" data-alt="Vibrant outdoor bustle at the historic Rochester Public Market with covered vendor sheds brimming with fresh apples, local cheeses, flowers, and freshly baked empanadas. Cheerful diverse morning crowd with warm ambient steam rising from artisanal coffee stands." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAVpzdiP3adh2oNHfnmhbdB1r-Zt9GtPeViVZHJ0N06XZsNtyssEQfh9zdZ_e31ZCR3bEIrf4shUeYFAD-qs2UcSogpM_4cCJlZGG53N_7RaAv6jAxrwJCFHVCBMQtwpbUUUVJuDKAZq4C8QpChad5bfvvoeeAZiqln9vT2cec6L6Oa_IRBTtRJ3TRSsuqQ2PxDvWxAzgcduFI8wk_AGHRDT5f4U3Q-gIc82-RIt_3ulS5x3_uuAsJwCw')">
+<span class="absolute bottom-1 left-1 bg-primary/75 backdrop-blur-sm text-on-primary text-[10px] font-label-sm px-1.5 py-0.5 rounded">
+            5 min
+          </span>
+</div>
+<div class="flex flex-col min-w-0 flex-1 justify-between py-0.5">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-secondary font-semibold uppercase">Food &amp; Culture</span>
+<button aria-label="Bookmark Public Market" class="bookmark-btn text-on-surface-variant hover:text-primary" type="button">
+<span class="material-symbols-outlined text-[20px]">bookmark_border</span>
+</button>
+</div>
+<h3 class="font-headline-sm text-headline-sm text-primary truncate group-hover:text-secondary transition-colors">
+            Rochester Public Market
+          </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-1 mt-0.5">
+            Local growers, specialty food shacks, empanadas &amp; craft roast espresso.
+          </p>
+<div class="flex items-center gap-space-xs mt-2 text-on-surface-variant"><img src="https://lh3.googleusercontent.com/aida/AEtjO1UJOirVqn9xpqQzsuLGCwJsDMoFJ4mtxa9sUtsBAmtlRRmJK9fs4wbNu_NECS2HbPJt7BV-PLAjHXYfxVTHAJbWijNuaCPCyFfTdR647SbDnol4qYgFA19Ppqa0DGE_tmj3T8s4vJ9A98djYQmpTOnyMktloVIUELYLks00xs0wWJFNbDLmnY1n6lU1gBfSv478qCeY8sqiAznA5cRKzSeHydky-rdf9tXIXSAhScxL0B4DV_pCAnOt2W0P" alt="Rochester Flower City" class="w-4 h-4 object-contain flex-shrink-0"><span class="font-label-sm text-label-sm font-medium text-primary">Market District Sheds • Rochester Metro</span></div>
+</div>
+</article>
+</div>
+</section>
+<!-- Community Private Gem Invitation CTA Banner -->
+<section class="px-margin-mobile mb-space-2xl">
+<div class="w-full rounded-xl bg-primary text-on-primary p-space-lg shadow-lg relative overflow-hidden flex flex-col gap-space-sm">
+<!-- Decorative Organic Flourish Accent -->
+<div class="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-secondary/30 blur-2xl pointer-events-none"></div>
+<div class="absolute right-4 top-4 opacity-10">
+<span class="material-symbols-outlined text-[96px] text-on-primary">pin_drop</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<div class="w-8 h-8 rounded-full bg-on-tertiary-container text-on-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-fixed-dim uppercase tracking-wider font-bold">
+          Local Cartographer
+        </span>
+</div>
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md text-on-primary font-bold">
+          Know an unlisted favorite?
+        </h3>
+<p class="font-body-sm text-body-sm text-surface-variant/90 mt-1 max-w-[280px]">
+          Save a secluded swimming hole, cidery patio, or vintage vinyl haunt directly to your private map.
+        </p>
+</div>
+<div class="relative z-10 pt-space-xs flex items-center gap-space-sm">
+<button class="px-space-lg py-2.5 rounded-full bg-on-tertiary-container text-on-primary font-label-md text-label-md font-bold flex items-center gap-space-xxs hover:opacity-95 active:scale-95 transition-all shadow-md" id="add-gem-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">add_location_alt</span>
+          Add Private Gem
+        </button>
+<span class="font-label-sm text-label-sm text-surface-variant/80">Only visible to you</span>
+</div>
+</div>
+</section>
+<!-- Interactive Quick Modal Toast (DOM Feedback) -->
+<div class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 bg-primary/95 text-on-primary px-space-md py-2.5 rounded-full shadow-xl flex items-center gap-space-xs opacity-0 pointer-events-none transition-all duration-300 transform translate-y-4" id="toast">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-[18px]" id="toast-icon">check_circle</span>
+<span class="font-label-md text-label-md" id="toast-text">Spot saved to your collection!</span>
+</div>
+</div>
+<script>
+  (function() {
+    // Filter chip toggle behavior
+    const chips = document.querySelectorAll('.filter-chip');
+    chips.forEach(chip => {
+      chip.addEventListener('click', () => {
+        chips.forEach(c => {
+          c.classList.remove('bg-secondary/15', 'text-secondary', 'shadow-sm');
+          c.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+        chip.classList.remove('bg-surface-container', 'text-on-surface-variant');
+        chip.classList.add('bg-secondary/15', 'text-secondary', 'shadow-sm');
+        
+        showToast('Filtering for ' + chip.innerText.trim(), 'filter_alt');
+      });
+    });
+
+    // Bookmark button micro-interactions
+    const bookmarks = document.querySelectorAll('.bookmark-btn');
+    bookmarks.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const icon = btn.querySelector('.material-symbols-outlined');
+        const isSaved = icon.innerText === 'bookmark';
+        if (isSaved) {
+          icon.innerText = 'bookmark_border';
+          icon.style.fontVariationSettings = "'FILL' 0";
+          btn.classList.remove('text-secondary');
+          showToast('Removed from My Spots', 'bookmark_remove');
+        } else {
+          icon.innerText = 'bookmark';
+          icon.style.fontVariationSettings = "'FILL' 1";
+          btn.classList.add('text-secondary');
+          showToast('Saved to My Spots & Gems!', 'bookmark_added');
+        }
+      });
+    });
+
+    // Add Gem CTA interaction
+    const gemBtn = document.getElementById('add-gem-btn');
+    if (gemBtn) {
+      gemBtn.addEventListener('click', () => {
+        showToast('Opening Private Gem pin drop...', 'pin_drop');
+      });
+    }
+
+    // Helper Toast
+    let toastTimeout;
+    function showToast(message, iconName = 'check_circle') {
+      const toast = document.getElementById('toast');
+      const toastText = document.getElementById('toast-text');
+      const toastIcon = document.getElementById('toast-icon');
+      if (!toast) return;
+
+      toastText.innerText = message;
+      toastIcon.innerText = iconName;
+
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+        toast.classList.remove('opacity-100', 'translate-y-0');
+      }, 2600);
+    }
+  })();
+</script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(22,42,69,0.06)]" data-active-classes="text-primary font-semibold"><div class="h-16 px-space-xs flex items-center justify-around"><a aria-current="page" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full transition-colors group text-primary font-semibold" data-path="explore" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">explore</span><span class="font-label-sm text-label-sm">Explore</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="music-and-live" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">festival</span><span class="font-label-sm text-label-sm">Music &amp; Live</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="itinerary" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">route</span><span class="font-label-sm text-label-sm">Itinerary</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="my-spots-and-gems" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">auto_awesome</span><span class="font-label-sm text-label-sm">My Spots</span></a></div></nav>
+
+</body></html>

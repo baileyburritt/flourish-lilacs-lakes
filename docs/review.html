@@ -1,0 +1,924 @@
+<title>Flourish Tech Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#eef2f7; --panel:#ffffff; --ink:#131b27; --ink-dim:#4b5768; --line:#d7dfe9;
+    --navy:#16233a; --navy-ink:#eef2f7; --lilac:#7c5cc4; --lilac-dim:#efe9fb;
+    --terracotta:#bd5b2a; --terracotta-dim:#fbe9dd; --critical:#c0392b; --critical-dim:#fbe1de;
+    --good:#3c7a5e; --good-dim:#e3efe9; --mono-bg:#e4e9f0; --shadow:0 1px 2px rgba(19,27,39,.06),0 8px 24px -12px rgba(19,27,39,.18);
+  }
+  :root:not([data-theme="light"]){
+    @media (prefers-color-scheme: dark){
+      --paper:#0e131b; --panel:#161d29; --ink:#e7ecf3; --ink-dim:#9aa7b8; --line:#2a3444;
+      --navy:#0a1220; --navy-ink:#e7ecf3; --lilac:#a88bde; --lilac-dim:#241c38;
+      --terracotta:#e08a55; --terracotta-dim:#3a2417; --critical:#e5786c; --critical-dim:#3a1d1a;
+      --good:#7fc4a4; --good-dim:#16281f; --mono-bg:#1c2534; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0e131b; --panel:#161d29; --ink:#e7ecf3; --ink-dim:#9aa7b8; --line:#2a3444;
+    --navy:#0a1220; --navy-ink:#e7ecf3; --lilac:#a88bde; --lilac-dim:#241c38;
+    --terracotta:#e08a55; --terracotta-dim:#3a2417; --critical:#e5786c; --critical-dim:#3a1d1a;
+    --good:#7fc4a4; --good-dim:#16281f; --mono-bg:#1c2534; --shadow:0 1px 2px rgba(0,0,0,.3),0 8px 24px -12px rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  html{color-scheme:light dark;}
+  body{
+    background:var(--paper); color:var(--ink); margin:0;
+    font-family:"IBM Plex Sans",system-ui,-apple-system,Segoe UI,sans-serif;
+    font-size:16px; line-height:1.6;
+  }
+  h1,h2,h3,h4{font-family:"IBM Plex Serif",Georgia,serif; font-weight:600; color:var(--ink); text-wrap:balance; margin:0;}
+  code, .mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;}
+  a{color:var(--lilac);}
+  p{margin:0 0 .9em; max-width:66ch;}
+  ::selection{background:var(--lilac); color:#fff;}
+
+  .layout{display:grid; grid-template-columns:260px minmax(0,1fr); gap:0; max-width:1320px; margin:0 auto;}
+  @media (max-width:920px){ .layout{grid-template-columns:1fr;} }
+
+  /* ---- sidebar ---- */
+  .side{position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; padding:28px 22px 28px 28px; border-right:1px solid var(--line);}
+  @media (max-width:920px){ .side{position:static; height:auto; border-right:none; border-bottom:1px solid var(--line);} }
+  .side-brand{display:flex; flex-direction:column; gap:2px; margin-bottom:22px;}
+  .side-brand .eyebrow{font-family:"IBM Plex Mono"; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--lilac);}
+  .side-brand h1{font-size:19px; line-height:1.25;}
+  .side-meta{font-size:12.5px; color:var(--ink-dim); margin-top:10px; display:flex; flex-direction:column; gap:3px;}
+  nav.toc{margin-top:24px; display:flex; flex-direction:column; gap:1px;}
+  nav.toc a{
+    display:flex; gap:10px; align-items:baseline; text-decoration:none; color:var(--ink-dim);
+    font-size:13.5px; padding:7px 8px; border-radius:6px; transition:background .12s,color .12s;
+  }
+  nav.toc a .n{font-family:"IBM Plex Mono"; font-size:11px; color:var(--ink-dim); opacity:.7; flex-shrink:0; width:1.4em;}
+  nav.toc a:hover{background:var(--panel); color:var(--ink);}
+  nav.toc a.active{background:var(--lilac-dim); color:var(--lilac); font-weight:600;}
+  nav.toc a.active .n{color:var(--lilac);}
+
+  /* ---- main ---- */
+  main{padding:28px 40px 90px; min-width:0;}
+  @media (max-width:640px){ main{padding:22px 18px 70px;} }
+  .hero{max-width:800px; margin-bottom:8px;}
+  .hero .eyebrow{font-family:"IBM Plex Mono"; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--lilac); margin-bottom:10px; display:block;}
+  .hero h1{font-size:clamp(28px,4vw,40px); line-height:1.15; margin-bottom:14px;}
+  .hero p{font-size:17px; color:var(--ink-dim); max-width:70ch;}
+
+  .stat-row{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:28px 0 8px; max-width:900px;}
+  .stat{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
+  .stat .v{font-family:"IBM Plex Mono"; font-size:26px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums;}
+  .stat .l{font-size:12px; color:var(--ink-dim); margin-top:3px;}
+
+  section.block{max-width:900px; padding-top:64px; margin-top:-40px; scroll-margin-top:20px;}
+  section.block.wide{max-width:1080px;}
+  .sec-head{display:flex; align-items:baseline; gap:14px; margin-bottom:6px;}
+  .sec-head .num{font-family:"IBM Plex Mono"; font-size:13px; color:var(--lilac); font-weight:600;}
+  .sec-head h2{font-size:26px;}
+  .sec-sub{color:var(--ink-dim); font-size:15px; margin-bottom:22px; max-width:70ch;}
+
+  .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:20px 22px; box-shadow:var(--shadow);}
+  .panel + .panel{margin-top:14px;}
+
+  table{border-collapse:collapse; width:100%; font-size:14px;}
+  .table-wrap{overflow-x:auto; border:1px solid var(--line); border-radius:12px; background:var(--panel); box-shadow:var(--shadow);}
+  th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--line); vertical-align:top;}
+  th{font-family:"IBM Plex Mono"; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-dim); background:var(--mono-bg);}
+  tr:last-child td{border-bottom:none;}
+  td .mono{font-size:12.5px; background:var(--mono-bg); padding:1px 6px; border-radius:4px;}
+
+  .chip{display:inline-flex; align-items:center; gap:5px; font-family:"IBM Plex Mono"; font-size:11px; font-weight:600; letter-spacing:.03em; text-transform:uppercase; padding:3px 9px; border-radius:99px; white-space:nowrap;}
+  .chip.critical{background:var(--critical-dim); color:var(--critical);}
+  .chip.high{background:var(--terracotta-dim); color:var(--terracotta);}
+  .chip.medium{background:var(--lilac-dim); color:var(--lilac);}
+  .chip.low{background:var(--mono-bg); color:var(--ink-dim);}
+  .chip.good{background:var(--good-dim); color:var(--good);}
+
+  .finding{border:1px solid var(--line); border-left:3px solid var(--line); border-radius:10px; padding:14px 16px; background:var(--panel); margin-bottom:10px;}
+  .finding.critical{border-left-color:var(--critical);}
+  .finding.high{border-left-color:var(--terracotta);}
+  .finding.medium{border-left-color:var(--lilac);}
+  .finding.low{border-left-color:var(--ink-dim);}
+  .finding-head{display:flex; justify-content:space-between; align-items:flex-start; gap:12px; margin-bottom:6px;}
+  .finding-head .where{font-family:"IBM Plex Mono"; font-size:11.5px; color:var(--ink-dim);}
+  .finding h4{font-size:15px; font-weight:600; margin-bottom:4px;}
+  .finding p{font-size:13.8px; color:var(--ink-dim); margin-bottom:6px;}
+  .finding .fix{font-size:13.5px; color:var(--ink); background:var(--mono-bg); border-radius:8px; padding:8px 11px; margin-top:8px;}
+  .finding .fix b{color:var(--lilac); font-family:"IBM Plex Mono"; font-size:11px; text-transform:uppercase; letter-spacing:.04em;}
+
+  .screen-card{border:1px solid var(--line); border-radius:14px; background:var(--panel); box-shadow:var(--shadow); margin-bottom:22px; overflow:hidden;}
+  .screen-head{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 20px; background:var(--mono-bg); flex-wrap:wrap;}
+  .screen-head h3{font-size:17px;}
+  .screen-head .file{font-family:"IBM Plex Mono"; font-size:12px; color:var(--ink-dim);}
+  .screen-body{padding:18px 20px;}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  @media (max-width:640px){ .grid-2{grid-template-columns:1fr;} }
+
+  .swatch-row{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0;}
+  .swatch{display:flex; align-items:center; gap:8px; font-family:"IBM Plex Mono"; font-size:12px; background:var(--panel); border:1px solid var(--line); border-radius:99px; padding:5px 12px 5px 6px;}
+  .sw-dot{width:16px; height:16px; border-radius:50%; border:1px solid rgba(0,0,0,.08); flex-shrink:0;}
+
+  .callout{border:1px solid var(--line); border-radius:10px; padding:14px 16px; background:var(--lilac-dim); font-size:14.5px; margin:16px 0;}
+  .callout b{color:var(--lilac);}
+
+  .roadmap-phase{display:grid; grid-template-columns:120px 1fr; gap:18px; padding:16px 0; border-bottom:1px solid var(--line);}
+  .roadmap-phase:last-child{border-bottom:none;}
+  .roadmap-phase .ph{font-family:"IBM Plex Mono"; font-size:12px; color:var(--lilac); font-weight:600; letter-spacing:.03em;}
+  .roadmap-phase ul{margin:6px 0 0; padding-left:18px; font-size:14px; color:var(--ink-dim);}
+  .roadmap-phase li{margin-bottom:4px;}
+  @media (max-width:640px){ .roadmap-phase{grid-template-columns:1fr; gap:4px;} }
+
+  footer.doc-end{max-width:900px; padding:50px 0 10px; color:var(--ink-dim); font-size:13px; border-top:1px solid var(--line); margin-top:60px;}
+</style>
+
+<div class="layout">
+  <aside class="side">
+    <div class="side-brand">
+      <span class="eyebrow">headcount · technology + product + security + it ops + legal + executive</span>
+      <h1>Flourish Tech &amp; UX Review</h1>
+      <div class="side-meta">
+        <span>Lilacs &amp; Lakes · Rochester / Finger Lakes</span>
+        <span>5 screens · handoff PRD · prototype build</span>
+        <span>Reviewed 2026-09-09 · cross-functional pass same day</span>
+      </div>
+    </div>
+    <nav class="toc" id="toc">
+      <a href="#brief"><span class="n">00</span>Brief</a>
+      <a href="#summary"><span class="n">01</span>Executive summary</a>
+      <a href="#state"><span class="n">02</span>Current state</a>
+      <a href="#stack"><span class="n">03</span>Backend &amp; stack plan</a>
+      <a href="#data"><span class="n">04</span>Data model gaps</a>
+      <a href="#api"><span class="n">05</span>API contract notes</a>
+      <a href="#screens"><span class="n">06</span>Screen-by-screen audit</a>
+      <a href="#systemic"><span class="n">07</span>Systemic findings</a>
+      <a href="#roadmap"><span class="n">08</span>Prioritized roadmap</a>
+      <a href="#assumptions"><span class="n">09</span>Assumptions</a>
+      <a href="#product-verdict"><span class="n">10</span>Product design verdict</a>
+      <a href="#a11y"><span class="n">11</span>Accessibility audit (WCAG 2.1 AA)</a>
+      <a href="#security"><span class="n">12</span>Security architecture review</a>
+      <a href="#itops"><span class="n">13</span>IT operations &amp; readiness review</a>
+      <a href="#signoff"><span class="n">14</span>Path to CEO sign-off</a>
+      <a href="#legal"><span class="n">15</span>Legal — ADA/WCAG liability</a>
+      <a href="#ceo"><span class="n">16</span>Chief executive — decision</a>
+    </nav>
+  </aside>
+
+  <main>
+    <div class="hero">
+      <span class="eyebrow">Technical handoff review</span>
+      <h1>What it takes to turn five screens into Flourish.</h1>
+      <p>The technology and product functions reviewed the five exported screens, the <code>flourish_roc_lakes</code> design tokens, and the technical handoff PRD. This is the resulting plan: what the backend should be built on, where the current build and its own documentation disagree with each other, and what to fix before the next screen gets designed. Security, IT Operations, and Legal have since joined for a cross-functional pass (§11–15) ahead of CEO sign-off, covering WCAG 2.1 AA accessibility, the proposed backend's security posture, operational readiness for public launch, and the actual legal exposure around accessibility compliance. §16 is the chief executive's decision on all of it — what was approved, what was cut, and what the three open questions were answered with.</p>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="v">5 / 5</div><div class="l">screens are static HTML — zero backend, zero persistence</div></div>
+      <div class="stat"><div class="v">3</div><div class="l">different category taxonomies for the same private-gem concept</div></div>
+      <div class="stat"><div class="v">2 / 5</div><div class="l">screens have no bottom navigation at all</div></div>
+      <div class="stat"><div class="v">4</div><div class="l">critical findings, detailed in §06–07</div></div>
+      <div class="stat"><div class="v">21</div><div class="l">further findings from Security, IT Ops &amp; the WCAG audit (§11–13)</div></div>
+      <div class="stat"><div class="v">5</div><div class="l">gate items blocking CEO sign-off — see §14</div></div>
+      <div class="stat"><div class="v">GO</div><div class="l">on direction — public launch held until the gate closes (§16)</div></div>
+    </div>
+
+    <section class="block" id="brief">
+      <div class="sec-head"><span class="num">00</span><h2>Brief</h2></div>
+      <p>Scope reviewed: <code>flourish_lilacs_lakes_technical_handoff_prd.md</code> (data model, API sketch, integrations), <code>flourish_roc_lakes/DESIGN.md</code> (token system), and the five exported prototype screens — Explore &amp; Curate, Music &amp; Live Events, Trip Planner, Destination Detail &amp; Private Gem, and the standalone New Private Gem flow. Each screen is a self-contained AI-exported HTML file (Google Stitch output, judging by the <code>lh3.googleusercontent.com/aida</code> image hosts and the sibling <code>stitch_rochester_finger_lakes_explorer.zip</code>) — no shared repo, no framework, no build step yet.</p>
+      <p>Method follows two disciplines in parallel: <code>technology:solution-architecture</code> for the backend and stack recommendation, and <code>product:ux-product-auditor</code> / <code>product:interface-redesign</code> for the walk-through of what's built. Every finding below names where it lives and what it costs — no unranked style notes.</p>
+    </section>
+
+    <section class="block" id="summary">
+      <div class="sec-head"><span class="num">01</span><h2>Executive summary</h2></div>
+      <p><b>The five screens are a design proof, not an app.</b> There is no API, no database, no auth, and nothing survives a page refresh — every "save," "bookmark," and form submit is a DOM mutation that vanishes on reload. That's expected and fine for what these files are for. It stops being fine the moment anyone treats them as more than 80% done.</p>
+      <p>Two things need attention before engineering starts building against the PRD's schema: the schema itself undercounts what the designed screens already promise to capture (§04), and the design system's canonical document contradicts itself — <span class="mono">DESIGN.md</span>'s frontmatter and its prose specify different palettes, the code implements the frontmatter, and the brand's lilac accent survives in prose only (§07). Neither is expensive to fix now. Both get expensive once a backend and real users are on top of them.</p>
+      <div class="callout"><b>Read this first if short on time:</b> §04 (data model gaps) and §07 (systemic findings) affect every screen and every future one. Fix those before writing the next screen, not after.</div>
+    </section>
+
+    <section class="block wide" id="state">
+      <div class="sec-head"><span class="num">02</span><h2>Current state</h2></div>
+      <div class="sec-sub">What actually ships in these five files today, independent of what the PRD describes.</div>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Layer</th><th>What's there</th><th>Reality</th></tr>
+          <tr><td>Rendering</td><td>Static HTML + Tailwind via <span class="mono">cdn.tailwindcss.com</span></td><td>The Play CDN compiles Tailwind in the browser on every load — Tailwind's own docs mark it dev/prototype-only. No purge, no build step, no offline support.</td></tr>
+          <tr><td>Shared code</td><td>None</td><td>Header, bottom nav, and the full ~2.5KB token config are hand-duplicated in all 5 files. A token change today means five manual edits.</td></tr>
+          <tr><td>State</td><td>Inline <span class="mono">&lt;script&gt;</span> per screen, DOM-only</td><td>Bookmarks, filters, form submissions, the reorder toggle — all local, all gone on refresh. No <span class="mono">localStorage</span> even as a stopgap.</td></tr>
+          <tr><td>Data</td><td>Hardcoded markup</td><td>No fetch, no API client, no loading or error states because nothing is ever fetched.</td></tr>
+          <tr><td>Images</td><td><span class="mono">lh3.googleusercontent.com/aida/…</span></td><td>Temporary asset host tied to the AI export tool, not an owned bucket. These links are not a production asset pipeline and may not stay resolvable.</td></tr>
+          <tr><td>Auth</td><td>None</td><td>PRD specifies OAuth / Apple / Google sign-in; no login, signup, or session screen exists among the five.</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section class="block wide" id="stack">
+      <div class="sec-head"><span class="num">03</span><h2>Backend architecture &amp; stack plan</h2></div>
+      <div class="sec-sub">Per <code>technology:solution-architecture</code> — stated constraints first, then boundaries, then the trade-off each option makes.</div>
+
+      <div class="panel">
+        <h3 style="font-size:15px;margin-bottom:8px;">Constraints assumed (none were supplied — confirm before committing)</h3>
+        <p style="margin-bottom:0;">Single-region regional travel app (Western NY), early-stage — hundreds to low-thousands of concurrent users at launch, not tens of thousands. Small team, likely 1–3 engineers. No stated compliance obligation beyond standard user PII (email, location history, photos). Mobile client target is iOS/Android/PWA from one codebase per the PRD header. If any of that is wrong, the recommendation below should change with it — see §09.</p>
+      </div>
+
+      <div class="table-wrap" style="margin-top:16px;">
+        <table>
+          <tr><th>Layer</th><th>Recommendation</th><th>Why / what it costs</th></tr>
+          <tr><td>Client</td><td>React Native (Expo) for iOS/Android; the existing screens rebuilt as a shared component library, not five bespoke pages</td><td>One codebase covers both stores plus a web build via Expo's web target, which also satisfies the PWA line in the PRD without a second front end. Costs: React Native's native-module edge cases (deep GPS/offline map work) take longer than pure native would.</td></tr>
+          <tr><td>API</td><td>REST over a small managed Node (NestJS) or Rails service — not GraphQL yet</td><td>The PRD's endpoint sketch (§3) is already resource-shaped REST. GraphQL earns its cost when clients need to compose many nested resources per screen; five screens with well-known shapes don't. Revisit if a public/partner API shows up later.</td></tr>
+          <tr><td>Database</td><td>Managed PostgreSQL (Neon, Supabase, or RDS) — the PRD's schema in §2.2 is a workable starting point once §04's gaps are closed</td><td>Relational fits the domain (users → trips → stops → destinations, all genuinely relational). PostGIS extension for lat/long queries ("destinations near me") rather than hand-rolled bounding-box math.</td></tr>
+          <tr><td>Auth</td><td>Managed auth (Clerk, Supabase Auth, or Auth0) wrapping Apple/Google sign-in</td><td>Per <code>chief-technology-officer</code>'s build/buy rule: auth is undifferentiated — nobody chooses Flourish for its login screen. Buying it also buys OAuth compliance work the team would otherwise own.</td></tr>
+          <tr><td>Asset storage</td><td>Cloudflare R2 or S3 + CDN, replacing every <span class="mono">lh3.googleusercontent.com</span> reference</td><td>R2 skips egress fees, which matters once destination galleries and user gem photos are real traffic. Matches the PRD's own §5.3 recommendation.</td></tr>
+          <tr><td>Maps</td><td>Mapbox GL + Directions API, as the PRD specifies</td><td>No change recommended — Mapbox's rural/scenic-route directions quality is the right fit for Finger Lakes drives; Google Maps SDK is the fallback if Mapbox pricing becomes a problem at scale.</td></tr>
+          <tr><td>Hosting</td><td>A managed platform (Render or Fly.io) for the API, not self-managed Kubernetes</td><td>Per <code>cloud-infrastructure</code>: "managed application platforms are the right answer more often than engineering pride admits." Kubernetes is a platform team's worth of work this team doesn't have yet.</td></tr>
+          <tr><td>Environments</td><td>Three: dev, staging, production — separate databases, staging seeded with synthetic data only</td><td>No production data in staging, ever, even for a two-person team. It's the cheapest incident to prevent and the most common way user PII leaks.</td></tr>
+        </table>
+      </div>
+
+      <div class="callout"><b>What this costs:</b> Managed services trade a monthly bill for not operating Postgres, auth, or Kubernetes by hand. For a pre-launch regional app, that trade is almost certainly right — the alternative is spending engineering time on infrastructure instead of the itinerary and discovery features that are the actual product. Revisit self-hosting only if usage and cost data say the managed premium has become the larger number.</div>
+    </section>
+
+    <section class="block wide" id="data">
+      <div class="sec-head"><span class="num">04</span><h2>Data model gaps</h2></div>
+      <div class="sec-sub">The PRD's <span class="mono">user_private_gems</span> schema (§2.2) was written before — or without reference to — the two screens that actually capture a gem. They don't match.</div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>Three incompatible category taxonomies for one concept</h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> PRD §2.2 <span class="mono">destination_category</span> enum vs. <span class="mono">destination_detail_private_gem_flourish/code.html</span> vs. <span class="mono">new_private_gem_flourish/code.html</span>.</p>
+        <p><b>What:</b> The PRD schema reuses a 6-value enum (<span class="mono">WINERY_BREWERY, NATURE_WATERFALLS, CULTURAL_HISTORIC, DINING_MARKETS, LIVE_VENUE, CIVIC_LANDMARK</span>) for private gems. The inline "Log a Personal Hidden Gem" form on the destination-detail screen uses a five-value set instead (<span class="mono">Scenic View, Hidden Trail, Food &amp; Drink, Craft Shop, Live Acoustic</span>). The standalone New Private Gem screen uses a seventh, entirely different seven-value set with emoji glyphs (<span class="mono">Scenic Overlook, Quiet Kayak &amp; Swim, Roadside Stand, Secret Cidery, Acoustic Busker Spot, Hidden Garden Patio, Unmarked Trailhead</span>). None of the three lists overlaps cleanly with either of the others.</p>
+        <p><b>Consequence:</b> Whichever form a user fills out first determines a category value the backend can't reconcile with a category filter written against the PRD enum. Filtering "My Spots" by category will silently miss gems saved through the other flow.</p>
+        <div class="fix"><b>Fix</b> — Pick one canonical gem taxonomy (recommend expanding the PRD enum, since it's the one the database and any cross-content filtering depends on), then reconcile both forms to emit it. This is one root cause behind what would otherwise read as three separate findings — fix the taxonomy once, both screens inherit the fix.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Two free-text location fields, one schema column</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> <span class="mono">user_private_gems.location_hint</span> (PRD §2.2) vs. New Private Gem screen's two separate inputs — <span class="mono">#location-input</span> ("42.6074° N, 77.6892° W") and an unlabeled landmark-clue text field ("Take rustic path 35 yards past the old stone weir gate").</p>
+        <p><b>Consequence:</b> One of the two inputs has nowhere to go without a schema change; if a backend maps both into one column, the landmark clue and GPS override get silently merged or one gets dropped.</p>
+        <div class="fix"><b>Fix</b> — Split <span class="mono">location_hint</span> into <span class="mono">landmark_note TEXT</span> and keep <span class="mono">latitude/longitude</span> for the GPS pair, which the schema already has as separate columns — the UI just isn't writing to them as such.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Season and "magic hour" metadata: designed, unmodeled</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> New Private Gem screen, "Seasonal Peak &amp; Timing" section — four season chips, four time-of-day chips.</p>
+        <p><b>Consequence:</b> This is a differentiator for a seasonal-discovery product (the whole app leads with "Highland Park Lilac Season" as a hero feature on Explore) and has no column to land in. If this ships against the current schema, the feature silently no-ops.</p>
+        <div class="fix"><b>Fix</b> — Add <span class="mono">ideal_season</span> and <span class="mono">golden_hour</span> enum columns to <span class="mono">user_private_gems</span>, or fold them into the existing <span class="mono">metadata JSONB</span> column on <span class="mono">destinations</span> if this is meant to generalize beyond private gems.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>Audio memo capture has no storage target</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> New Private Gem screen — "Memo (0:14)" recorder button and playback row for <span class="mono">Field_Audio_Stream_Notes.m4a</span>.</p>
+        <p><b>Consequence:</b> No <span class="mono">audio_url</span> equivalent exists anywhere in the PRD schema, and audio isn't mentioned in §5 (asset storage) either. Confirmed in-scope per product direction (§14) — this is a gap to close, not a candidate to cut.</p>
+        <div class="fix"><b>Fix</b> — Add an <span class="mono">audio_url</span> column to <span class="mono">user_private_gems</span> and cover it under the same signed-URL access-control plan Security recommends for gem photos in §12 (audio memos are the same class of private, potentially sensitive user content). Scheduled into Phase 1 (§08), not deferred to Phase 2.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>"Flower City (ROC)" is a boolean, but the UI treats it as a category</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> PRD §2.2 <span class="mono">destinations.is_flower_city_waypoint BOOLEAN</span> vs. the Explore screen's filter chip bar, where "Flower City (ROC)" sits alongside category chips like "Waterfalls &amp; Gorges" and "Wine &amp; Craft Breweries" as if it were one more category.</p>
+        <p><b>Consequence:</b> A destination can be both a winery <i>and</i> a Flower City waypoint — the filter UI as built can't express "show me both," because it's wired as a single-select chip row, not a boolean toggle plus a category filter.</p>
+        <div class="fix"><b>Fix</b> — Split the filter bar into two independent controls: a category selector (single-select, from the real enum) and a Flower City toggle (boolean, can combine with any category).</div>
+      </div>
+    </section>
+
+    <section class="block wide" id="api">
+      <div class="sec-head"><span class="num">05</span><h2>API contract notes</h2></div>
+      <div class="sec-sub">Per <code>technology:api-design</code> — the PRD's endpoint sketch (§3) is a reasonable start. Three things to fix before the first client integrates against it, because all three are breaking changes once someone depends on the current shape.</div>
+      <div class="panel">
+        <p><b>Pagination is offset-based.</b> <span class="mono">GET /api/v1/destinations</span> takes <span class="mono">limit, offset</span>. Events and destinations are both collections that grow and get written to concurrently (new events posted weekly). Offset pagination skips and duplicates rows under concurrent writes — switch to cursor pagination now, before any client hard-codes offset math.</p>
+        <p><b>No documented error shape.</b> The PRD spec shows only success responses. Add a consistent error envelope (machine-readable code, human message, retryable flag) before the mobile client writes its first error handler against whatever shape the server happens to return today.</p>
+        <p><b>Bookmark/RSVP endpoints don't say what they return.</b> <span class="mono">POST /api/v1/events/{id}/bookmark</span> is described as "toggle state" — toggle endpoints are a common source of lost-update bugs on flaky mobile connections (double-tap while offline, retry, state flips twice). Make it idempotent: accept an explicit desired state, or make bookmarks a proper sub-resource with <span class="mono">PUT/DELETE</span>.</p>
+      </div>
+    </section>
+
+    <section class="block wide" id="screens">
+      <div class="sec-head"><span class="num">06</span><h2>Screen-by-screen audit</h2></div>
+      <div class="sec-sub">Walked as a first-time user per <code>product:ux-product-auditor</code>. Systemic issues that repeat across all five screens are pulled out separately in §07 rather than listed five times.</div>
+
+      <div class="screen-card">
+        <div class="screen-head"><h3>Explore &amp; Curate</h3><span class="file mono">explore_curate_flourish/code.html</span></div>
+        <div class="screen-body">
+          <div class="finding medium">
+            <div class="finding-head"><h4>Search bar has no results state</h4><span class="chip medium">Medium</span></div>
+            <p>The search input has no submit handler and nothing downstream to render results into — typing and pressing enter does nothing observable. First-time users testing the most prominent control on the screen get silence.</p>
+            <div class="fix"><b>Fix</b> — Even a stub results view (or routing search to the same filtered grid used by category chips) beats a dead input. Effort: low.</div>
+          </div>
+          <div class="finding low">
+            <div class="finding-head"><h4>Category filter and Flower City toggle share one control</h4><span class="chip low">Low</span></div>
+            <p>Covered in depth in §04 as a data-model issue; on-screen it reads as a minor filter-bar inconsistency.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-head"><h3>Music &amp; Live Events</h3><span class="file mono">music_live_events_flourish/code.html</span></div>
+        <div class="screen-body">
+          <div class="finding high">
+            <div class="finding-head"><h4>Bottom nav shows no active tab</h4><span class="chip high">High</span></div>
+            <p><b>Where:</b> the <span class="mono">&lt;nav&gt;</span> block — all four tab links share identical inactive styling; unlike Explore (<span class="mono">aria-current="page"</span> on Explore) and Trip Planner (same on Itinerary), Music &amp; Live never marks itself current.</p>
+            <p><b>Consequence:</b> A returning user glancing at the tab bar for "where am I" gets no answer. Small, but it's the one piece of persistent chrome on every screen, and it's broken on this one.</p>
+            <div class="fix"><b>Fix</b> — Add <span class="mono">aria-current="page"</span> and the active-state classes to the Music &amp; Live tab. Effort: trivial, and worth doing as part of building the shared nav component recommended in §03/§07 rather than patching this file alone.</div>
+          </div>
+          <div class="finding low">
+            <div class="finding-head"><h4>Audio "Sample" preview is simulated</h4><span class="chip low">Low</span></div>
+            <p>The play button flips an icon and runs a 4-second timeout; no audio element exists. Fine for a prototype, flagged so it isn't mistaken for working audio when scoping the real build.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-head"><h3>Trip Planner</h3><span class="file mono">trip_planner_flourish/code.html</span></div>
+        <div class="screen-body">
+          <div class="finding medium">
+            <div class="finding-head"><h4>"Reorder" toggles a button state but doesn't reorder anything</h4><span class="chip medium">Medium</span></div>
+            <p><b>Where:</b> <span class="mono">#toggle-reorder-btn</span> — click handler toggles its own classes and shows a toast ("Drag handles enabled"), but no stop in the timeline is actually draggable.</p>
+            <p><b>Consequence:</b> A user who taps Reorder, tries to drag a stop, and finds nothing move will not trust the button next time — worse than not offering reordering at all, since it looks broken rather than absent.</p>
+            <div class="fix"><b>Fix</b> — Either implement drag reordering (a real itinerary-editing app needs this eventually) or remove the control until it does something, rather than shipping the appearance of a feature.</div>
+          </div>
+          <div class="finding low">
+            <div class="finding-head"><h4>Offline map download has no real size or destination</h4><span class="chip low">Low</span></div>
+            <p>Toast claims "42 MB" downloaded; nothing is fetched or cached. Same category as the reorder button — cosmetic feedback standing in for a real feature. Worth an explicit MVP-scope decision rather than silent omission later.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-head"><h3>Destination Detail &amp; Private Gem</h3><span class="file mono">destination_detail_private_gem_flourish/code.html</span></div>
+        <div class="screen-body">
+          <div class="finding critical">
+            <div class="finding-head"><h4>No bottom navigation — dead end for a first-time user</h4><span class="chip critical">Critical</span></div>
+            <p><b>Where:</b> the file ends at <span class="mono">&lt;/main&gt;&lt;/body&gt;</span> — no <span class="mono">&lt;nav&gt;</span> block at all, unlike the three list/hub screens.</p>
+            <p><b>Consequence:</b> The only way out of a destination page is the browser/device back gesture via the header's <span class="mono">history.back()</span> button. A user who reaches this screen from a deep link, a shared link, or a fresh app launch has no path to Explore, Music, or their itinerary. This is the primary detail screen in the entire app.</p>
+            <div class="fix"><b>Fix</b> — Every screen that can be a first screen (deep link, share, notification) needs the persistent bottom nav. Effort: low once §07's shared-nav-component fix lands.</div>
+          </div>
+          <div class="finding medium">
+            <div class="finding-head"><h4>Fifth category taxonomy, third distinct gem-entry form</h4><span class="chip medium">Medium</span></div>
+            <p>Detailed as the root-cause finding in §04. On this screen specifically: the inline "Log a Personal Hidden Gem" card duplicates most of the standalone New Private Gem screen's job with a lighter field set and no privacy toggle framing ("Vault Mode" vs. a plain switch) — two different visual languages for the same action.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="screen-card">
+        <div class="screen-head"><h3>New Private Gem (standalone)</h3><span class="file mono">new_private_gem_flourish/code.html</span></div>
+        <div class="screen-body">
+          <div class="finding high">
+            <div class="finding-head"><h4>"New" form opens pre-filled with someone else's data</h4><span class="chip high">High</span></div>
+            <p><b>Where:</b> <span class="mono">#gem-name</span> loads with <span class="mono">value="Stony Brook Secret Upper Flume"</span>; the location field is pre-filled with real-looking coordinates and a landmark clue; the "Quiet Kayak &amp; Swim" category chip and "Canandaigua Lake" region pill are pre-selected.</p>
+            <p><b>Consequence:</b> A first-time user opening "Add Private Gem" sees an already-complete entry for a spot they didn't create. At best this reads as a sample/template with no labeling to say so; at worst a user edits a field or two and submits what they believe is a new gem but is actually someone else's edited record. This is an artifact of the AI export (placeholder data left live), not a designed default.</p>
+            <div class="fix"><b>Fix</b> — Ship this screen with every field empty and placeholder text only. If a "start from a template" feature is wanted, label it explicitly as a template, separate from a blank New action.</div>
+          </div>
+          <div class="finding low">
+            <div class="finding-head"><h4>Category chips use emoji; every other screen uses Material Symbols</h4><span class="chip low">Low</span></div>
+            <p>The seven category chips (🌅 🛶 🥧 🍇 🎷 ☕ 🥾) are the only emoji-as-iconography in the whole app — every other icon across all five screens is a Material Symbols glyph. Named directly in <code>product:interface-redesign</code> as one of the specific tells of an unfinished interface.</p>
+            <div class="fix"><b>Fix</b> — Swap to Material Symbols equivalents (e.g. <span class="mono">wb_twilight</span>, <span class="mono">kayaking</span>, <span class="mono">storefront</span>) to match the icon language used everywhere else, and resolve the taxonomy per §04 at the same time.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block wide" id="systemic">
+      <div class="sec-head"><span class="num">07</span><h2>Systemic findings</h2></div>
+      <div class="sec-sub">Per <code>interface-redesign</code>: fifteen findings traceable to one root cause are one finding. These four affect every screen, current and future.</div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>DESIGN.md contradicts itself, and the code follows only half of it</h4><span class="chip critical">Critical</span></div>
+        <p class="mono" style="font-size:11.5px;color:var(--terracotta);margin-bottom:8px;">CORRECTED 2026-09-09 — see the amendment note below this finding.</p>
+        <p><b>Where:</b> <span class="mono">DESIGN.md</span> carries two palettes that disagree with each other. Its YAML frontmatter defines <span class="mono">primary: #00152f</span>, <span class="mono">primary-container: #162a45</span>, <span class="mono">secondary: #6f48b2</span>. Its prose section, forty lines below, names <b>different</b> values for the same roles: primary <span class="mono">#162A45</span> "Deep Lake Navy," secondary <span class="mono">#7E57C2</span> "Rochester Lilac," canvas <span class="mono">#F8FAFC</span>, plus a "Lake Slate" neutral <span class="mono">#475569</span> that exists as no token at all. The PRD header repeats the prose values.</p>
+        <p>The Tailwind config embedded in all five HTML files matches the <b>frontmatter exactly</b>, token for token. So the shipped code is not drifting from its documentation — it is faithfully implementing one half of a document that disagrees with the other half. Two consequences follow that are easy to state the wrong way round: the documented brand navy <span class="mono">#162a45</span> <i>is</i> present in all five files, demoted to <span class="mono">primary-container</span> while the darker <span class="mono">#00152f</span> holds <span class="mono">primary</span> — but the lilac accent <span class="mono">#7e57c2</span> is genuinely absent from both the frontmatter and every shipped file, surviving only in prose.</p>
+        <p><b>Also drifted — the radius scale, shifted by one step.</b> Frontmatter <span class="mono">rounded</span> is <span class="mono">sm/DEFAULT/md/lg/xl = 0.25/0.5/0.75/1/1.5rem</span>; the shipped Tailwind config is <span class="mono">DEFAULT/lg/xl = 0.25/0.5/0.75rem</span>, dropping <span class="mono">sm</span> and <span class="mono">md</span> and renaming the rest downward. A <span class="mono">rounded-lg</span> in code is half the radius <span class="mono">DESIGN.md</span> calls <span class="mono">lg</span>. Typography and spacing tokens match cleanly and did not drift.</p>
+        <p><b>Consequence:</b> There is no single source of truth, and the failure is worse than a stale doc — the canonical document is internally inconsistent, so "check DESIGN.md" produces a different answer depending on which half is read. A designer reading the prose and a developer reading the frontmatter both believe they are following the system. Compounding this, <span class="mono">DESIGN.md</span> exists as <b>three byte-identical copies</b> (repo root, <span class="mono">flourish_roc_lakes/</span>, <span class="mono">trip_planner_flourish/</span>), and the full token block is duplicated verbatim into all five HTML files — five places to edit, and no mechanism preventing the sixth from diverging.</p>
+        <div class="fix"><b>Fix</b> — Resolve the contradiction inside <span class="mono">DESIGN.md</span> first: decide whether the frontmatter or the prose is the brand, then rewrite the loser to match. That is the actual decision, and it is a brand call — the code is downstream of it either way. Then collapse the three copies to one, generate the token block from it rather than hand-maintaining five, and reconcile the radius scale in the same pass regardless of which side wins the color call — the prose's own radius language already agrees with the frontmatter's scale, so that fix is owed to the code either way. If the <i>prose</i> wins, the additional code change is restoring the lilac accent. If the frontmatter wins, no component touches color at all — only <span class="mono">DESIGN.md</span>'s prose is rewritten, to describe the values already shipping.</div>
+      </div>
+
+      <div class="callout warn" style="background:var(--terracotta-dim);"><b style="color:var(--terracotta);">Amendment — what the original finding got wrong.</b> As first published, this finding was titled "the brand's signature accent color doesn't exist in the shipped code" and described <span class="mono">#00152f</span> as "undocumented." Re-checked directly against the files on 2026-09-09: <span class="mono">#00152f</span> <i>is</i> documented — it is <span class="mono">DESIGN.md</span>'s own frontmatter value for <span class="mono">primary</span> — and <span class="mono">#162a45</span> ships in all five screens as <span class="mono">primary-container</span>. The original framing of code-drifting-from-docs was therefore wrong in direction: the code matches the frontmatter exactly, and the contradiction lives inside <span class="mono">DESIGN.md</span>. The lilac-accent half of the finding stands as filed — <span class="mono">#7e57c2</span> appears in prose only. The radius shift and the three-copies duplication were missed entirely on the first pass and are added above. Severity is unchanged: a self-contradicting source of truth is at least as serious as a stale one. §01's summary and the build plan's C1/C2 tickets have been corrected to match. <b>This fix paragraph also had the frontmatter/prose cases reversed on first correction</b> — fixed above on the same pass that decided C2 (below).</div>
+
+      <div class="callout stop"><b>Decided 2026-09-09 — the prose is the brand: Deep Lake Navy and Rochester Lilac.</b> The owner ruled on C2, revising an earlier same-day call for the frontmatter once its consequence became visible: <span class="mono">DESIGN.md</span>'s prose wins, not its frontmatter. Unlike the frontmatter option, this is a real re-render — all five screens change color, not just the documentation — but it has a practical point in its favor: §10 below found the <i>approved logo file</i>, <span class="mono">flourish_logo.png</span>, already rendering its subtitle in exactly this lilac. The frontmatter gets rewritten to match the prose, closing that gap rather than opening a new one.</div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>Pinch-to-zoom disabled on every screen</h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> <span class="mono">&lt;meta name="viewport" content="...maximum-scale=1.0, user-scalable=no"&gt;</span>, identical in all five files.</p>
+        <p><b>Consequence:</b> Blocks pinch-zoom for anyone who needs to enlarge text or a map beyond the app's fixed sizes — a WCAG 1.4.4 failure, not a style preference. This is a category of user excluded outright, per the accessibility lens in <code>ux-product-auditor</code>.</p>
+        <div class="fix"><b>Fix</b> — Remove <span class="mono">maximum-scale=1.0, user-scalable=no</span> from the viewport meta everywhere. No functional reason found in any of the five screens to justify disabling it.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>No shared components — everything is copy-pasted five times</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> header, bottom nav, and the full Tailwind token config (~2.5KB of JSON) are duplicated verbatim in all five files.</p>
+        <p><b>Consequence:</b> This is how the Music screen's missing active-tab state (§06) happened — one of five copies drifted. It will keep happening at this rate of one bug per few screens as more get added.</p>
+        <div class="fix"><b>Fix</b> — First real engineering task once client framework (§03) is chosen: extract <span class="mono">&lt;Header&gt;</span>, <span class="mono">&lt;BottomNav&gt;</span>, and the design tokens into shared components/files, single-sourced.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Nothing persists — every interaction resets on reload</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> bookmark toggles, filter selection, checklist state, the "add gem" toast confirmations — all DOM-only, none written anywhere.</p>
+        <p><b>Consequence:</b> Expected for a design prototype; called out because it's easy to demo these screens, watch bookmarking "work," and underestimate how much is left. Every green checkmark in a demo today represents zero backend work done.</p>
+        <div class="fix"><b>Fix</b> — No action needed on the prototype itself; treat every interactive affordance across all five screens as unimplemented for estimation purposes, not partially done.</div>
+      </div>
+    </section>
+
+    <section class="block wide" id="roadmap">
+      <div class="sec-head"><span class="num">08</span><h2>Prioritized roadmap</h2></div>
+      <div class="sec-sub">Ranked by users affected × severity ÷ effort, per <code>ux-product-auditor</code>. If only one week is available, do everything in Phase 0.</div>
+
+      <div class="panel">
+        <div class="roadmap-phase">
+          <div class="ph">PHASE 0<br/>~1 week</div>
+          <div>
+            <b>Fix before anything else is built on top of it</b>
+            <ul>
+              <li>Resolve <span class="mono">DESIGN.md</span>'s internal contradiction (§07) — decided 2026-09-09, the prose wins (Deep Lake Navy / Rochester Lilac): rewrite the frontmatter to match and re-render all five screens, collapse the three identical copies to one, fix the shifted radius scale — this also brings the app in line with the already-approved <span class="mono">flourish_logo.png</span> (§10)</li>
+              <li>Remove <span class="mono">user-scalable=no</span> from all five viewport meta tags</li>
+              <li>Clear the pre-filled sample data from the New Private Gem form</li>
+              <li>Resolve the gem category taxonomy to one canonical list (§04) — everything downstream depends on this</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roadmap-phase">
+          <div class="ph">PHASE 1<br/>~2–4 weeks</div>
+          <div>
+            <b>Stand up the real system</b>
+            <ul>
+              <li>Stand up managed Postgres + the revised schema (§03, §04) and managed auth</li>
+              <li>Extract shared Header/BottomNav/token components; fix the Music screen's missing active state as part of that extraction, not before</li>
+              <li>Add bottom nav to Destination Detail and New Private Gem</li>
+              <li>Replace <span class="mono">lh3.googleusercontent.com</span> asset links with owned storage (R2/S3 + CDN)</li>
+              <li>Add the audio-memo storage path (<span class="mono">audio_url</span> column + signed-URL coverage, §04) — committed feature per product direction, moved up from Phase 2</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roadmap-phase">
+          <div class="ph">PHASE 2<br/>~4–8 weeks</div>
+          <div>
+            <b>Make the affordances real</b>
+            <ul>
+              <li>Wire Explore search to real results; build the missing results state</li>
+              <li>Implement drag reordering on Trip Planner, or remove the Reorder control</li>
+              <li>Mapbox integration for the map previews and "Start Navigation"</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roadmap-phase">
+          <div class="ph">NOT YET</div>
+          <div>
+            <b>Explicitly deferred — revisit only with evidence</b>
+            <ul>
+              <li>Offline map caching (real, not the simulated "42 MB downloaded" toast) — expensive, defer until trip usage data justifies it</li>
+              <li>Community sharing for private gems — already marked "Coming Soon" in the UI itself; schema has a hook (<span class="mono">is_private</span>) but no moderation or visibility model exists to design against yet</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="assumptions">
+      <div class="sec-head"><span class="num">09</span><h2>Assumptions &amp; what would change this</h2></div>
+      <p><b>Assumptions this plan depends on:</b> early-stage traffic (not enterprise scale), a small engineering team, single-region operation, and no compliance regime beyond standard consumer PII handling. The stack recommendation in §03 is sized to those.</p>
+      <p><b>What would change the recommendation:</b> a confirmed multi-region or high-concurrency launch target would push toward a more horizontally-scaled API tier sooner; a partner/B2B API surface would revive the GraphQL question deferred in §05; a decision to keep private gems permanently on-device (rather than "coming soon" community sharing) would remove most of the sync-conflict design work otherwise owed to that table.</p>
+      <p><b>Handoff:</b> engineering owns Phase 0 token/schema reconciliation before any new screen is designed against the current PRD; product/design owns picking the canonical gem taxonomy, since that choice is user-facing, not just a database decision.</p>
+    </section>
+
+    <section class="block wide" id="product-verdict">
+      <div class="sec-head"><span class="num">10</span><h2>Product design verdict</h2></div>
+      <div class="sec-sub">Product's first pass covered the two rendered screenshots then available (Music &amp; Live, Destination Detail) against the brand emblem screenshot and reference photography. A second pass, done after three more files landed in the handoff folder — <span class="mono">explore_curate_flourish/screen02.png</span> and a production-ready <span class="mono">flourish_logo.png</span> at the project root — revised two of the four findings below. Read through <code>product:brand-identity</code>, <code>product:interface-craft</code>, and <code>product:design-styles</code>. This section adds to Tech's §06/§07, it doesn't repeat them.</div>
+
+      <div class="callout"><b>Decision: restyle, not rebuild.</b> The screen inventory and information architecture hold up against the PRD's intent — what's wrong is tokens, one content leak, and a component-sourcing gap, all fixable inside the Phase 0/1 work Tech already scoped in §08.</div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>An internal label shipped as user-facing copy</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> Destination Detail screenshot, "Personal Notes &amp; Local Spots Nearby" section header — a pill reading <span class="mono">Option A</span> sits next to the lock icon, visible on screen next to real copy like "Saved privately to your device."</p>
+        <p><b>What:</b> This traces back to the PRD itself, which titles the whole private-gems feature "Personal Spot Saver — Option A" (§3.4) — a naming choice from a decision document that was never meant to reach a screen, and did anyway.</p>
+        <p><b>Consequence:</b> A real user has no idea what "Option A" means and no reason to trust a screen that shows internal process language. Small, but it directly undercuts the "curated, considered editorial" promise the brand is built on.</p>
+        <div class="fix"><b>Fix</b> — Delete the pill. The lock icon and "Saved privately to your device • Not shared publicly" caption beside it already say everything a user needs. Effort: trivial.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Rendered screens confirm the token drift — with a visible brand cost</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> all three now-viewable screenshots — every primary button, the header bar, and the "Curated Gigs" section heading render as near-black rather than the "Deep Lake Navy" DESIGN.md and the PRD both name as primary; the active filter chip and secondary accents render as a darker plum violet, never the "Rochester Lilac" hex either document cites.</p>
+        <p><b>New in the second pass:</b> Explore's header (<span class="mono">screen02.png</span>) renders "LILACS &amp; LAKES" in terracotta/orange beside a navy "Flourish" wordmark. <span class="mono">flourish_logo.png</span> — the actual approved file — sets that same subtitle in the lilac purple DESIGN.md assigns to "cultural accents, festival discovery badges." Three renderings of one wordmark (PRD prose, the approved logo file, and the live header) now disagree on what color the subtitle is, not just the buttons.</p>
+        <p><b>Consequence:</b> This isn't only a spec-vs-code mismatch anymore (Tech's §07 framing) — it's what the product actually looks like to a user today, and it's measurably darker and less lilac than the brand is described as anywhere written down. Anyone approving screens against DESIGN.md as a reference is approving against a palette that isn't what ships.</p>
+        <div class="fix"><b>Fix</b> — Same fix as Tech §07, reasserted from the brand side: reconcile in one direction and re-render. If the darker, near-black primary is actually preferred (it reads more premium in these screenshots, arguably a legitimate high-polish-commercial call), then update DESIGN.md and the PRD to match it rather than leaving the lighter navy as the documented-but-never-shipped version.</div>
+        <div class="callout" style="margin-top:10px;"><b>Decided 2026-09-09 — this finding is exactly why.</b> The prose won C2, not the frontmatter — see §07's decision callout. The near-black primary and plum-violet secondary described in this finding are the ones being replaced; <span class="mono">flourish_logo.png</span>, cited above, already renders in the winning palette. Once C1 lands, this finding and the logo stop disagreeing with each other.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>The finished logo file already exists — it's just not wired in</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> <span class="mono">H:\Flourish App\flourish_logo.png</span> vs. the <span class="mono">&lt;img alt="Flourish ROC Logo"&gt;</span> src in every screen header, which points to a Google-hosted asset outside the project entirely.</p>
+        <p><b>What changed on the second pass:</b> the first pass only had <span class="mono">using_the_exact_same_visual_emblem_mark.../screen.png</span> to go on — a labeled exploration render, not obviously a final deliverable. A production-ready <span class="mono">flourish_logo.png</span> now sits at the project root: transparent background, clean vector-style edges, the same lilac-blossom-into-navy-wave mark plus the full "FLOURISH / LILACS &amp; LAKES" lockup. Its filename and placement — not buried in a labeled exploration folder — mark it as the finished asset, which resolves the open question the first pass flagged about whether it was one option among several.</p>
+        <p><b>Consequence:</b> This was scoped as a design-and-testing task in the first pass. It's now closer to a one-line asset swap — the hard part (approving a mark) is already done and sitting in the folder unused. The one real open question left is whether the fine petal detail holds at the ~32px the header actually renders it at; that still wants a quick check, but it's no longer a redraw risk.</p>
+        <div class="fix"><b>Fix</b> — Replace the placeholder header <span class="mono">src</span> with <span class="mono">flourish_logo.png</span> (or an owned-storage copy of it, per §03) on all five screens, then spot-check it at 32px before shipping. Bundle with the shared-component extraction already in Tech's Phase 1 — this makes that swap nearly free rather than a design-and-engineering line item.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>Placeholder-reading map art on Destination Detail</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> "Gorge Coordinates" card — a generic map-tile image that doesn't visibly plot Letchworth's actual pin or route.</p>
+        <p><b>Consequence:</b> In a section whose entire job is building confidence that this is a specific, real place, generic map art reads as the stock/unfinished placeholder <code>interface-craft</code> warns an empty state becomes when it's shipped without context. Explore's cards (<span class="mono">screen02.png</span>, see below) prove the team can and does source specific, real photography elsewhere in the same app — which makes this card's generic art read as an oversight on this screen, not a house style.</p>
+        <div class="fix"><b>Fix</b> — Resolve alongside the Mapbox integration already scoped in Tech's Phase 2 (§08); this card shouldn't ship ahead of a real plotted pin.</div>
+      </div>
+
+      <div class="finding low">
+        <div class="finding-head"><h4>Two of five screen exports are dead image fetches, not blank previews</h4><span class="chip low">Low</span></div>
+        <p><b>Where:</b> <span class="mono">trip_planner_flourish/screen.png</span> and <span class="mono">new_private_gem_flourish/screen.png</span> both contain, byte-for-byte, the text <span class="mono">&lt;FIFE Image failed to fetch&gt;</span> saved with a <span class="mono">.png</span> extension — a failed fetch from Google's internal image-serving host, not an empty or missing file.</p>
+        <p><b>Consequence:</b> Doesn't affect the restyle verdict — both screens were still fully auditable from source (§06) — but it means two of five screens have never actually been looked at as rendered pixels by anyone on this review, only as code. Worth knowing before signing off on those two screens' visual polish specifically.</p>
+        <div class="fix"><b>Fix</b> — Re-export both screens' previews. Cheap, and it closes the one visual-coverage gap left in this review.</div>
+      </div>
+
+      <div class="finding low">
+        <div class="finding-head"><h4>Where the craft already works</h4><span class="chip good">Holding up</span></div>
+        <p>Outside the items above, all three rendered screens are genuinely well executed: photography-led cards carry the hierarchy without leaning on color, the pill/shadow/blur language stays restrained and consistent within each screen, and every screen has one clear primary action. Explore's cards in particular (<span class="mono">screen02.png</span>) use specific, well-chosen real photography — Watkins Glen, the Eastman Museum, the Public Market — exactly the "curated regional journal" feel <code>brand-identity</code> asks the brand to earn, and its bottom nav correctly marks Explore active, matching what Tech found reading the code. No further craft complaints.</p>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">Style direction — ratified</h3>
+        <p>DESIGN.md's pairing of <b>Refined Editorial</b> (photography-forward, content-led) over a <b>high-polish-commercial</b> surface language (layered shadow elevations, glass-blur headers, eased motion) is a deliberate, coherent combination per <code>design-styles</code> — not a "pick one" violation. It fits a product asking users to trust it with saved locations and private notes, and both rendered screens hold it consistently. Recommend naming this pairing explicitly in DESIGN.md so a future screen doesn't drift toward a third, undocumented direction the way the token values already have.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">Return contract</h3>
+        <p><b>Decision</b> — Restyle the existing five screens against a reconciled token set; do not rebuild.</p>
+        <p><b>Reasoning</b> — IA and screen inventory match the PRD's intent; everything found is token, content-leak, or asset-sourcing hygiene, not structure.</p>
+        <p><b>Cost</b> — Under a week of combined design and engineering time, revised down from the first pass: <span class="mono">flourish_logo.png</span> turned out to already be the finished asset, so swapping it in is near-free rather than a design task. Remaining work: reconcile tokens, spot-check the logo at 32px, delete the "Option A" pill, source real map art, re-export the two dead preview images. Small next to a rebuild, and it's the same Phase 0/1 work Tech already scoped.</p>
+        <p><b>Assumptions</b> — <span class="mono">flourish_logo.png</span>'s placement at the project root (vs. a labeled exploration folder) is read as confirmation it's the final mark, not one option among several — confirm that reading with whoever approved it before wiring it in everywhere.</p>
+        <p><b>What would change this</b> — If the logo doesn't hold up at 32px in the spot-check, that's a simplified monogram variant, not a rebuild; it doesn't move the restyle verdict.</p>
+        <p style="margin-bottom:0;"><b>Handoffs</b> — Design confirms the logo file is final and reconciles the token set; Engineering wires the real logo asset in and re-exports the two broken screen previews during the shared-component extraction already scheduled in Tech's §08 Phase 1 — one work item, not a new phase.</p>
+      </div>
+    </section>
+
+    <section class="block wide" id="a11y">
+      <div class="sec-head"><span class="num">11</span><h2>Accessibility audit (WCAG 2.1 AA)</h2></div>
+      <div class="sec-sub">A third Product pass, scoped narrowly to WCAG 2.1 Level AA conformance across the actual shipped code of all five screens — separate from the brand/token pass in §10. Requested ahead of CEO sign-off, since public launch requires clearing a named accessibility bar, not just a qualitative craft read. One violation is already filed in §07 (pinch-zoom disabled site-wide, WCAG 1.4.4) and isn't repeated below.</div>
+
+      <div class="callout"><b>Verdict: does not currently conform to WCAG 2.1 AA.</b> Nine additional, reproducible violations found across all five screens, on top of the zoom-lock already in §07. Two are launch-blocking on their own — see below.</div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>Meaningful photos are invisible to screen readers — <span class="mono">data-alt</span> used instead of <span class="mono">alt</span></h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> All five screens. <span class="mono">music_live_events_flourish</span> and <span class="mono">trip_planner_flourish</span> use real <span class="mono">&lt;img&gt;</span> tags carrying <span class="mono">data-alt="…"</span> instead of <span class="mono">alt="…"</span> — the browser renders these with no alt text at all. <span class="mono">explore_curate_flourish</span> and <span class="mono">destination_detail_private_gem_flourish</span> go further: every destination photo is a CSS <span class="mono">background-image</span> div carrying a <span class="mono">data-alt</span> attribute, which has zero accessibility meaning in HTML.</p>
+        <p><b>Consequence:</b> WCAG 1.1.1. A screen-reader user browsing "Discover Rochester &amp; Finger Lakes" hears "image" or nothing at every card — in an app whose entire value proposition is visual place discovery, that's a non-functional experience, not a degraded one.</p>
+        <div class="fix"><b>Fix</b> — Rename <span class="mono">data-alt</span> → <span class="mono">alt</span> on every <span class="mono">&lt;img&gt;</span>; convert background-image divs to real <span class="mono">&lt;img&gt;</span> tags or add <span class="mono">role="img" aria-label="…"</span>. Mechanical, one pass across five files.</div>
+      </div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>Focus indicator removed with no visible replacement on primary inputs</h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> Explore's search input, New Private Gem's name/location fields, and Destination Detail's inline gem form all set <span class="mono">outline-none</span> with no focus-visible replacement (Destination Detail's is a near-imperceptible background tint only). Music &amp; Live's note-drawer fields do this correctly with a focus ring — proof the pattern already exists in the codebase, just not everywhere.</p>
+        <p><b>Consequence:</b> WCAG 2.4.7. A keyboard-only or switch-device user tabbing through the New Private Gem form or the home search bar can't see which field is focused, and may submit into the wrong one or lose their place.</p>
+        <div class="fix"><b>Fix</b> — Apply the working <span class="mono">focus-visible:ring-2 focus-visible:ring-secondary</span> pattern from Music &amp; Live to every input site-wide.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Save/bookmark confirmations are silent for screen-reader users</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> The toast pattern (<span class="mono">#toast</span> / <span class="mono">#toast-notify</span>) shared across all five screens.</p>
+        <p><b>Consequence:</b> WCAG 4.1.3. A screen-reader user taps "Save to My Private Gems"; the toast appears and vanishes visually with no <span class="mono">aria-live</span> region, so nothing is announced — no confirmation the action worked, and a real risk of duplicate submits from retrying.</p>
+        <div class="fix"><b>Fix</b> — Add <span class="mono">role="status" aria-live="polite"</span> to each toast container. One shared fix once the toast becomes a shared component (§07).</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Privacy toggle switches have no accessible name</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> Destination Detail's <span class="mono">#gem-privacy-toggle</span> and New Private Gem's <span class="mono">#privacy-toggle</span> — both wrapped in an empty <span class="mono">&lt;label&gt;</span>.</p>
+        <p><b>Consequence:</b> WCAG 4.1.2 / 3.3.2. This toggle controls whether a user's private location becomes shareable — the exact decision §12 flags as the app's most sensitive. A screen-reader user hears only "checkbox, checked," with no way to know what it does before deciding.</p>
+        <div class="fix"><b>Fix</b> — Wrap the existing "Encrypted on this device" caption inside the <span class="mono">&lt;label&gt;</span>, or add <span class="mono">aria-label="Keep this gem private to this device"</span> directly on the input.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>Filter, category, and toggle chips don't expose selected state</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> Category/filter chips on Explore and Music &amp; Live, vibe buttons on Destination Detail, and the category/region/season/time pills on New Private Gem — state is conveyed only by a CSS class swap.</p>
+        <p><b>Consequence:</b> WCAG 4.1.2. A screen-reader user tabbing through "Category" hears seven identical buttons with no indication which is currently selected.</p>
+        <div class="fix"><b>Fix</b> — Toggle <span class="mono">aria-pressed="true/false"</span> (or <span class="mono">aria-selected</span> for single-select groups) alongside the existing class swap in each click handler.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>Several fields rely on placeholder text as their only label</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> Music &amp; Live's note-drawer band/venue field, Trip Planner's "Best Time" input, New Private Gem's landmark-clue field — contrasted against the same files' better-built forms, which use real <span class="mono">&lt;label for="…"&gt;</span> elsewhere.</p>
+        <p><b>Consequence:</b> WCAG 3.3.2 — placeholder text disappears on input and isn't reliably exposed as a label to assistive tech.</p>
+        <div class="fix"><b>Fix</b> — Add a real <span class="mono">&lt;label&gt;</span> or <span class="mono">aria-label</span> to each of the three fields.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>Icon-only utility buttons with no accessible name</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> New Private Gem's photo-remove "×", audio play, and audio delete buttons.</p>
+        <p><b>Consequence:</b> WCAG 4.1.2 — a screen reader announces "button" with no indication of what it does.</p>
+        <div class="fix"><b>Fix</b> — Add <span class="mono">aria-label="Remove photo"</span>, <span class="mono">"Play audio memo"</span>, <span class="mono">"Delete audio memo"</span> respectively.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>Borderline and failing text contrast</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> Placeholder text (<span class="mono">outline</span> token, #74777e) on white input backgrounds measures 4.49:1 — just under the 4.5:1 AA minimum for normal text. <span class="mono">on-primary-container</span> (#7e92b2) on <span class="mono">primary-container</span> (#162a45), used at 10px in Destination Detail's Quick Metrics strip, measures 4.58:1 — technically passing but with almost no margin.</p>
+        <p><b>Consequence:</b> WCAG 1.4.3 — fails or nearly fails for low-vision users at exactly the token pairing already flagged as drifted in §07/§10.</p>
+        <div class="fix"><b>Fix</b> — Darken the <span class="mono">outline</span> token or lighten the placeholder color; avoid the on-primary-container/primary-container pairing below 14px. Bundle with the token reconciliation already scoped in §07.</div>
+      </div>
+
+      <div class="finding low">
+        <div class="finding-head"><h4>Long forms have almost no heading structure</h4><span class="chip low">Low</span></div>
+        <p><b>Where:</b> New Private Gem has one <span class="mono">&lt;h1&gt;</span> and zero further headings across nine distinct sections. Destination Detail skips from h2 straight to h4.</p>
+        <p><b>Consequence:</b> WCAG 1.3.1 / 2.4.6 — screen-reader users who navigate by heading (a primary navigation method, not an edge case) can't jump between a long form's sections.</p>
+        <div class="fix"><b>Fix</b> — Promote section labels ("Category &amp; Atmosphere," "Field Captures &amp; Audio Memo," etc.) to real <span class="mono">&lt;h2&gt;</span> elements.</div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Accessibility verdict</h3>
+        <p style="margin-bottom:0;">Two-thirds of what's here (the <span class="mono">alt</span>/<span class="mono">data-alt</span> bug, missing focus states, silent toasts, unlabeled toggles, placeholder-only labels, unlabeled icon buttons) are mechanical, low-risk fixes — realistic inside a one-week Phase 0 sprint. The rest (chip state, contrast, heading structure) touch shared interaction patterns and the token set already being reconciled in §07, and belong in Phase 1. Combined with the zoom-lock in §07, a reasonable estimate to reach WCAG 2.1 AA conformance before public launch is <b>3–5 weeks of engineering time plus one design-token review cycle</b> — not a rebuild, and consistent with the restyle verdict in §10.</p>
+      </div>
+    </section>
+
+    <section class="block wide" id="security">
+      <div class="sec-head"><span class="num">12</span><h2>Security architecture review</h2></div>
+      <div class="sec-sub">Per <code>security:security-architecture-review</code>, <code>threat-modeling</code>, and <code>data-protection-and-encryption</code> — a review of Technology's proposed backend plan (§03) and the data model it's meant to serve (§04), not of code that exists yet. Read-only; nothing here required touching a file beyond the PRD and DESIGN.md.</div>
+
+      <div class="callout"><b>Blocking finding:</b> the PRD's endpoint sketch never states that private-gem endpoints scope to the authenticated owner. That's the one gap serious enough to hold sign-off on until Technology confirms it in writing — see below.</div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>No described ownership scoping on the private-gem endpoints</h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> <span class="mono">GET/POST /api/v1/gems/private</span>, <span class="mono">user_private_gems</span> table.</p>
+        <p><b>What:</b> The spec never states these endpoints filter by <span class="mono">user_id</span> from the auth token rather than a client-supplied identifier. This table is the app's single most sensitive dataset — precise coordinates, notes, and photos for spots the UI itself brands "Vault Mode" and promises are private.</p>
+        <p><b>Consequence:</b> If authorization is checked only "on the way in" (valid token) and not against the record's owner, any authenticated user can enumerate gem IDs and read other users' hidden locations, notes, and photos — a direct breach of the app's one explicit privacy promise, and an irreversible one.</p>
+        <div class="fix"><b>Fix</b> — Every gem query/mutation filters <span class="mono">WHERE user_id = auth.user_id</span> at the query layer, enforced by an automated authorization test, not a code-review assumption.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4><span class="mono">is_private</span> is a mutable flag on the live table, pre-annotated for a future public migration</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> <span class="mono">user_private_gems.is_private</span> (schema comment: "Configured for future community sharing migration").</p>
+        <p><b>Consequence:</b> Privacy is a boolean on the same row as the sensitive data, not a structural boundary. One migration bug or careless bulk-update when the sharing feature ships flips every user's secret spots public simultaneously — a single-event mass disclosure, not a gradual leak.</p>
+        <div class="fix"><b>Fix</b> — Treat "share publicly" as an explicit, per-record, user-initiated action with its own audit trail before any migration touches this column; never default schema changes to public.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>No access-control scheme described for gem photos in object storage</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> <span class="mono">photo_urls</span> → planned R2/S3 + CDN (§03).</p>
+        <p><b>Consequence:</b> CDN-fronted buckets are typically public-read by default. Even with endpoint-level authorization fixed, a photo of a "secret" spot becomes reachable to anyone with the URL, and predictable object keys make URLs guessable.</p>
+        <div class="fix"><b>Fix</b> — Serve private-gem photos only via short-lived signed URLs, in a bucket/prefix separate from public destination imagery.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>No rate limiting anywhere, including unbounded photo uploads</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> All endpoints; <span class="mono">photo_urls</span> has no stated per-gem/per-user cap.</p>
+        <p><b>Consequence:</b> Unbounded uploads invite storage/CDN cost abuse; unthrottled auth endpoints invite credential stuffing against the managed-auth provider.</p>
+        <div class="fix"><b>Fix</b> — Rate-limit at the API gateway/managed-auth layer; cap photo count and size per gem.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>No account-deletion or data-retention policy documented</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> <span class="mono">users</span> cascades to <span class="mono">trips</span> and <span class="mono">user_private_gems</span> at the DB level, but nothing addresses orphaned object-storage photos after a row delete, or a user-facing deletion flow.</p>
+        <p><b>Consequence:</b> Apple requires in-app account deletion for apps with account creation (App Store Guideline 5.1.1(v)) — missing this blocks store approval outright, separate from any exposure from precise location and email data lingering indefinitely.</p>
+        <div class="fix"><b>Fix</b> — Build an account-deletion endpoint that cascades DB rows and issues object-storage deletes for associated photos; document a retention window.</div>
+      </div>
+
+      <div class="finding low">
+        <div class="finding-head"><h4>"No prod data in staging" is a stated rule with no enforcement mechanism</h4><span class="chip low">Low</span></div>
+        <p><b>Where:</b> Environment plan (§03).</p>
+        <p><b>Consequence:</b> Under deadline pressure, someone eventually restores a prod snapshot into staging to repro a bug — the single most common real-world exposure of this pattern.</p>
+        <div class="fix"><b>Fix</b> — No prod→staging DB export path or credentials; staging seeded only by an automated synthetic-data script, as already stated in §03 — just remove the means to violate it.</div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Security verdict</h3>
+        <p style="margin-bottom:0;">The proposed architecture — managed auth, managed Postgres, managed hosting — is a sound foundation and avoids the highest-risk DIY-auth mistakes. It is not yet sign-off ready: the spec is silent on the one control that matters most for this product (server-side ownership enforcement on private gems), and the schema bakes in a future public-migration path for that same sensitive data with no described safeguard. Closing the top three findings is roughly <b>1–2 weeks of focused engineering plus an authorization test suite</b>, layered into the Phase 0/1 work already planned in §08 — not a new phase.</p>
+      </div>
+    </section>
+
+    <section class="block wide" id="itops">
+      <div class="sec-head"><span class="num">13</span><h2>IT operations &amp; readiness review</h2></div>
+      <div class="sec-sub">Per <code>it-operations:chief-information-officer</code>, <code>cloud-administration</code>, and <code>backup-and-recovery</code> — an operational-readiness read of Technology's proposed stack (§03): what it takes to actually run this reliably for public users, sized to a 1–3 person engineering team, not an enterprise IT org.</div>
+
+      <div class="callout"><b>Blocking findings:</b> no backup/disaster-recovery plan for the production database, and no observability stack of any kind. Both put real user data (saved trips, private gem notes) at risk before a single engineer would even know something broke.</div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>No backup/DR plan for the production database</h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> Managed Postgres (§03).</p>
+        <p><b>What:</b> No stated point-in-time recovery, retention window, or restore testing. The schema cascades deletes widely (trips → stops, users → private gems).</p>
+        <p><b>Consequence:</b> An engineer runs a migration against the wrong environment, or a buggy delete cascades through a table; there's no tested restore, so the team learns the backup was never verified restorable while users' saved trips and private gems are simply gone.</p>
+        <div class="fix"><b>Fix</b> — Enable the provider's automated PITR (Neon, Supabase, and RDS all support it natively), set a 7-day-minimum retention, and run one real, timed restore-to-scratch before launch.</div>
+      </div>
+
+      <div class="finding critical">
+        <div class="finding-head"><h4>No observability, logging, or alerting stack</h4><span class="chip critical">Critical</span></div>
+        <p><b>Where:</b> API service and third-party integrations (Mapbox, auth provider).</p>
+        <p><b>Consequence:</b> Mapbox Directions calls start silently failing or hit a usage cap during a Finger Lakes wine-touring weekend; trip-planner routing breaks for every user, and the team only finds out from app store reviews days later.</p>
+        <div class="fix"><b>Fix</b> — Sentry for errors, a hosted uptime monitor (Better Uptime / UptimeRobot), and the hosting platform's native logs/dashboard. Under $100/month, no dedicated ops headcount required.</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>No CI/CD pipeline or rollback process</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> API deploy path (Render/Fly), client (Expo).</p>
+        <p><b>Consequence:</b> A hotfix pushed straight to prod during a live event weekend breaks an endpoint with no fast way back to the last known-good deploy, extending an outage during peak traffic.</p>
+        <div class="fix"><b>Fix</b> — A basic GitHub Actions pipeline: test on PR, auto-deploy <span class="mono">main</span> to staging, one-click manual promote to prod using the hosting platform's built-in versioned deploys (which already provide rollback — this is a documentation task, not new tooling).</div>
+      </div>
+
+      <div class="finding high">
+        <div class="finding-head"><h4>No secrets management approach</h4><span class="chip high">High</span></div>
+        <p><b>Where:</b> Mapbox key, R2/S3 credentials, auth provider keys, DB connection strings — unaddressed entirely in §03.</p>
+        <p><b>Consequence:</b> An unrestricted Mapbox key ships in the Expo client bundle or lands in a commit, gets scraped, and a third party runs up usage against the team's account — breaking maps for real users when the account gets throttled.</p>
+        <div class="fix"><b>Fix</b> — Use the hosting platform's native secret store; restrict the Mapbox key by bundle ID/URL with a usage cap; keep <span class="mono">.env</span> out of version control from day one; rotate on any suspected exposure.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>Vendor dependency risk with no fallback or SLA expectations</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> Mapbox, the managed auth provider, and the managed Postgres provider — each a hard single point of failure (§03).</p>
+        <p><b>Consequence:</b> The auth provider has a regional outage; nobody can sign in or save a trip for hours, and there's no in-app messaging or playbook — the CEO fields angry reviews with no talking points ready.</p>
+        <div class="fix"><b>Fix</b> — A one-page "vendor down" playbook per critical vendor: status page to watch, in-app banner copy, who posts to social. Not a fallback build, a communication plan.</div>
+      </div>
+
+      <div class="finding medium">
+        <div class="finding-head"><h4>No named cost/billing owner across four-plus vendors</h4><span class="chip medium">Medium</span></div>
+        <p><b>Where:</b> Auth provider, DB host, hosting platform, Mapbox, asset storage/CDN.</p>
+        <p><b>Consequence:</b> A free-tier trial lapses unnoticed and quietly disables maps or login app-wide, discovered only via user complaints, not a billing alert.</p>
+        <div class="fix"><b>Fix</b> — Name one billing owner even on a three-person team; put every vendor on the company card; turn on each vendor's spend/usage alerts. One afternoon of work.</div>
+      </div>
+
+      <div class="panel" style="margin-top:20px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Operational readiness verdict</h3>
+        <p style="margin-bottom:0;">The proposed architecture is a sound, appropriately-scoped choice for this team size — managed Postgres, managed auth, managed hosting are all correct "buy don't build" calls. It is not yet operationally ready for public launch as specced: the absence of any backup/restore plan and any observability is a real risk to actual user data and to catching failures before users do, and both should gate sign-off until closed. None of the six gaps require new headcount or enterprise tooling — they're Phase 0 items costing roughly <b>$100–300/month in added vendor tooling plus one focused engineering week</b> to wire up backups, monitoring, CI/CD, and secrets before the first public user signs in.</p>
+      </div>
+    </section>
+
+    <section class="block wide" id="signoff">
+      <div class="sec-head"><span class="num">14</span><h2>Path to CEO sign-off</h2></div>
+      <div class="sec-sub">Technology, Product, Security, and IT Operations have now all reviewed this project. This section answers the brief directly: what it takes for Flourish to clear public-usage oversight across UX, UI, accessibility, security, and operations — and what's left to decide before sign-off.</div>
+
+      <div class="callout"><b>The headline verdict is unchanged: restyle the five existing screens against a reconciled system, don't rebuild.</b> Nothing found by Security, IT Operations, or the accessibility pass changes that call — the screen inventory and information architecture still match the PRD's intent (§10). What changed is the size of the punch list: four departments now agree on a combined gate that has to close before this is safe to put in front of the public, not just before it looks and reads well.</div>
+
+      <div class="table-wrap">
+        <table>
+          <tr><th>Gate</th><th>Owner</th><th>Why it blocks sign-off</th></tr>
+          <tr><td>Private-gem endpoints must scope to the authenticated owner (§12)</td><td>Engineering / Security</td><td>The one explicit privacy promise the product makes ("Vault Mode") — a single missing <span class="mono">WHERE user_id = …</span> clause breaks it for every user at once.</td></tr>
+          <tr><td>Database backups + a tested restore path (§13)</td><td>Engineering / IT Ops</td><td>Without this, any bug that touches data is potentially unrecoverable — saved trips and private notes, gone with no way back.</td></tr>
+          <tr><td>Basic observability (errors + uptime) (§13)</td><td>Engineering / IT Ops</td><td>Right now the team's only failure signal is app store reviews. Not acceptable for a public launch of any size.</td></tr>
+          <tr><td>Image <span class="mono">alt</span> text and visible focus states (§11)</td><td>Engineering / Product</td><td>Both are WCAG 2.1 AA failures severe enough to make the app non-functional for screen-reader and keyboard users, not just non-compliant.</td></tr>
+          <tr><td>Token reconciliation, taxonomy, pre-filled sample data, zoom-lock (§07/§08 Phase 0)</td><td>Engineering / Product</td><td>Already scoped before this pass; still the entry ticket — nothing above replaces it, it's additive.</td></tr>
+        </table>
+      </div>
+
+      <div class="panel" style="margin-top:16px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Everything else — real but not launch-blocking</h3>
+        <p style="margin-bottom:0;">Secrets management, CI/CD, and a vendor-outage playbook (§13); photo access control and account deletion (§12); chip selection state, contrast tuning, and form heading structure (§11); the remaining Phase 1/2 items already in §08. All real, all worth doing in the four-to-eight week window already scoped — none of them are a reason to hold the CEO's initial go/no-go.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">Return contract — cross-functional</h3>
+        <p><b>Decision</b> — Proceed with the restyle path (§10), gated on the five items in the table above closing first. Recommend the CEO sign off on direction now and on public launch once the gate clears, rather than treating this as a single go/no-go.</p>
+        <p><b>Reasoning</b> — All four functions independently reached compatible verdicts: the design and IA are sound, the proposed backend architecture is appropriately scoped for this team, and everything blocking looks like Phase 0 hygiene, not a structural rethink. That convergence is itself informative — no function found something that contradicts another's read.</p>
+        <p><b>Cost</b> — Combined estimate across all four functions: roughly <b>3–5 weeks</b> to close every gate-table item (the accessibility fixes and the security/ops items overlap in calendar time with the token/taxonomy work already scoped, not stack on top of it sequentially), plus an ongoing <b>$100–300/month</b> in added vendor tooling (error tracking, uptime monitoring, backups) once live.</p>
+        <p><b>Assumptions</b> — Carries forward every assumption already logged in §09, plus: no compliance regime beyond standard consumer PII and location data (confirm this before the private-gems feature ships broadly — precise location data can trigger stricter handling in some jurisdictions), and that "public usage" means a consumer launch, not a regulated or enterprise buyer, which would change the security bar in §12.</p>
+        <p><b>What would change this</b> — If the CEO wants a hard launch date sooner than ~5 weeks out, the honest options are: trim lower-priority Phase 2 scope instead (e.g. Trip Planner's drag-reordering, or the offline map download already marked "Not yet" in §08), or accept a soft/limited-audience launch (e.g. invite-only) while the backup and observability gates finish. Audio memo (§04) is treated as a committed feature per product direction, not a scope-reduction lever. Not recommended to launch publicly with the private-gem ownership gap open under any timeline.</p>
+        <p style="margin-bottom:0;"><b>Handoffs</b> — Engineering owns the two Security gates and the two IT Ops gates as one combined Phase 0 sprint, run alongside the token/taxonomy work already scoped in §08 rather than after it. Product owns the accessibility fixes and the logo/token confirmation from §10. Security and IT Operations each get a fast look at the actual pull requests that close their gate items before this goes back to the CEO — a paper review doesn't replace confirming the fix matches the finding.</p>
+      </div>
+
+      <div class="callout" style="margin-top:16px;"><b>Open questions for the CEO before final sign-off:</b> (1) Is a 3–5 week gate acceptable, or is there a harder deadline that requires scoping down the launch instead? (2) Any compliance obligation beyond standard consumer PII — even informally, e.g. a stated no-EU-users policy — that would change §12's bar? (3) Confirm the near-black/darker palette question raised in §10 (documented navy vs. shipped navy) one way or the other — the one open item with a real brand-opinion component rather than a correctness fix. <i>A fourth question — whether the WCAG accessibility gate item is actually legally required — was raised after this document's first publish and is answered directly in §15. All four have since been put to the chief executive and answered in §16; this callout is left as filed so the record shows what was asked before it was decided.</i></div>
+    </section>
+
+    <section class="block wide" id="legal">
+      <div class="sec-head"><span class="num">15</span><h2>Legal — ADA/WCAG liability</h2></div>
+      <div class="sec-sub">Requested directly: what legal responsibility does an app "owner" actually hold around WCAG, and does that responsibility — given this company's ownership status — permit softening or dropping any of the §11 accessibility findings that were treated as necessary for release? Per <code>legal-risk:regulatory-compliance</code>, <code>chief-legal-and-risk-officer</code>, <code>enterprise-risk</code>, and <code>disputes-and-legal-holds</code>. Read-only; research only, no files touched.</div>
+
+      <div class="callout"><b>Short answer: no exemption applies, and the recommendation is not to soften anything on legal grounds.</b> There is no codified rule forcing WCAG on a private company, but that gap is not a safe harbor — and "ownership status" (small, early-stage, any entity structure) does not change whether the ADA reaches this product, only who is personally exposed and how likely enforcement is today. Detail below.</div>
+
+      <div class="panel">
+        <h3 style="font-size:15px;margin-bottom:8px;">Two different ADA titles were being conflated</h3>
+        <p>The DOJ's 2024 rule formally mandating WCAG 2.1 AA is real, but it's a <b>Title II</b> rule — it binds state and local government entities only. It does not reach Flourish, a private consumer product. What actually applies here is <b>Title III</b> ("public accommodations"), and there is currently no codified DOJ regulation specifying WCAG — or any technical standard — for private Title III businesses; DOJ withdrew its earlier Title III rulemaking effort and hasn't replaced it.</p>
+        <p style="margin-bottom:0;">That regulatory silence is not the same as no exposure. Federal courts — starting with <span class="mono">Robles v. Domino's Pizza</span>, and consistently since in Southern/Eastern District of New York practice (<span class="mono">Andrews v. Blick Art Materials</span>) — have held a commercial app or website tied to a business can itself be a "place of public accommodation" under Title III, physical storefront or not. In the near-total absence of a litigated technical standard, courts, settlements, and DOJ consent decrees use <b>WCAG 2.1 AA as the de facto compliance benchmark</b> anyway — plaintiffs plead against it, defendants settle to it, judges reference it. The exposure is common-law/litigation-driven rather than regulatory, which in practice is not materially smaller.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Does "ownership status" change the obligation? No.</h3>
+        <p>Title III has <b>no small-business, revenue, or entity-structure exemption</b>. That carve-out exists only in <b>Title I</b> (employment discrimination, businesses under 15 employees) — a commonly confused point. Title III reaches any business open to the public regardless of size, and regardless of whether it's a sole proprietorship, LLC, or corporation.</p>
+        <p style="margin-bottom:0;">Entity structure changes <i>who</i> is personally on the hook — an LLC/corporation shields an owner's personal assets from a judgment against the business; a sole proprietor is personally exposed directly — but it does not change whether the ADA reaches the product itself. Being pre-revenue or early-stage changes only the practical odds of being targeted today, not the legal standard, and that argument gets weaker the moment this goes from prototype to public launch.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">New York-specific exposure</h3>
+        <p style="margin-bottom:0;">New York federal courts are the highest-volume jurisdiction in the country for ADA website/app accessibility filings — well ahead of the next closest state — and filings aren't limited to NYC; statewide plaintiffs' firms file broadly, so Rochester-based doesn't insulate the company. Separately, <b>NY State and NYC Human Rights Law allow uncapped compensatory damages</b>, unlike federal Title III, which caps out at injunctive relief plus attorney's fees — this is why NY plaintiffs' counsel increasingly favor state-law claims, and it raises the real stakes above a federal-only reading.</p>
+      </div>
+
+      <div class="table-wrap" style="margin-top:14px;">
+        <table>
+          <tr><th>§11 finding</th><th>Legal basis to soften?</th><th>Why</th></tr>
+          <tr><td>Missing/broken <span class="mono">alt</span> text</td><td>No</td><td>Functional barrier to use — exactly what automated plaintiff-side scanners screen for first.</td></tr>
+          <tr><td>Stripped focus indicators</td><td>No</td><td>Functional barrier for keyboard users; a named WCAG criterion in nearly every settlement.</td></tr>
+          <tr><td>Silent save/bookmark toasts</td><td>No</td><td>Functional barrier — user can't confirm an action completed.</td></tr>
+          <tr><td>Unlabeled privacy toggle</td><td>No</td><td>Functional barrier, and it's specifically a privacy control — the worst finding to leave undocumented as "known and accepted."</td></tr>
+          <tr><td>Chip/selection state not exposed</td><td>No</td><td>Functional barrier — screen-reader users can't tell what's selected.</td></tr>
+          <tr><td>Placeholder-only field labels</td><td>No</td><td>Functional barrier to completing a form.</td></tr>
+          <tr><td>Unlabeled icon-only buttons</td><td>No</td><td>Functional barrier — no accessible name for the control at all.</td></tr>
+          <tr><td>Pinch-zoom disabled (§07)</td><td>No</td><td>Functional barrier, already filed as a named WCAG 1.4.4 violation.</td></tr>
+          <tr><td>Borderline text contrast</td><td>Yes — already Phase 1</td><td>Rarely the sole basis of a real claim in isolation; reasonable to keep off the launch-blocking list.</td></tr>
+          <tr><td>Missing heading structure</td><td>Yes — already Phase 1</td><td>Same — a secondary, not functionally-blocking, criterion.</td></tr>
+        </table>
+      </div>
+      <p style="margin-top:10px; font-size:13.5px; color:var(--ink-dim);">Note: §14's blocking-gate table already listed only <i>alt text and focus states</i> as the launch-blocking accessibility items — not contrast or heading structure. That prioritization holds up under this legal read without needing to change; plaintiffs typically plead the whole set an audit finds, so leaving the "minor" ones unfixed doesn't reduce exposure once a claim is viable on the functional ones — it just adds line items to it.</p>
+
+      <div class="callout" style="margin-top:16px;"><b>Not a substitute for counsel.</b> This is an internal risk-framework read for planning purposes, not advice from an attorney admitted in New York with ADA/accessibility litigation experience. Get that review before finalizing any decision to <i>not</i> remediate a known, documented accessibility gap — a written decision to accept a known gap is itself discoverable evidence of knowledge if a suit follows.</div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Verdict for CEO sign-off</h3>
+        <p style="margin-bottom:0;">Do not eliminate or soften any of §11's blocking findings on the theory that WCAG isn't "required" — no codified rule for a private business does not mean no exposure, and New York is a top-volume, high-damages jurisdiction for exactly this fact pattern. Contrast and heading-structure items can reasonably stay non-blocking, which is already how §14 scoped them. Net effect on the sign-off gate in §14: <b>no change</b> — the accessibility gate items stand as filed.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Addendum — does Title II's population-based rule extend here? No.</h3>
+        <p>A follow-up question asked whether Title II's population-size distinction — some public entities get a longer compliance runway than others — could apply to Flourish, opening room to soften some §11 findings in exchange for easier delivery elsewhere. Checked directly against DOJ's rule and confirmed current as of this pass: that provision changes only the <i>compliance deadline</i> for entities Title II already covers. Public entities with population 50,000+ must conform by April 26, 2027; smaller public entities and special districts by April 26, 2028 (both dates extended once already from the original 2024 rule). Either way, the required technical standard is the same WCAG 2.1 AA — the population threshold never lowers the bar, only when it's due.</p>
+        <p style="margin-bottom:0;">More to the point: Title II only reaches state and local government entities and their instrumentalities — which is exactly why <i>public</i> schools and universities are covered, as government bodies, not as a general "education" carve-out. A private educational institution isn't a Title II entity either; it falls under Title III, same as Flourish. There's no reading of this rule, direct or by analogy, that reaches a private consumer app. Net effect: no change to §11's findings or §14's gate.</p>
+      </div>
+    </section>
+
+    <section class="block wide" id="ceo">
+      <div class="sec-head"><span class="num">16</span><h2>Chief executive — decision</h2></div>
+      <div class="sec-sub">Presented with §00–15 as the complete record. Read through <code>executive:chief-executive</code> and pressure-tested against <code>executive:ceo-advisor</code>. This section is a decision, not another review. Where it changes something it says so plainly; where it leaves a function's finding alone, that finding stands exactly as filed.</div>
+
+      <div class="callout"><b>Signed off on direction. Not signed off on public launch.</b> The restyle path in §10 is approved and Phase 0 can start immediately. Public launch stays held until §14's five gates close and Security and IT Operations have each confirmed the actual merged fixes. Nothing in §11–15 gets softened, traded, or reopened — reviewer-class findings are constraints, not positions in a negotiation. What I <i>am</i> changing is scope below the line, and one thing nobody in sixteen sections has said out loud.</div>
+
+      <div class="panel">
+        <h3 style="font-size:15px;margin-bottom:8px;">The load-bearing assumption nobody stated</h3>
+        <p>Four of the five gate items in §14 are assigned to "Engineering." Five functions have now reviewed this project and not one of them establishes that engineering exists. There is no repo, no build step, no CI, and no named owner — §00 says exactly that about the code, and nobody carried it forward into the estimate. The 3–5 week figure is an honest estimate of <i>work</i>. It is not a schedule until a person's name is attached to it.</p>
+        <p style="margin-bottom:0;">So the binding constraint this quarter is not accessibility, security, or design. It is that Flourish has a plan, a design system, and five clean reviews, against unconfirmed capacity to spend on any of it. That is the number I want before anything below this matters: how many engineer-weeks are actually available, and whose. Every function here did its own job well — which is precisely why the risk has collected in the space between them.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">The priority stack — including what is below the line</h3>
+        <p><b>Above the line, funded, and reviewed weekly:</b> the five gate items in §14, run as one Phase 0 sprint. Nothing joins this list without something leaving it.</p>
+        <p><b>Below the line — not being done, stated plainly so nobody plans around a maybe:</b></p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Cut</th><th>Instead</th><th>Why I'm calling it</th></tr>
+            <tr><td>Turn-by-turn navigation (Mapbox, §08 Phase 2)</td><td>"Start Navigation" hands off to Apple/Google Maps</td><td>We are not building a navigation product against companies who have. Directions API stays in scope only for the drive-time estimates the itinerary already promises (§06). Product asked for this and Product loses it — the ask was legitimate, and it's still a permanent maintenance line for a commodity every user already has installed.</td></tr>
+            <tr><td>Drag-reordering on Trip Planner</td><td>Remove the Reorder control</td><td>Product's own finding is that a control which does nothing is worse than no control. Taking it out is the cheaper half of that finding and it ships in Phase 0.</td></tr>
+            <tr><td>Community sharing for private gems</td><td>Delete the "Coming Soon" label too</td><td>Not this year. A promise printed on a screen is a commitment we haven't staffed, and no moderation or visibility model exists to design against. Saying nothing is more honest than saying soon.</td></tr>
+            <tr><td>Offline map caching</td><td>Simulated "42 MB downloaded" toast comes out in <b>Phase 0</b>, not Phase 2</td><td>The feature stays deferred, but the fake toast is not a roadmap item — it tells a user something untrue about their own device. That gets removed with the other Phase 0 hygiene.</td></tr>
+          </table>
+        </div>
+        <p style="margin-top:12px;">These four are how the 3–5 weeks stays 3–5 weeks. If someone wants one of them back, the conversation is which gate item it displaces — not whether we can fit it in.</p>
+        <p style="margin-bottom:0;"><b>Approved by the owner, 2026-09-09.</b> All four cuts accepted as written and released for implementation. The navigation hand-off, the Reorder control removal, the "Coming Soon" label deletion, and the simulated download toast now move into the Phase 0 sprint as scoped work rather than sitting as proposals — they are the only scope changes in this document that are cleared to start before an engineering owner is named, because each is a deletion.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Audio memo stays — and here is the reasoning, so it isn't relitigated</h3>
+        <p>The owner has committed to it and §04/§08 already reflect that. It is a genuinely good feature: it captures the thing people actually want to record about a hidden place — tone, detail, the thought they'd never type — at the exact moment they're standing in it. Two conditions attach, both cheap:</p>
+        <p><b>1. The text notes field is not removable and does not get demoted behind the audio flow.</b> This is what keeps audio memo an addition rather than a barrier. A user who can't hear their own recording, or can't speak into one, still has to be able to capture the same thing by the same route — and because that equivalent path already exists on the same form, audio memo clears §11 without a finding against it. Remove or bury the text field and the feature becomes an accessibility problem it currently isn't.</p>
+        <p style="margin-bottom:0;"><b>2. It inherits the private-gem security model in full</b> — owner-scoped endpoints and signed expiring URLs, exactly as §12 specifies for gem photos. A voice recording attached to a private location is the most sensitive single artifact this product will ever store, and it should never have been on a list where photos were covered and audio wasn't.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">The open questions from §14, answered</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Asked</th><th>Answered</th><th>Owner now</th></tr>
+            <tr><td>Is a 3–5 week gate acceptable, or is there a harder deadline?</td><td><b>Accepted.</b> No external deadline has been named by anyone, which is generally how you find out there isn't one. Inventing urgency here buys pressure at the price of the gate. The schedule risk in this project is capacity, not duration — see above.</td><td>Closed</td></tr>
+            <tr><td>Any compliance obligation beyond consumer PII?</td><td><b>Don't wait to find out — default defensively.</b> At launch: no EU/UK availability, stated in the terms; precise coordinates stored only for gems a user deliberately saves; location handled as a sensitive class inside §12's access-control work rather than as ordinary profile data. If that proves more caution than needed, relaxing it later costs almost nothing. The reverse is not true.</td><td>Decided — Security implements</td></tr>
+            <tr><td>Documented navy vs. shipped navy?</td><td><b>Decided 2026-09-09 — the prose: Deep Lake Navy and Rochester Lilac.</b> Not my call, and it wasn't treated as one: both candidates clear AA against the mist canvas by a wide margin, so this was always a brand-opinion question, not a correctness one. A same-day frontmatter call was revised once its consequence surfaced — the approved <span class="mono">flourish_logo.png</span> already renders in the prose's lilac, so that's the version that makes the brand consistent everywhere it appears, at the cost of a real re-render of all five screens rather than a documentation fix.</td><td>Frontmatter rewritten to match, all five screens re-rendered, as part of C1</td></tr>
+            <tr><td>Is the WCAG gate legally required? (§15)</td><td><b>Wrong question, and I want the record to show why.</b> Legal's read is that there's no codified rule but substantial litigation exposure — that alone settles it. But the standing direction from the owner is that accessibility is integral to this product, not a compliance floor to be measured. A team that builds to what it can defend in court builds a worse product than one that builds so people can use it. The legal answer and the right answer agree here; when they don't, we're following the second one.</td><td>Closed — §11 stands as filed</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">Return contract — chief executive</h3>
+        <p><b>Decision</b> — Approve the restyle path and start Phase 0 now; hold public launch until §14's five gates close with Security and IT Ops confirming the merged fixes; cut the four items above below the line for this cycle; and get a named engineering owner with a real capacity number before the 3–5 week estimate is treated as a date.</p>
+        <p><b>Reasoning</b> — Three things drove it. Five functions reviewed this independently and none contradicted another, which means the plan is probably right and the risk has moved from design to execution. Everything blocking is hygiene rather than architecture — the cheapest position a project can be in, and one that stops being cheap the moment a backend and real users sit on top of it. And the reviewer-class findings from Security and Legal are constraints; treating them as tradeoffs is the standard way a small remediation cost becomes a large one.</p>
+        <p><b>What this costs</b> — 3–5 weeks of engineering this company has not yet confirmed it has, plus $100–300/month ongoing once live. The cuts give up turn-by-turn navigation, drag-reordering, community sharing, and offline maps for this cycle. What we're actually giving up is the option to launch in two weeks — and that option was never real. Pretending otherwise costs more than saying so now.</p>
+        <p><b>Assumptions</b> — Everything logged in §09 and §14's return contract, plus: engineering capacity is securable in weeks rather than months, and the owner's stated direction — WCAG adherence integral to every part of the design — remains standing, which is what makes §11 non-negotiable rather than a preference I'm imposing.</p>
+        <p><b>What would change my mind</b> — A real external deadline with money behind it (a partner launch, festival season, a grant window) flips the first answer and forces a scoped-down invite-only launch instead; it would still not open the private-gem ownership gap or drop alt text, because those are what "launched" means. Evidence that engineering capacity is months away rather than weeks turns this from a launch plan into a staffing decision, and I would rather learn that in the next few days than in week four.</p>
+        <p style="margin-bottom:0;"><b>Handoffs</b> — <b>Owner:</b> confirm who is building this and how much of their week, before Phase 0 starts. <b>Engineering:</b> Phase 0 as a single sprint with the Security and IT Ops gates inside it, not after it. <b>Product:</b> the accessibility fixes, the navy, and removing the two controls now below the line. <b>Security &amp; IT Ops:</b> pull-request-level confirmation, as already scoped in §14. <b>Me:</b> fifteen minutes weekly with the §14 gate table as the entire agenda — no decks, no status narrative. If I stop asking, this stops moving, and that would be my failure rather than the team's.</p>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:10px;">Sign-off record</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>Item</th><th>Status</th><th>As of</th></tr>
+            <tr><td>Direction — restyle path (§10), backend &amp; stack plan (§03)</td><td><span class="chip good">Approved</span></td><td>2026-09-09</td></tr>
+            <tr><td>Below-the-line cuts — navigation, drag-reorder, community sharing, offline maps</td><td><span class="chip good">Approved by owner</span></td><td>2026-09-09</td></tr>
+            <tr><td>Audio memo as a committed Phase 1 feature, under the two §16 conditions</td><td><span class="chip good">Approved</span></td><td>2026-09-09</td></tr>
+            <tr><td>Accessibility, security and legal findings (§11, §12, §15)</td><td><span class="chip good">Stand as filed</span></td><td>2026-09-09</td></tr>
+            <tr><td>Public launch</td><td><span class="chip critical">Held</span></td><td>Pending §14 gate + PR confirmation</td></tr>
+            <tr><td>Named engineering owner and capacity figure</td><td><span class="chip good">Answered</span></td><td>2026-09-09 — see note below</td></tr>
+            <tr><td>C2 — frontmatter vs. prose (§07, §16)</td><td><span class="chip good">Decided — prose (Deep Lake Navy / Rochester Lilac)</span></td><td>2026-09-09 — revised same day from an earlier frontmatter call; matches the approved logo</td></tr>
+            <tr><td>Repo host and ownership</td><td><span class="chip good">Confirmed</span></td><td>2026-09-09 — private, github.com/baileyburritt</td></tr>
+            <tr><td>Stage E vendor picks (Postgres, auth, storage, hosting, Mapbox)</td><td><span class="chip low">Deferred to each ticket</span></td><td>Get something working first; target architecture in §03 stands as the direction</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel" style="margin-top:14px;">
+        <h3 style="font-size:15px;margin-bottom:8px;">Amendment — the delivery model, answered 2026-09-09</h3>
+        <p>The outstanding question above has been answered: delivery is <b>one human holding oversight, with AI agents performing implementation</b>. That resolves the capacity question and immediately relocates the constraint rather than removing it — the limit is no longer engineering throughput, it is how much code one person can meaningfully review before the review becomes ceremonial.</p>
+        <p style="margin-bottom:0;">Two consequences worth recording here, because they revise decisions made in this document. <b>CI and the test harness are promoted from §13's "High, not launch-blocking" to the first work done</b> — under this model they are not developer convenience, they are the review mechanism itself. And <b>§14's 3–5 week estimate is withdrawn</b>, not adjusted: it measured engineer-weeks, which is no longer the unit that governs. It is replaced by a count of human checkpoints. The ticketed plan lives in the companion <i>Flourish Build Plan</i>; nothing in §00–16 is reopened by it, and the below-the-line cuts are carried into that document as enforced repository guardrails specifically because a fresh agent will otherwise read those deletions as unfinished work and helpfully restore them.</p>
+      </div>
+
+      <div class="callout" style="margin-top:16px;"><b>What I am not asking for: a section 17.</b> Sixteen sections and six functions is more scrutiny than a five-screen prototype has any right to, and it is now the cheapest thing this project can produce and the least useful. Reviewing has stopped being progress. The next artifact Flourish generates should be a pull request that closes a line in the §14 gate table — everything anyone needs to start is already above this line.</div>
+    </section>
+
+    <footer class="doc-end">
+      Prepared by the technology, product, security, IT operations, and legal functions, and decided by the chief executive in §16, against <span class="mono">flourish_lilacs_lakes_technical_handoff_prd.md</span>, <span class="mono">flourish_roc_lakes/DESIGN.md</span>, five screen exports (including full source review for the WCAG audit), and the brand assets in <span class="mono">H:\Flourish App</span>. §15's legal analysis is an internal risk framework, not advice from licensed counsel. No source files were modified in this review.
+    </footer>
+  </main>
+</div>
+
+<script>
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.toc a'));
+    var sections = links.map(function(a){ return document.querySelector(a.getAttribute('href')); }).filter(Boolean);
+    function onScroll(){
+      var pos = window.scrollY + 140;
+      var current = sections[0];
+      sections.forEach(function(s){ if (s.offsetTop <= pos) current = s; });
+      links.forEach(function(a){
+        var match = a.getAttribute('href') === '#' + current.id;
+        a.classList.toggle('active', match);
+      });
+    }
+    document.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  })();
+</script>
