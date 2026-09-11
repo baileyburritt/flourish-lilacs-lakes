@@ -7,12 +7,6 @@
 <span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 1;">calendar_today</span>
         Oct 14–16 • 3 Days, 7 Stops
       </span>
-<div class="flex items-center gap-1.5">
-<button aria-label="Reorder Stops" class="h-9 px-3 rounded-full bg-surface-container-low text-primary font-label-sm text-label-sm font-semibold hover:bg-surface-container flex items-center gap-1 shadow-sm transition-all active:scale-95" id="toggle-reorder-btn" type="button">
-<span class="material-symbols-outlined text-[16px]">swap_vert</span>
-<span class="">Reorder</span>
-</button>
-</div>
 </div>
 <div>
 <h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">
@@ -445,7 +439,6 @@
 
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
-    const reorderBtn = document.getElementById('toggle-reorder-btn');
 
     function showToast(text) {
       if (!toast || !toastMsg) return;
@@ -493,16 +486,6 @@
 
     if (closeChecklistModal) closeChecklistModal.addEventListener('click', hideChecklist);
     if (doneChecklistBtn) doneChecklistBtn.addEventListener('click', hideChecklist);
-
-    let reorderActive = false;
-    if (reorderBtn) {
-      reorderBtn.addEventListener('click', () => {
-        reorderActive = !reorderActive;
-        reorderBtn.classList.toggle('bg-primary', reorderActive);
-        reorderBtn.classList.toggle('text-on-primary', reorderActive);
-        showToast(reorderActive ? 'Drag handles enabled for itinerary stops' : 'Stop order updated and locked');
-      });
-    }
   })();
 </script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(22,42,69,0.06)]" data-active-classes="text-primary font-semibold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="explore" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">explore</span><span class="font-label-sm text-label-sm">Explore</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="music-and-live" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">festival</span><span class="font-label-sm text-label-sm">Music &amp; Live</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full transition-colors group text-primary font-semibold" data-path="itinerary" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">route</span><span class="font-label-sm text-label-sm">Itinerary</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="my-spots-and-gems" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">auto_awesome</span><span class="font-label-sm text-label-sm">My Spots</span></a></div></nav>
 
