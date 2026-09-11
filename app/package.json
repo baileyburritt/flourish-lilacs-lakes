@@ -34,9 +34,10 @@
     "build:web": "expo export -p web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
-    "test": "npm run test:unit && npm run test:tokens && npm run test:e2e",
+    "test": "npm run test:unit && npm run test:tokens && npm run test:viewport && npm run test:e2e",
     "test:unit": "jest",
     "test:tokens": "node scripts/check-token-conformance.js",
+    "test:viewport": "node scripts/check-viewport-zoom.js",
     "test:e2e": "playwright test"
   },
   "private": true,
