@@ -12,9 +12,6 @@
 <span class="material-symbols-outlined text-[16px]">swap_vert</span>
 <span class="">Reorder</span>
 </button>
-<button aria-label="Export Offline Map" class="h-9 w-9 rounded-full bg-surface-container-low text-primary flex items-center justify-center hover:bg-surface-container shadow-sm transition-all active:scale-95" id="offline-map-btn" type="button">
-<span class="material-symbols-outlined text-[18px]">download_for_offline</span>
-</button>
 </div>
 </div>
 <div>
@@ -449,7 +446,6 @@
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
     const reorderBtn = document.getElementById('toggle-reorder-btn');
-    const offlineBtn = document.getElementById('offline-map-btn');
 
     function showToast(text) {
       if (!toast || !toastMsg) return;
@@ -505,12 +501,6 @@
         reorderBtn.classList.toggle('bg-primary', reorderActive);
         reorderBtn.classList.toggle('text-on-primary', reorderActive);
         showToast(reorderActive ? 'Drag handles enabled for itinerary stops' : 'Stop order updated and locked');
-      });
-    }
-
-    if (offlineBtn) {
-      offlineBtn.addEventListener('click', () => {
-        showToast('Offline topo & turn-by-turn map downloaded (42 MB)');
       });
     }
   })();
