@@ -44,3 +44,5 @@ coverage/
 # generated native folders
 /ios
 /android
+.neon
+.mcp.json
