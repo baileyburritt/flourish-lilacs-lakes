@@ -1,9 +1,9 @@
 ---
 name: Flourish / ROC & Lakes
 colors:
-  surface: '#f8f9ff'
+  surface: '#f8fafc'
   surface-dim: '#ccdbf3'
-  surface-bright: '#f8f9ff'
+  surface-bright: '#f8fafc'
   surface-container-lowest: '#ffffff'
   surface-container-low: '#eff4ff'
   surface-container: '#e6eeff'
@@ -16,12 +16,12 @@ colors:
   outline: '#74777e'
   outline-variant: '#c4c6ce'
   surface-tint: '#4c5f7d'
-  primary: '#00152f'
+  primary: '#162a45'
   on-primary: '#ffffff'
   primary-container: '#162a45'
   on-primary-container: '#7e92b2'
   inverse-primary: '#b4c7ea'
-  secondary: '#6f48b2'
+  secondary: '#7e57c2'
   on-secondary: '#ffffff'
   secondary-container: '#b78efe'
   on-secondary-container: '#491d8a'
@@ -45,9 +45,10 @@ colors:
   tertiary-fixed-dim: '#ffb68c'
   on-tertiary-fixed: '#321200'
   on-tertiary-fixed-variant: '#753400'
-  background: '#f8f9ff'
+  background: '#f8fafc'
   on-background: '#0d1c2e'
   surface-variant: '#d5e3fc'
+  neutral: '#475569'
 typography:
   display-lg:
     fontFamily: Outfit
