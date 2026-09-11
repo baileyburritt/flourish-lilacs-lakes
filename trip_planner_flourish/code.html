@@ -73,7 +73,7 @@
 <span class="font-label-sm text-label-sm uppercase tracking-widest text-secondary-fixed">GPS Trail Ready</span>
 <p class="font-headline-sm text-headline-sm font-semibold text-surface-lowest">Canandaigua to Watkins Glen Byway</p>
 </div>
-<button aria-label="Start Navigation" class="h-10 px-4 rounded-full bg-on-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1 shadow-md hover:opacity-90 active:scale-95 transition-all" type="button">
+<button aria-label="Start Navigation" class="h-10 px-4 rounded-full bg-on-tertiary-container text-on-tertiary font-label-sm text-label-sm font-semibold flex items-center gap-1 shadow-md hover:opacity-90 active:scale-95 transition-all" data-nav-destination="Seneca Lake, Watkins Glen, New York" id="start-navigation-btn" type="button">
 <span class="material-symbols-outlined text-[18px]">navigation</span>
 <span class="">Start</span>
 </button>
@@ -439,6 +439,7 @@
 
     const toast = document.getElementById('toast');
     const toastMsg = document.getElementById('toast-message');
+    const startNavBtn = document.getElementById('start-navigation-btn');
 
     function showToast(text) {
       if (!toast || !toastMsg) return;
@@ -486,6 +487,33 @@
 
     if (closeChecklistModal) closeChecklistModal.addEventListener('click', hideChecklist);
     if (doneChecklistBtn) doneChecklistBtn.addEventListener('click', hideChecklist);
+
+    // Hands off to the platform maps app rather than any in-app turn-by-turn
+    // navigation — Mapbox Directions is only in scope for drive-time
+    // estimates between stops, not for replacing this hand-off.
+    function platformMapsUrl(destination) {
+      const query = encodeURIComponent(destination);
+      const ua = navigator.userAgent || navigator.vendor || '';
+      if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+        return `maps://?q=${query}`;
+      }
+      if (/android/i.test(ua)) {
+        return `geo:0,0?q=${query}`;
+      }
+      return `https://maps.google.com/?q=${query}`;
+    }
+
+    if (startNavBtn) {
+      startNavBtn.addEventListener('click', () => {
+        const destination = startNavBtn.dataset.navDestination;
+        if (!destination) return;
+        const url = platformMapsUrl(destination);
+        // Fired before navigating so this hand-off is observable in tests
+        // without intercepting window.location itself.
+        window.dispatchEvent(new CustomEvent('flourish:maps-handoff', { detail: { url } }));
+        window.location.href = url;
+      });
+    }
   })();
 </script></main><nav class="fixed bottom-0 w-full z-50 pb-safe bg-surface/90 backdrop-blur-xl shadow-[0_-4px_20px_rgba(22,42,69,0.06)]" data-active-classes="text-primary font-semibold"><div class="h-16 px-space-xs flex items-center justify-around"><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="explore" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">explore</span><span class="font-label-sm text-label-sm">Explore</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="music-and-live" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">festival</span><span class="font-label-sm text-label-sm">Music &amp; Live</span></a><a aria-current="page" class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full transition-colors group text-primary font-semibold" data-path="itinerary" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">route</span><span class="font-label-sm text-label-sm">Itinerary</span></a><a class="flex flex-col items-center justify-center min-w-[64px] min-h-[44px] h-full text-on-surface-variant hover:text-primary transition-colors group" data-path="my-spots-and-gems" href="#"><span class="material-symbols-outlined text-[24px] mb-0.5 group-hover:scale-105 transition-transform">auto_awesome</span><span class="font-label-sm text-label-sm">My Spots</span></a></div></nav>
 
