@@ -1,0 +1,5 @@
+#!/bin/sh
+# A6: reject a commit if it stages anything that looks like a credential.
+# Installed via `git config core.hooksPath .githooks`, set automatically by
+# `npm install` in app/ (see app/scripts/setup-git-hooks.js).
+node "$(git rev-parse --show-toplevel)/app/scripts/check-no-secrets.js"
