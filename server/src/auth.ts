@@ -4,6 +4,8 @@ import { eq } from 'drizzle-orm';
 
 import { db } from './db/client.js';
 import { users } from './db/schema.js';
+import { PER_USER_MAX_REQUESTS, PER_USER_WINDOW_MS } from './lib/rateLimitConfig.js';
+import { checkRateLimit } from './lib/rateLimiter.js';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -43,6 +45,16 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
     reply.code(401).send({ error: 'Unauthorized' });
     return;
   }
+
+  // E7 (§12): per-authenticated-user budget, independent of the per-IP
+  // limit app.ts applies to every request — two users behind a shared IP
+  // (NAT, office wifi) shouldn't be able to exhaust each other's quota.
+  const { allowed, retryAfterSeconds } = checkRateLimit(`user:${userId}`, PER_USER_MAX_REQUESTS, PER_USER_WINDOW_MS);
+  if (!allowed) {
+    reply.code(429).header('retry-after', String(retryAfterSeconds)).send({ error: 'Too Many Requests' });
+    return;
+  }
+
   await ensureUserSynced(userId);
   request.userId = userId;
 }
