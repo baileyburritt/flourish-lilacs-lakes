@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import { like } from 'drizzle-orm';
 
 import { db, pool } from './client.js';
 import { destinations, events, itineraryStops, trips, userPrivateGems, users } from './schema.js';
@@ -9,7 +10,20 @@ import { destinations, events, itineraryStops, trips, userPrivateGems, users } f
 // table has a JSONB column) so it can be found and wiped independently of
 // real content later.
 
+// Idempotent: re-running against a database that already has this seed data
+// (the shared Neon dev branch, not just a throwaway CI database) clears the
+// prior run first rather than failing on the unique email/slug constraints.
+// itinerary_stops, trips and user_private_gems aren't deleted explicitly —
+// they cascade from the users/destinations deletes below.
+async function reset() {
+  await db.delete(events).where(like(events.title, 'Seed %'));
+  await db.delete(destinations).where(like(destinations.slug, 'seed-%'));
+  await db.delete(users).where(like(users.email, 'seed-%@example.test'));
+}
+
 async function main() {
+  await reset();
+
   const [alice, bob] = await db
     .insert(users)
     .values([

@@ -1,3 +1,4 @@
+export { AccountBanner } from './AccountBanner';
 export { BottomNav, TAB_ROUTES, type TabRoute } from './BottomNav';
 export { Card } from './Card';
 export { Chip } from './Chip';
