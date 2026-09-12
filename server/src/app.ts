@@ -4,6 +4,9 @@ import { clerkPlugin } from '@clerk/fastify';
 
 import { requireAuth } from './auth.js';
 import { db } from './db/client.js';
+import { bookmarksRoutes } from './routes/bookmarks.js';
+import { gemsRoutes } from './routes/gems.js';
+import { tripsRoutes } from './routes/trips.js';
 
 // Split from index.ts so tests can build the app and use .inject() without
 // binding a port — E4's ownership suite (server/test/ownership.test.ts)
@@ -13,13 +16,19 @@ export function buildApp() {
 
   app.register(clerkPlugin);
 
-  // Bootstrapping only — E5 adds the real (ownership-scoped) endpoints against
-  // E4's test suite. This proves the service boots and can reach the database
-  // it was just migrated against; it is not the API surface itself.
+  // Proves the service boots and can reach the database it was just
+  // migrated against; not part of the API surface itself.
   app.get('/health', async () => {
     await db.execute(sql`SELECT 1`);
     return { status: 'ok' };
   });
+
+  // E5 (§12): the ownership-scoped endpoints E4's suite defines the contract
+  // for. Each plugin scopes its own preHandler(requireAuth) via Fastify's
+  // encapsulation, so /health and /api/v1/me stay unaffected.
+  app.register(gemsRoutes, { prefix: '/api/v1/gems' });
+  app.register(tripsRoutes, { prefix: '/api/v1/trips' });
+  app.register(bookmarksRoutes, { prefix: '/api/v1/bookmarks' });
 
   // E2's done-when: "the API receives a verified user id on every
   // authenticated request." This route is the proof, not a real resource —
