@@ -15,9 +15,12 @@
     "db:check-is-private": "tsx src/db/check-is-private-constraint.ts",
     "verify:clerk-auth": "tsx scripts/verify-clerk-auth.ts",
     "test": "npm run typecheck && npm run db:migrate && npm run db:seed && tsx src/db/verify-seed.ts && npm run db:check-is-private",
-    "test:ownership": "vitest run"
+    "test:ownership": "vitest run test/ownership.test.ts",
+    "test:storage": "vitest run test/storage.test.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.1131.0",
+    "@aws-sdk/s3-request-presigner": "^3.1131.0",
     "@clerk/fastify": "^3.1.77",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.45.2",
