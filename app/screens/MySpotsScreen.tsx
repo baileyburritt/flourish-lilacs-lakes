@@ -20,7 +20,9 @@ export function MySpotsScreen({ navigate, savedTitles }: Props) {
     <View style={styles.screen}>
       <Header variant="root" title="Flourish" subtitle="Lilacs & Lakes" onProfile={() => {}} />
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
-        <Text style={styles.heading}>My Spots</Text>
+        <Text style={styles.heading} role="heading" aria-level={1}>
+          My Spots
+        </Text>
         <Text style={styles.lede}>Saved by you this session.</Text>
         {savedTitles.length === 0 ? (
           <Text style={styles.empty}>Nothing saved yet — bookmark a spot from Explore or Music &amp; Live.</Text>

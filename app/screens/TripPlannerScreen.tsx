@@ -104,7 +104,9 @@ export function TripPlannerScreen({ navigate }: Props) {
         <Header variant="root" title="Flourish" subtitle="Lilacs & Lakes" onSearch={() => {}} onProfile={() => {}} />
         <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
           <Text style={styles.eyebrow}>Oct 14–16 • 3 Days, 7 Stops</Text>
-          <Text style={styles.heading}>Weekend Getaway: ROC to Keuka & Seneca Lakes</Text>
+          <Text style={styles.heading} role="heading" aria-level={1}>
+            Weekend Getaway: ROC to Keuka & Seneca Lakes
+          </Text>
           <Text style={styles.lede}>Autumn foliage route from High Falls gorge down through farmstands and lakeside vineyards.</Text>
 
           <View style={styles.statsRibbon}>
@@ -140,7 +142,9 @@ export function TripPlannerScreen({ navigate }: Props) {
           {addedGems.length > 0 ? <DaySection title="Your Added Stops" subtitle="Appended this session" stops={addedGems} /> : null}
 
           <View style={styles.gemCta}>
-            <Text style={styles.cardTitle}>Know a secret spot?</Text>
+            <Text style={styles.cardTitle} role="heading" aria-level={2}>
+              Know a secret spot?
+            </Text>
             <Text style={styles.cardBody}>Add your own farm stand, kayak drop, or scenic sunset pull-off.</Text>
             <Pressable onPress={() => setGemModalOpen(true)} role="button" style={styles.gemButton}>
               <Text style={styles.gemButtonText}>+ Add Custom Hidden Gem</Text>
@@ -154,7 +158,9 @@ export function TripPlannerScreen({ navigate }: Props) {
         <View style={styles.modalBackdrop}>
           <View style={styles.modalSheet}>
             <View style={styles.modalHeaderRow}>
-              <Text style={styles.cardTitle}>New Private Gem</Text>
+              <Text style={styles.cardTitle} role="heading" aria-level={2}>
+                New Private Gem
+              </Text>
               <Pressable onPress={() => setGemModalOpen(false)} role="button" accessibilityLabel="Close form" style={styles.closeButton}>
                 <Text style={styles.closeGlyph}>×</Text>
               </Pressable>
@@ -193,7 +199,9 @@ export function TripPlannerScreen({ navigate }: Props) {
 function DaySection({ title, subtitle, stops }: { title: string; subtitle: string; stops: Stop[] }) {
   return (
     <View style={styles.daySection}>
-      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardTitle} role="heading" aria-level={2}>
+        {title}
+      </Text>
       <Text style={styles.cardMeta}>{subtitle}</Text>
       <View style={{ gap: space['space-sm'] }}>
         {stops.map((stop) => (

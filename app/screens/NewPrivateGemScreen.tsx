@@ -34,7 +34,7 @@ export function NewPrivateGemScreen({ navigate }: Props) {
 
   return (
     <View style={styles.screen}>
-      <Header variant="detail" title="Add Private Gem" subtitle="New Discovery" onBack={() => navigate('explore')} />
+      <Header variant="detail" title="Add Private Gem" subtitle="New Discovery" onBack={() => navigate('explore')} titleIsHeading />
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
         <View style={styles.introCard}>
           <Text style={styles.cardBody}>
@@ -44,7 +44,9 @@ export function NewPrivateGemScreen({ navigate }: Props) {
 
         <View style={styles.privacyCard}>
           <View style={styles.privacyHeaderRow}>
-            <Text style={styles.privacyHeading}>Privacy & Sharing Mode</Text>
+            <Text style={styles.privacyHeading} role="heading" aria-level={2}>
+              Privacy & Sharing Mode
+            </Text>
             <Text style={styles.vaultBadge}>Vault Mode</Text>
           </View>
           <View style={styles.privacyToggleRow}>
@@ -57,7 +59,9 @@ export function NewPrivateGemScreen({ navigate }: Props) {
         </View>
 
         <View>
-          <Text style={styles.fieldLabel}>Category & Atmosphere</Text>
+          <Text style={styles.fieldLabel} role="heading" aria-level={2}>
+            Category & Atmosphere
+          </Text>
           <View style={styles.chipWrap}>
             {DESTINATION_CATEGORIES.map((c: { id: string; label: string }) => (
               <Chip key={c.id} label={c.label} selected={category === c.label} onPress={() => setCategory(c.label)} />
@@ -68,7 +72,9 @@ export function NewPrivateGemScreen({ navigate }: Props) {
         <FormField label="Gem / Spot Name" value={name} onChangeText={setName} placeholder="e.g. Bare Hill Sunset Ledge" required />
 
         <View>
-          <Text style={styles.fieldLabel}>Sub-Region / Lake Corridor</Text>
+          <Text style={styles.fieldLabel} role="heading" aria-level={2}>
+            Sub-Region / Lake Corridor
+          </Text>
           <View style={styles.chipWrap}>
             {REGIONS.map((r) => (
               <Chip key={r} label={r} selected={region === r} onPress={() => setRegion(r)} />
@@ -89,7 +95,9 @@ export function NewPrivateGemScreen({ navigate }: Props) {
         <FormField label="Insider Tips & Route Logistics" value={notes} onChangeText={setNotes} placeholder="e.g. Best light at 6:30 PM; cash only box for farm peaches; steep shale incline." multiline numberOfLines={3} />
 
         <View>
-          <Text style={styles.fieldLabel}>Field Captures & Audio Memo</Text>
+          <Text style={styles.fieldLabel} role="heading" aria-level={2}>
+            Field Captures & Audio Memo
+          </Text>
           <View style={styles.captureRow}>
             <Pressable
               onPress={() => setPhotoAttached((v) => !v)}

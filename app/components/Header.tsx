@@ -16,9 +16,15 @@ type Props = {
   onBack?: () => void;
   onSearch?: () => void;
   onProfile?: () => void;
+  // D7: most screens carry their own on-page h1 (e.g. Explore's "Discover
+  // Rochester & Finger Lakes"), so the header's brand title stays plain text
+  // there. New Private Gem has no other page-level heading — its header
+  // title ("Add Private Gem") IS the page heading — so it opts in here
+  // rather than every screen guessing at the right default.
+  titleIsHeading?: boolean;
 };
 
-export function Header({ variant, title, subtitle, onBack, onSearch, onProfile }: Props) {
+export function Header({ variant, title, subtitle, onBack, onSearch, onProfile, titleIsHeading }: Props) {
   return (
     <View style={styles.header}>
       <View style={styles.leading}>
@@ -32,7 +38,11 @@ export function Header({ variant, title, subtitle, onBack, onSearch, onProfile }
           </View>
         )}
         <View style={styles.titleBlock}>
-          <Text style={styles.title} numberOfLines={1}>
+          <Text
+            style={styles.title}
+            numberOfLines={1}
+            {...(titleIsHeading ? { role: 'heading' as const, 'aria-level': 1 } : null)}
+          >
             {title}
           </Text>
           {subtitle ? (
