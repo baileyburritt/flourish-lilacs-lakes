@@ -1,5 +1,7 @@
+import { sql } from 'drizzle-orm';
 import {
   boolean,
+  check,
   date,
   integer,
   jsonb,
@@ -150,35 +152,39 @@ export const itineraryStops = pgTable(
   (table) => [unique('itinerary_stops_trip_order_day_unique').on(table.tripId, table.stopOrder, table.dayNumber)],
 );
 
-export const userPrivateGems = pgTable('user_private_gems', {
-  id: uuid('id').primaryKey().defaultRandom(),
-  userId: uuid('user_id')
-    .notNull()
-    .references(() => users.id, { onDelete: 'cascade' }),
-  title: varchar('title', { length: 150 }).notNull(),
-  // §04 "two free-text location fields, one schema column": the PRD's single
-  // `location_hint` collided with the New Private Gem screen's two distinct
-  // inputs (a GPS coordinate pair and a separate landmark clue). The GPS pair
-  // already had its own latitude/longitude columns below; this column is
-  // rescoped to just the landmark clue.
-  landmarkNote: text('landmark_note'),
-  notes: text('notes'),
-  category: destinationCategory('category').notNull().default('CIVIC_LANDMARK'),
-  photoUrls: text('photo_urls').array().notNull().default([]),
-  // §04 "audio memo capture has no storage target" — same signed-URL access
-  // control as photos applies here (E6), not a public path.
-  audioUrl: text('audio_url'),
-  idealSeason: idealSeason('ideal_season'),
-  goldenHour: goldenHour('golden_hour'),
-  attachedTripId: uuid('attached_trip_id').references(() => trips.id, { onDelete: 'set null' }),
-  latitude: numeric('latitude', { precision: 10, scale: 7 }),
-  longitude: numeric('longitude', { precision: 10, scale: 7 }),
-  // Community sharing of private gems was cut (§16) — this column is not a
-  // staged migration toward a future "make it public" path. It stays
-  // mutable here only because E3 (a separate ticket) adds the
-  // always-true database constraint; do not read `false` support into it
-  // before that lands.
-  isPrivate: boolean('is_private').notNull().default(true),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-});
+export const userPrivateGems = pgTable(
+  'user_private_gems',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    title: varchar('title', { length: 150 }).notNull(),
+    // §04 "two free-text location fields, one schema column": the PRD's single
+    // `location_hint` collided with the New Private Gem screen's two distinct
+    // inputs (a GPS coordinate pair and a separate landmark clue). The GPS pair
+    // already had its own latitude/longitude columns below; this column is
+    // rescoped to just the landmark clue.
+    landmarkNote: text('landmark_note'),
+    notes: text('notes'),
+    category: destinationCategory('category').notNull().default('CIVIC_LANDMARK'),
+    photoUrls: text('photo_urls').array().notNull().default([]),
+    // §04 "audio memo capture has no storage target" — same signed-URL access
+    // control as photos applies here (E6), not a public path.
+    audioUrl: text('audio_url'),
+    idealSeason: idealSeason('ideal_season'),
+    goldenHour: goldenHour('golden_hour'),
+    attachedTripId: uuid('attached_trip_id').references(() => trips.id, { onDelete: 'set null' }),
+    latitude: numeric('latitude', { precision: 10, scale: 7 }),
+    longitude: numeric('longitude', { precision: 10, scale: 7 }),
+    // E3 (§12): community sharing of private gems was cut (§16), so the safe
+    // form of this column is "always true, enforced by the database" rather
+    // than a mutable flag pre-wired for a sharing feature that will never
+    // ship. The check constraint below is what actually resolves it — the
+    // column stays only as the historical name/shape the schema already had.
+    isPrivate: boolean('is_private').notNull().default(true),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [check('user_private_gems_is_private_always_true', sql`${table.isPrivate} = true`)],
+);
