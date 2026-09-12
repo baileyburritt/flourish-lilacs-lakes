@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { BottomNav, Card, Chip, Header, Photo } from '../components';
+import { BottomNav, Card, Chip, Header, Photo, useAnnounce } from '../components';
 import type { NavigateFn } from '../navigation/types';
 import { colors } from '../theme/tokens';
 import { rad, space, textStyle } from '../theme/scale';
@@ -54,6 +54,21 @@ export function MusicScreen({ navigate }: Props) {
   const [favorited, setFavorited] = useState<Record<string, boolean>>({});
   const [playingId, setPlayingId] = useState<string | null>(null);
   const [festivalSaved, setFestivalSaved] = useState(false);
+  const announce = useAnnounce();
+
+  function toggleFestivalSaved() {
+    setFestivalSaved((v) => !v);
+    announce(
+      festivalSaved
+        ? 'Removed Rochester International Jazz Festival from My Spots.'
+        : 'Saved Rochester International Jazz Festival to My Spots.'
+    );
+  }
+
+  function toggleFavorite(gig: { id: string; title: string }) {
+    setFavorited((f) => ({ ...f, [gig.id]: !f[gig.id] }));
+    announce(favorited[gig.id] ? `Removed ${gig.title} from favorites.` : `Favorited ${gig.title}.`);
+  }
 
   return (
     <View style={styles.screen}>
@@ -74,7 +89,7 @@ export function MusicScreen({ navigate }: Props) {
           <View style={styles.headlinerTop}>
             <Text style={styles.headlinerBadge}>Signature Festival</Text>
             <Pressable
-              onPress={() => setFestivalSaved((v) => !v)}
+              onPress={toggleFestivalSaved}
               role="button"
               aria-pressed={festivalSaved}
               accessibilityLabel={festivalSaved ? 'Remove Rochester International Jazz Festival from My Spots' : 'Save Rochester International Jazz Festival to My Spots'}
@@ -103,7 +118,7 @@ export function MusicScreen({ navigate }: Props) {
                     <View style={styles.cardFooter}>
                       <Text style={styles.eyebrow}>{gig.tag}</Text>
                       <Pressable
-                        onPress={() => setFavorited((f) => ({ ...f, [gig.id]: !f[gig.id] }))}
+                        onPress={() => toggleFavorite(gig)}
                         role="button"
                         aria-pressed={!!favorited[gig.id]}
                         accessibilityLabel={favorited[gig.id] ? `Remove ${gig.title} from favorites` : `Favorite ${gig.title}`}

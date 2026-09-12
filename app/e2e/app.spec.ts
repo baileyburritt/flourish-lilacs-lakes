@@ -84,3 +84,34 @@ test('focusing a nav tab and a form field shows a visible focus indicator', asyn
   expect(inputOutline.style).not.toBe('none');
   expect(inputOutline.width).not.toBe('0px');
 });
+
+// D3: save/bookmark/error toasts were previously silent to screen readers.
+// These check the one shared aria-live="polite" region (LiveRegion.tsx)
+// actually changes text on each kind of status event, rather than trusting
+// that a visible toast implies an accessible one.
+test('bookmarking a spot announces a status change in the shared live region', async ({ page }) => {
+  await page.goto('/');
+
+  const liveRegion = page.locator('[aria-live="polite"]');
+  await expect(liveRegion).toHaveText('');
+
+  await page.getByRole('button', { name: 'Save High Falls & Genesee Gorge to My Spots' }).click();
+  await expect(liveRegion).toHaveText('Saved High Falls & Genesee Gorge to My Spots.');
+
+  await page.getByRole('button', { name: 'Remove High Falls & Genesee Gorge from My Spots' }).click();
+  await expect(liveRegion).toHaveText('Removed High Falls & Genesee Gorge from My Spots.');
+});
+
+test('saving a new private gem announces success, and an empty name announces the error instead', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Add Private Gem' }).click();
+
+  const liveRegion = page.locator('[aria-live="polite"]');
+
+  await page.getByRole('button', { name: 'Save to My Private Gems' }).click();
+  await expect(liveRegion).toHaveText('Enter a gem name before saving.');
+
+  await page.getByLabel('Gem / Spot Name').fill('Bare Hill Sunset Ledge');
+  await page.getByRole('button', { name: 'Save to My Private Gems' }).click();
+  await expect(liveRegion).toHaveText('Saved Bare Hill Sunset Ledge to My Private Gems.');
+});
