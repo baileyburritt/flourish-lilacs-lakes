@@ -37,8 +37,7 @@
     "lint": "expo lint",
     "typecheck": "tsc --noEmit",
     "generate:tokens": "node scripts/generate-tokens.js",
-    "test": "npm run test:unit && npm run test:tokens && npm run test:tokens-fresh && npm run test:categories && npm run test:viewport && npm run test:offline-toast && npm run test:reorder && npm run test:sharing && npm run test:navigation-sdk && npm run test:contrast && npm run test:e2e",
-    "test": "npm run test:unit && npm run test:tokens && npm run test:tokens-fresh && npm run test:categories && npm run test:viewport && npm run test:offline-toast && npm run test:reorder && npm run test:sharing && npm run test:navigation-sdk && npm run test:placeholder-labels && npm run test:e2e",
+    "test": "npm run test:unit && npm run test:tokens && npm run test:tokens-fresh && npm run test:categories && npm run test:viewport && npm run test:offline-toast && npm run test:reorder && npm run test:sharing && npm run test:navigation-sdk && npm run test:contrast && npm run test:placeholder-labels && npm run test:no-background-location && npm run test:e2e",
     "test:unit": "jest",
     "test:tokens": "node scripts/check-token-conformance.js",
     "test:tokens-fresh": "node scripts/check-tokens-generated.js",
@@ -50,6 +49,7 @@
     "test:navigation-sdk": "node scripts/check-no-navigation-sdk.js",
     "test:contrast": "node scripts/check-color-contrast.js",
     "test:placeholder-labels": "node scripts/check-no-placeholder-only-labels.js",
+    "test:no-background-location": "node scripts/check-no-background-location-write.js",
     "test:e2e": "playwright test"
   },
   "private": true,
