@@ -14,8 +14,11 @@
     "db:seed": "tsx src/db/seed.ts",
     "db:check-is-private": "tsx src/db/check-is-private-constraint.ts",
     "test": "npm run typecheck && npm run db:migrate && npm run db:seed && tsx src/db/verify-seed.ts && npm run db:check-is-private"
+    "verify:clerk-auth": "tsx scripts/verify-clerk-auth.ts",
+    "test": "npm run typecheck && npm run db:migrate && npm run db:seed && tsx src/db/verify-seed.ts"
   },
   "dependencies": {
+    "@clerk/fastify": "^3.1.77",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.45.2",
     "fastify": "^5.12.4",
