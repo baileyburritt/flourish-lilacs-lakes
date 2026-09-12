@@ -27,8 +27,8 @@ async function main() {
   const [alice, bob] = await db
     .insert(users)
     .values([
-      { email: 'seed-alice@example.test', displayName: 'Seed Alice' },
-      { email: 'seed-bob@example.test', displayName: 'Seed Bob' },
+      { id: 'user_seed_alice', email: 'seed-alice@example.test', displayName: 'Seed Alice' },
+      { id: 'user_seed_bob', email: 'seed-bob@example.test', displayName: 'Seed Bob' },
     ])
     .returning();
 

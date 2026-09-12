@@ -60,8 +60,16 @@ export const idealSeason = pgEnum('ideal_season', [
 
 export const goldenHour = pgEnum('golden_hour', ['DAWN_MIST', 'GOLDEN_HOUR', 'DEEP_TWILIGHT', 'MIDDAY_SUN']);
 
+export const bookmarkSubjectType = pgEnum('bookmark_subject_type', ['DESTINATION', 'EVENT']);
+
+// E4 (§12): id is Clerk's user id (e.g. "user_2abc...") directly, not an
+// internally generated uuid — request.userId from requireAuth (server/src/
+// auth.ts) IS this column, with no separate mapping table to keep in sync.
+// Rows are created lazily by ensureUserSynced() on a user's first
+// authenticated request rather than via a Clerk webhook, since there's
+// nowhere for a webhook to call yet (no deployed server, Stage F).
 export const users = pgTable('users', {
-  id: uuid('id').primaryKey().defaultRandom(),
+  id: text('id').primaryKey(),
   email: varchar('email', { length: 255 }).notNull().unique(),
   displayName: varchar('display_name', { length: 100 }).notNull(),
   avatarUrl: text('avatar_url'),
@@ -118,7 +126,7 @@ export const events = pgTable('events', {
 
 export const trips = pgTable('trips', {
   id: uuid('id').primaryKey().defaultRandom(),
-  userId: uuid('user_id')
+  userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
   title: varchar('title', { length: 150 }).notNull(),
@@ -156,7 +164,7 @@ export const userPrivateGems = pgTable(
   'user_private_gems',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    userId: uuid('user_id')
+    userId: text('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
     title: varchar('title', { length: 150 }).notNull(),
@@ -187,4 +195,34 @@ export const userPrivateGems = pgTable(
     updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (table) => [check('user_private_gems_is_private_always_true', sql`${table.isPrivate} = true`)],
+);
+
+// E4 (§12): "extend the same ownership shape to trips and bookmarks" needed
+// an actual bookmarks table, which didn't exist — the Explore screen's
+// "Save to My Spots" and the PRD's event-bookmark endpoint (§3.2) are both
+// client-side-only state today. destinationId/eventId are two nullable FKs
+// rather than one polymorphic column so Postgres can still enforce
+// referential integrity; the check constraint ties subjectType to whichever
+// one is actually set.
+export const bookmarks = pgTable(
+  'bookmarks',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => users.id, { onDelete: 'cascade' }),
+    subjectType: bookmarkSubjectType('subject_type').notNull(),
+    destinationId: uuid('destination_id').references(() => destinations.id, { onDelete: 'cascade' }),
+    eventId: uuid('event_id').references(() => events.id, { onDelete: 'cascade' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (table) => [
+    unique('bookmarks_user_destination_unique').on(table.userId, table.destinationId),
+    unique('bookmarks_user_event_unique').on(table.userId, table.eventId),
+    check(
+      'bookmarks_subject_matches_type',
+      sql`(${table.subjectType} = 'DESTINATION' AND ${table.destinationId} IS NOT NULL AND ${table.eventId} IS NULL)
+          OR (${table.subjectType} = 'EVENT' AND ${table.eventId} IS NOT NULL AND ${table.destinationId} IS NULL)`,
+    ),
+  ],
 );
