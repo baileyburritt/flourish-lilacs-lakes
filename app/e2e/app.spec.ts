@@ -1,5 +1,19 @@
 import AxeBuilder from '@axe-core/playwright';
+import type { Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
+
+// D4: axe's own `label-content-name-mismatch` rule (WCAG 2.5.3) already
+// checks for "a visible label and a conflicting aria-label" on one control —
+// it's just off by default because Deque still marks it experimental. It
+// belongs in scope alongside the other WCAG 2.1 A/AA tags this project
+// scans against, so every screen check below force-enables it rather than
+// relying on a hand-rolled substring check.
+function scanA11y(page: Page) {
+  return new AxeBuilder({ page })
+    .options({ rules: { 'label-content-name-mismatch': { enabled: true } } })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
+    .analyze();
+}
 
 // C4: the app now renders the five ported screens from a shared component
 // library instead of the scaffold placeholder. This scans every screen
@@ -9,7 +23,7 @@ test('Explore loads as the initial screen with no automatic accessibility violat
   await page.goto('/');
   await expect(page.getByText('Discover Rochester & Finger Lakes')).toBeVisible();
 
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  const results = await scanA11y(page);
   expect(results.violations).toEqual([]);
 });
 
@@ -28,7 +42,7 @@ test('bottom nav switches screens and marks exactly one tab selected', async ({ 
     await expect(page.getByText(screenText, { exact: false }).first()).toBeVisible();
     await expect(page.getByRole('tab', { name: tabLabel })).toHaveAttribute('aria-selected', 'true');
 
-    const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+    const results = await scanA11y(page);
     expect(results.violations).toEqual([]);
   }
 });
@@ -41,7 +55,7 @@ test('drilling into Letchworth reaches Destination Detail with no tab falsely ma
   const selectedTabs = await page.getByRole('tab', { name: /Explore|Music|Itinerary|My Spots/ }).evaluateAll((els) => els.filter((el) => el.getAttribute('aria-selected') === 'true'));
   expect(selectedTabs).toHaveLength(0);
 
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  const results = await scanA11y(page);
   expect(results.violations).toEqual([]);
 });
 
@@ -52,7 +66,27 @@ test('Add Private Gem preserves both the text notes field and the audio memo con
   await expect(page.getByLabel('Insider Tips & Route Logistics')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Record an audio memo' })).toBeVisible();
 
-  const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
+  const results = await scanA11y(page);
+  expect(results.violations).toEqual([]);
+});
+
+// D4: the privacy switches had no accessible name at all, and neither did
+// icon-only utility buttons like this modal's close control — this is the
+// one privacy toggle (Trip Planner's "Add Custom Hidden Gem" sheet) no
+// earlier a11y scan actually opened, so it was never proven to be fixed.
+test('the Trip Planner custom gem modal exposes a named privacy switch and a named close button', async ({ page }) => {
+  await page.goto('/');
+  await page.getByRole('tab', { name: 'Itinerary' }).click();
+  await page.getByRole('button', { name: '+ Add Custom Hidden Gem' }).click();
+
+  // RN Web's <Modal> only applies role="dialog" once its entrance animation
+  // finishes — waiting for that avoids scanning the brief mid-transition
+  // state axe correctly treats as invalid (aria-modal with no dialog role).
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await expect(page.getByRole('switch', { name: 'Keep this gem secret, visible only on your device' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Close form' })).toBeVisible();
+
+  const results = await scanA11y(page);
   expect(results.violations).toEqual([]);
 });
 

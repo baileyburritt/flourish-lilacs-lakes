@@ -92,53 +92,63 @@ export function TripPlannerScreen({ navigate }: Props) {
 
   return (
     <View style={styles.screen}>
-      <Header variant="root" title="Flourish" subtitle="Lilacs & Lakes" onSearch={() => {}} onProfile={() => {}} />
-      <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
-        <Text style={styles.eyebrow}>Oct 14–16 • 3 Days, 7 Stops</Text>
-        <Text style={styles.heading}>Weekend Getaway: ROC to Keuka & Seneca Lakes</Text>
-        <Text style={styles.lede}>Autumn foliage route from High Falls gorge down through farmstands and lakeside vineyards.</Text>
+      {/* The custom-gem form below is a real `<Modal>`, not an inline card
+          — its overlay leaves this screen's own content mounted underneath
+          (just visually covered), and axe's color-contrast check correctly
+          treats text sitting behind a 98%-opaque overlay as still painted,
+          not gone. `display: none` while the modal is open removes it from
+          layout and paint entirely, matching what a sighted user actually
+          sees. It never touches the Modal itself: RN Web portals that
+          content to a fresh node on `document.body`, outside this View. */}
+      <View style={gemModalOpen ? styles.hiddenBehindModal : undefined}>
+        <Header variant="root" title="Flourish" subtitle="Lilacs & Lakes" onSearch={() => {}} onProfile={() => {}} />
+        <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
+          <Text style={styles.eyebrow}>Oct 14–16 • 3 Days, 7 Stops</Text>
+          <Text style={styles.heading}>Weekend Getaway: ROC to Keuka & Seneca Lakes</Text>
+          <Text style={styles.lede}>Autumn foliage route from High Falls gorge down through farmstands and lakeside vineyards.</Text>
 
-        <View style={styles.statsRibbon}>
-          <View style={styles.statCell}>
-            <Text style={styles.statLabel}>Drive Window</Text>
-            <Text style={styles.statValue}>2h 45m total</Text>
+          <View style={styles.statsRibbon}>
+            <View style={styles.statCell}>
+              <Text style={styles.statLabel}>Drive Window</Text>
+              <Text style={styles.statValue}>2h 45m total</Text>
+            </View>
+            <View style={styles.statCell}>
+              <Text style={styles.statLabel}>Curated</Text>
+              <Text style={styles.statValue}>4 Spots</Text>
+            </View>
+            <View style={styles.statCell}>
+              <Text style={styles.statLabel}>Private</Text>
+              <Text style={[styles.statValue, { color: colors['secondary'] }]}>2 Gems</Text>
+            </View>
           </View>
-          <View style={styles.statCell}>
-            <Text style={styles.statLabel}>Curated</Text>
-            <Text style={styles.statValue}>4 Spots</Text>
+
+          <View style={styles.mapPreview}>
+            <Text style={styles.mapLabel}>GPS Trail Ready</Text>
+            <Text style={styles.mapTitle}>Canandaigua to Watkins Glen Byway</Text>
+            <Pressable
+              onPress={() => Linking.openURL(platformMapsUrl(MAPS_DESTINATION))}
+              role="button"
+              accessibilityLabel="Start Navigation"
+              style={styles.startNavButton}
+            >
+              <Text style={styles.startNavButtonText}>Start</Text>
+            </Pressable>
           </View>
-          <View style={styles.statCell}>
-            <Text style={styles.statLabel}>Private</Text>
-            <Text style={[styles.statValue, { color: colors['secondary'] }]}>2 Gems</Text>
+
+          <DaySection title="Day 1 • Rochester Kickoff" subtitle="Friday, Oct 14 • 2 Curated Stops" stops={DAY_1_STOPS} />
+          <DaySection title="Day 2 • Wine Country & Gorges" subtitle="Saturday, Oct 15 • Seneca & Keuka Lakes" stops={DAY_2_STOPS} />
+          {addedGems.length > 0 ? <DaySection title="Your Added Stops" subtitle="Appended this session" stops={addedGems} /> : null}
+
+          <View style={styles.gemCta}>
+            <Text style={styles.cardTitle}>Know a secret spot?</Text>
+            <Text style={styles.cardBody}>Add your own farm stand, kayak drop, or scenic sunset pull-off.</Text>
+            <Pressable onPress={() => setGemModalOpen(true)} role="button" style={styles.gemButton}>
+              <Text style={styles.gemButtonText}>+ Add Custom Hidden Gem</Text>
+            </Pressable>
           </View>
-        </View>
-
-        <View style={styles.mapPreview}>
-          <Text style={styles.mapLabel}>GPS Trail Ready</Text>
-          <Text style={styles.mapTitle}>Canandaigua to Watkins Glen Byway</Text>
-          <Pressable
-            onPress={() => Linking.openURL(platformMapsUrl(MAPS_DESTINATION))}
-            role="button"
-            accessibilityLabel="Start Navigation"
-            style={styles.startNavButton}
-          >
-            <Text style={styles.startNavButtonText}>Start</Text>
-          </Pressable>
-        </View>
-
-        <DaySection title="Day 1 • Rochester Kickoff" subtitle="Friday, Oct 14 • 2 Curated Stops" stops={DAY_1_STOPS} />
-        <DaySection title="Day 2 • Wine Country & Gorges" subtitle="Saturday, Oct 15 • Seneca & Keuka Lakes" stops={DAY_2_STOPS} />
-        {addedGems.length > 0 ? <DaySection title="Your Added Stops" subtitle="Appended this session" stops={addedGems} /> : null}
-
-        <View style={styles.gemCta}>
-          <Text style={styles.cardTitle}>Know a secret spot?</Text>
-          <Text style={styles.cardBody}>Add your own farm stand, kayak drop, or scenic sunset pull-off.</Text>
-          <Pressable onPress={() => setGemModalOpen(true)} role="button" style={styles.gemButton}>
-            <Text style={styles.gemButtonText}>+ Add Custom Hidden Gem</Text>
-          </Pressable>
-        </View>
-      </ScrollView>
-      <BottomNav active="itinerary" onNavigate={navigate} />
+        </ScrollView>
+        <BottomNav active="itinerary" onNavigate={navigate} />
+      </View>
 
       <Modal visible={gemModalOpen} animationType="slide" transparent onRequestClose={() => setGemModalOpen(false)}>
         <View style={styles.modalBackdrop}>
@@ -209,6 +219,7 @@ function DaySection({ title, subtitle, stops }: { title: string; subtitle: strin
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors['surface'] },
+  hiddenBehindModal: { display: 'none' },
   body: { flex: 1 },
   bodyContent: { padding: space['margin-mobile'], gap: space['space-md'] },
   eyebrow: { ...textStyle('label-sm'), color: colors['secondary'], textTransform: 'uppercase', fontWeight: '600' },
