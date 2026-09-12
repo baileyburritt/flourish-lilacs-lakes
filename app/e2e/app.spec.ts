@@ -55,3 +55,32 @@ test('Add Private Gem preserves both the text notes field and the audio memo con
   const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa']).analyze();
   expect(results.violations).toEqual([]);
 });
+
+// D2: focus indicators were previously stripped from primary inputs with no
+// replacement. This checks the real, shared fix (FocusRingStyle.tsx) rather
+// than trusting a screenshot — a focused tab and a focused text field must
+// both compute a visible (non-"none", non-zero-width) outline.
+test('focusing a nav tab and a form field shows a visible focus indicator', async ({ page }) => {
+  await page.goto('/');
+
+  const musicTab = page.getByRole('tab', { name: 'Music & Live' });
+  await musicTab.focus();
+  await expect(musicTab).toBeFocused();
+  const tabOutline = await musicTab.evaluate((el) => {
+    const style = getComputedStyle(el);
+    return { style: style.outlineStyle, width: style.outlineWidth };
+  });
+  expect(tabOutline.style).not.toBe('none');
+  expect(tabOutline.width).not.toBe('0px');
+
+  await page.getByRole('button', { name: 'Add Private Gem' }).click();
+  const notesField = page.getByLabel('Insider Tips & Route Logistics');
+  await notesField.focus();
+  await expect(notesField).toBeFocused();
+  const inputOutline = await notesField.evaluate((el) => {
+    const style = getComputedStyle(el);
+    return { style: style.outlineStyle, width: style.outlineWidth };
+  });
+  expect(inputOutline.style).not.toBe('none');
+  expect(inputOutline.width).not.toBe('0px');
+});

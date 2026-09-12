@@ -10,6 +10,7 @@ import {
   SPOT_TITLES,
   TripPlannerScreen,
 } from './screens';
+import { FocusRingStyle } from './components';
 import type { Screen } from './navigation/types';
 
 // C4: the five screens now render from one shared component library
@@ -31,6 +32,7 @@ export default function App() {
 
   return (
     <>
+      <FocusRingStyle />
       {screen === 'explore' ? (
         <ExploreScreen navigate={setScreen} bookmarks={bookmarks} onToggleBookmark={toggleBookmark} />
       ) : null}
