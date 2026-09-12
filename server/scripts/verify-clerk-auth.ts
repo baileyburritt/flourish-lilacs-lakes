@@ -1,5 +1,9 @@
 import 'dotenv/config';
 import { createClerkClient } from '@clerk/backend';
+import { eq } from 'drizzle-orm';
+
+import { db, pool } from '../src/db/client.js';
+import { users } from '../src/db/schema.js';
 
 // E2 (§03): manual verification, not part of `npm test` — it hits the real
 // Clerk API (creates and deletes a throwaway user against whichever
@@ -30,17 +34,24 @@ async function main() {
     const response = await fetch(`${API_BASE_URL}/api/v1/me`, {
       headers: { Authorization: `Bearer ${jwt}` },
     });
-    const body = await response.json();
+    const body = (await response.json()) as { userId?: string };
 
     if (response.status !== 200 || body.userId !== user.id) {
       throw new Error(`Expected 200 with userId ${user.id}, got ${response.status} ${JSON.stringify(body)}`);
     }
 
-    console.log(`Verified: ${API_BASE_URL}/api/v1/me returned the correct userId for a real Clerk session.`);
+    const synced = await db.select({ id: users.id }).from(users).where(eq(users.id, user.id)).limit(1);
+    if (synced.length === 0) {
+      throw new Error(`requireAuth's ensureUserSynced did not create a users row for ${user.id}.`);
+    }
+
+    console.log(`Verified: ${API_BASE_URL}/api/v1/me returned the correct userId, and it was synced to Postgres.`);
     await clerk.sessions.revokeSession(session.id);
   } finally {
     await clerk.users.deleteUser(user.id);
-    console.log('Cleaned up test user', user.id);
+    await db.delete(users).where(eq(users.id, user.id));
+    await pool.end();
+    console.log('Cleaned up test user', user.id, '(Clerk and Postgres)');
   }
 }
 
