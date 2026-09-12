@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
-import { BottomNav, Card, Chip, FormField, Header, Photo } from '../components';
+import { BottomNav, Card, Chip, FormField, Header, Photo, useAnnounce } from '../components';
 import { DESTINATION_CATEGORIES } from '../constants/categories';
 import type { NavigateFn } from '../navigation/types';
 import { colors } from '../theme/tokens';
@@ -21,9 +21,14 @@ export function NewPrivateGemScreen({ navigate }: Props) {
   const [keepSecret, setKeepSecret] = useState(true);
   const [photoAttached, setPhotoAttached] = useState(false);
   const [hasMemo, setHasMemo] = useState(false);
+  const announce = useAnnounce();
 
   function save() {
-    if (!name.trim()) return;
+    if (!name.trim()) {
+      announce('Enter a gem name before saving.');
+      return;
+    }
+    announce(`Saved ${name.trim()} to My Private Gems.`);
     navigate('explore');
   }
 

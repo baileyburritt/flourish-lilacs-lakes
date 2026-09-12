@@ -10,7 +10,7 @@ import {
   SPOT_TITLES,
   TripPlannerScreen,
 } from './screens';
-import { FocusRingStyle } from './components';
+import { FocusRingStyle, LiveRegionProvider } from './components';
 import type { Screen } from './navigation/types';
 
 // C4: the five screens now render from one shared component library
@@ -31,7 +31,7 @@ export default function App() {
     .filter(Boolean);
 
   return (
-    <>
+    <LiveRegionProvider>
       <FocusRingStyle />
       {screen === 'explore' ? (
         <ExploreScreen navigate={setScreen} bookmarks={bookmarks} onToggleBookmark={toggleBookmark} />
@@ -42,6 +42,6 @@ export default function App() {
       {screen === 'destination-detail' ? <DestinationDetailScreen navigate={setScreen} /> : null}
       {screen === 'new-private-gem' ? <NewPrivateGemScreen navigate={setScreen} /> : null}
       <StatusBar style="auto" />
-    </>
+    </LiveRegionProvider>
   );
 }

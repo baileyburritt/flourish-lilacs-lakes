@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
-import { BottomNav, Card, Chip, Header, Photo } from '../components';
+import { BottomNav, Card, Chip, Header, Photo, useAnnounce } from '../components';
 import { DESTINATION_CATEGORIES } from '../constants/categories';
 import type { NavigateFn } from '../navigation/types';
 import { colors } from '../theme/tokens';
@@ -80,6 +80,12 @@ type Props = {
 export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) {
   const [query, setQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState('All');
+  const announce = useAnnounce();
+
+  function saveSpot(spot: { id: string; title: string }) {
+    onToggleBookmark(spot.id);
+    announce(bookmarks[spot.id] ? `Removed ${spot.title} from My Spots.` : `Saved ${spot.title} to My Spots.`);
+  }
 
   return (
     <View style={styles.screen}>
@@ -117,7 +123,7 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
                 <Text style={styles.cardMeta}>{spot.meta}</Text>
                 <View style={styles.footerActions}>
                   <Pressable
-                    onPress={() => onToggleBookmark(spot.id)}
+                    onPress={() => saveSpot(spot)}
                     role="button"
                     aria-pressed={!!bookmarks[spot.id]}
                     accessibilityLabel={bookmarks[spot.id] ? `Remove ${spot.title} from My Spots` : `Save ${spot.title} to My Spots`}
@@ -162,7 +168,7 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
                 <View style={styles.cardFooter}>
                   <Text style={styles.eyebrow}>{spot.eyebrow}</Text>
                   <Pressable
-                    onPress={() => onToggleBookmark(spot.id)}
+                    onPress={() => saveSpot(spot)}
                     role="button"
                     aria-pressed={!!bookmarks[spot.id]}
                     accessibilityLabel={bookmarks[spot.id] ? `Remove ${spot.title} from My Spots` : `Save ${spot.title} to My Spots`}

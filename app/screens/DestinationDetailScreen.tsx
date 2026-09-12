@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
-import { BottomNav, Card, Chip, FormField, Header, Photo } from '../components';
+import { BottomNav, Card, Chip, FormField, Header, Photo, useAnnounce } from '../components';
 import { DESTINATION_CATEGORIES } from '../constants/categories';
 import type { NavigateFn, SavedGem } from '../navigation/types';
 import { colors } from '../theme/tokens';
@@ -33,13 +33,23 @@ export function DestinationDetailScreen({ navigate }: Props) {
   const [gemLocation, setGemLocation] = useState('');
   const [gemNotes, setGemNotes] = useState('');
   const [gemPrivate, setGemPrivate] = useState(true);
+  const announce = useAnnounce();
+
+  function toggleSaved() {
+    setSaved((v) => !v);
+    announce(saved ? 'Removed Letchworth from saved journeys.' : 'Saved Letchworth to saved journeys.');
+  }
 
   function submitGem() {
-    if (!gemName.trim()) return;
+    if (!gemName.trim()) {
+      announce('Enter a spot or business name before saving.');
+      return;
+    }
     setGems((prev) => [
       { id: `gem-${Date.now()}`, name: gemName.trim(), meta: `${gemCategory} • ${gemLocation.trim() || 'Near Castile / Letchworth'}` },
       ...prev,
     ]);
+    announce(`Saved ${gemName.trim()} to My Private Gems.`);
     setGemName('');
     setGemLocation('');
     setGemNotes('');
@@ -55,7 +65,7 @@ export function DestinationDetailScreen({ navigate }: Props) {
             <View style={styles.cardFooter}>
               <Text style={styles.headingSm}>Letchworth & Upper Falls</Text>
               <Pressable
-                onPress={() => setSaved((v) => !v)}
+                onPress={toggleSaved}
                 role="button"
                 aria-pressed={saved}
                 accessibilityLabel={saved ? 'Remove Letchworth from saved journeys' : 'Save Letchworth to saved journeys'}

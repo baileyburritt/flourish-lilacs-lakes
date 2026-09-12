@@ -4,4 +4,5 @@ export { Chip } from './Chip';
 export { FocusRingStyle } from './FocusRingStyle';
 export { FormField } from './FormField';
 export { Header } from './Header';
+export { LiveRegionProvider, useAnnounce } from './LiveRegion';
 export { Photo } from './Photo';

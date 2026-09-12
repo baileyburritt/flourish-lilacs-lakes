@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Linking, Modal, Platform, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
-import { BottomNav, Card, Chip, FormField, Header } from '../components';
+import { BottomNav, Card, Chip, FormField, Header, useAnnounce } from '../components';
 import type { NavigateFn } from '../navigation/types';
 import { colors } from '../theme/tokens';
 import { rad, space, textStyle } from '../theme/scale';
@@ -66,6 +66,7 @@ export function TripPlannerScreen({ navigate }: Props) {
   const [gemNote, setGemNote] = useState('');
   const [gemPrivate, setGemPrivate] = useState(true);
   const [addedGems, setAddedGems] = useState<Stop[]>([]);
+  const announce = useAnnounce();
 
   function resetGemForm() {
     setGemName('');
@@ -76,11 +77,15 @@ export function TripPlannerScreen({ navigate }: Props) {
   }
 
   function submitGem() {
-    if (!gemName.trim()) return;
+    if (!gemName.trim()) {
+      announce('Enter a spot name before saving.');
+      return;
+    }
     setAddedGems((prev) => [
       ...prev,
       { id: `custom-${Date.now()}`, time: gemTime || 'Time TBD', title: gemName.trim(), description: gemNote.trim(), isPrivateGem: gemPrivate, note: gemNote.trim() },
     ]);
+    announce(`Saved ${gemName.trim()} to your itinerary.`);
     resetGemForm();
     setGemModalOpen(false);
   }
