@@ -28,6 +28,23 @@ test('detail variant shows a labeled back button that calls onBack', async () =>
   expect(backCalled).toBe(true);
 });
 
+test('titleIsHeading marks the title as a real h1; without it, the title is plain text', async () => {
+  let root!: ReactTestRenderer;
+  await act(async () => {
+    root = create(<Header variant="detail" title="Add Private Gem" onBack={() => {}} titleIsHeading />);
+  });
+  const heading = root.root.findByProps({ children: 'Add Private Gem' });
+  expect(heading.props.role).toBe('heading');
+  expect(heading.props['aria-level']).toBe(1);
+
+  await act(async () => {
+    root = create(<Header variant="root" title="Flourish" subtitle="Lilacs & Lakes" onProfile={() => {}} />);
+  });
+  const plainTitle = root.root.findByProps({ children: 'Flourish' });
+  expect(plainTitle.props.role).toBeUndefined();
+  expect(plainTitle.props['aria-level']).toBeUndefined();
+});
+
 test('every rendered screen carries exactly one Header', async () => {
   let root!: ReactTestRenderer;
   await act(async () => {

@@ -101,7 +101,9 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
         />
 
         <Text style={styles.eyebrow}>Regional Discovery Journal</Text>
-        <Text style={styles.heading}>Discover Rochester & Finger Lakes</Text>
+        <Text style={styles.heading} role="heading" aria-level={1}>
+          Discover Rochester & Finger Lakes
+        </Text>
         <Text style={styles.lede}>
           Waterfalls, sunlit vineyards, historic mansions & untold gems across Western NY.
         </Text>
@@ -112,7 +114,9 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
           ))}
         </ScrollView>
 
-        <Text style={styles.sectionTitle}>Signature Wonders</Text>
+        <Text style={styles.sectionTitle} role="heading" aria-level={2}>
+          Signature Wonders
+        </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {SPOTLIGHTS.map((spot) => (
             <Card key={spot.id} style={styles.spotlightCard}>
@@ -146,7 +150,9 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
 
         <View style={styles.seasonalBanner}>
           <Text style={styles.seasonalEyebrow}>Seasonal Bloom Alert</Text>
-          <Text style={styles.cardTitle}>Highland Park Lilac Season</Text>
+          <Text style={styles.cardTitle} role="heading" aria-level={2}>
+            Highland Park Lilac Season
+          </Text>
           <View style={styles.seasonalPhotoRow}>
             <Photo alt="Dense purple lilac clusters in full bloom at Highland Park." style={styles.seasonalPhoto} />
             <Photo alt="The Lamberton Conservatory glasshouse at Highland Park with blooming spring azaleas." style={styles.seasonalPhoto} />
@@ -158,7 +164,9 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
         </View>
 
         <View style={styles.sectionHeaderRow}>
-          <Text style={styles.sectionTitle}>Curated Quick Getaways</Text>
+          <Text style={styles.sectionTitle} role="heading" aria-level={2}>
+            Curated Quick Getaways
+          </Text>
         </View>
         <View style={styles.getawayList}>
           {GETAWAYS.map((spot) => (
@@ -187,7 +195,9 @@ export function ExploreScreen({ navigate, bookmarks, onToggleBookmark }: Props) 
 
         <View style={styles.gemCta}>
           <Text style={styles.gemEyebrow}>Local Cartographer</Text>
-          <Text style={styles.gemTitle}>Know an unlisted favorite?</Text>
+          <Text style={styles.gemTitle} role="heading" aria-level={2}>
+            Know an unlisted favorite?
+          </Text>
           <Text style={styles.gemBody}>
             Save a secluded swimming hole, cidery patio, or vintage vinyl haunt directly to your private map.
           </Text>

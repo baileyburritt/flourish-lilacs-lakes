@@ -63,7 +63,9 @@ export function DestinationDetailScreen({ navigate }: Props) {
           <Photo alt="Letchworth State Park Upper Falls cascading through a dramatic shale canyon surrounded by autumn foliage." style={styles.heroPhoto} caption="State Park Landmark • Castile, NY • 55m away" />
           <View style={styles.heroBody}>
             <View style={styles.cardFooter}>
-              <Text style={styles.headingSm}>Letchworth & Upper Falls</Text>
+              <Text style={styles.headingSm} role="heading" aria-level={1}>
+                Letchworth & Upper Falls
+              </Text>
               <Pressable
                 onPress={toggleSaved}
                 role="button"
@@ -84,7 +86,9 @@ export function DestinationDetailScreen({ navigate }: Props) {
           </View>
         </Card>
 
-        <Text style={styles.sectionTitle}>Editorial Highlights</Text>
+        <Text style={styles.sectionTitle} role="heading" aria-level={2}>
+          Editorial Highlights
+        </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {HIGHLIGHTS.map((h) => (
             <Card key={h.id} style={styles.highlightCard}>
@@ -97,7 +101,9 @@ export function DestinationDetailScreen({ navigate }: Props) {
         </ScrollView>
 
         <View style={styles.tipsCard}>
-          <Text style={styles.headingSm}>Ranger Tips & Practical Amenities</Text>
+          <Text style={styles.headingSm} role="heading" aria-level={2}>
+            Ranger Tips & Practical Amenities
+          </Text>
           <View style={styles.tipsGrid}>
             {RANGER_TIPS.map((tip) => (
               <View key={tip.id} style={styles.tipCell}>
@@ -109,7 +115,9 @@ export function DestinationDetailScreen({ navigate }: Props) {
         </View>
 
         <View style={styles.privateSection}>
-          <Text style={styles.headingSm}>Personal Notes & Local Spots Nearby</Text>
+          <Text style={styles.headingSm} role="heading" aria-level={2}>
+            Personal Notes & Local Spots Nearby
+          </Text>
           <Text style={styles.cardBody}>Saved privately to your device • Not shared publicly</Text>
 
           <View style={{ gap: space['space-xs'] }}>
@@ -122,7 +130,9 @@ export function DestinationDetailScreen({ navigate }: Props) {
           </View>
 
           <Card style={styles.formCard}>
-            <Text style={styles.headingSm}>Log a Personal Hidden Gem</Text>
+            <Text style={styles.headingSm} role="heading" aria-level={2}>
+              Log a Personal Hidden Gem
+            </Text>
             <FormField label="Spot or Business Name" value={gemName} onChangeText={setGemName} placeholder="e.g. Hidden gorge overlook behind Glen Iris" required />
             <View>
               <Text style={styles.fieldLabel}>Category / Vibe</Text>

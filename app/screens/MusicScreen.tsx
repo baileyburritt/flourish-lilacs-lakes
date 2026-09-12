@@ -75,7 +75,9 @@ export function MusicScreen({ navigate }: Props) {
       <Header variant="root" title="Flourish" subtitle="Lilacs & Lakes" onSearch={() => {}} onProfile={() => {}} />
       <ScrollView style={styles.body} contentContainerStyle={styles.bodyContent}>
         <Text style={styles.eyebrow}>Finger Lakes & ROC Stages</Text>
-        <Text style={styles.heading}>Live Sounds & Festivals</Text>
+        <Text style={styles.heading} role="heading" aria-level={1}>
+          Live Sounds & Festivals
+        </Text>
         <Text style={styles.lede}>From world-class jazz club corners to sun-drenched lakeside amphitheaters.</Text>
 
         <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.chipRow}>
@@ -99,14 +101,18 @@ export function MusicScreen({ navigate }: Props) {
             </Pressable>
           </View>
           <Text style={styles.headlinerDate}>June 20–28, 2025 • 9 Days of World Talent</Text>
-          <Text style={styles.cardTitle}>Rochester International Jazz Festival (RIJF)</Text>
+          <Text style={styles.cardTitle} role="heading" aria-level={2}>
+            Rochester International Jazz Festival (RIJF)
+          </Text>
           <Text style={styles.headlinerBody}>
             East End District & Kodak Hall at Eastman Theatre. 300+ concerts spanning world-class luminaries to free street stages.
           </Text>
           <Text style={styles.linkLikeText}>Festival Passes & Lineup</Text>
         </Card>
 
-        <Text style={styles.sectionTitle}>Curated Upcoming Gigs</Text>
+        <Text style={styles.sectionTitle} role="heading" aria-level={2}>
+          Curated Upcoming Gigs
+        </Text>
         <View style={styles.gigList}>
           {GIGS.map((gig) => {
             const isPlaying = playingId === gig.id;
@@ -149,7 +155,9 @@ export function MusicScreen({ navigate }: Props) {
         </View>
 
         <View style={styles.reminderCallout}>
-          <Text style={styles.cardTitleSm}>Heard of a popup gig or open mic?</Text>
+          <Text style={styles.cardTitleSm} role="heading" aria-level={2}>
+            Heard of a popup gig or open mic?
+          </Text>
           <Text style={styles.cardBody}>
             Save underground park jams, microbrewery buskers, and East End jazz jams directly into your private travel notebook.
           </Text>

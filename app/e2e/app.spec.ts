@@ -8,9 +8,16 @@ import { expect, test } from '@playwright/test';
 // belongs in scope alongside the other WCAG 2.1 A/AA tags this project
 // scans against, so every screen check below force-enables it rather than
 // relying on a hand-rolled substring check.
+//
+// D7: `heading-order` is the same situation for heading levels — Deque
+// tags it `best-practice` rather than any wcag2*/wcag21* tag (CLAUDE.md's
+// stated reason the scan doesn't pull in axe's full default ruleset), but
+// this project specifically wants its now-real heading hierarchy checked
+// for skipped levels, so it's force-enabled here too rather than adopting
+// every other best-practice rule along with it.
 function scanA11y(page: Page) {
   return new AxeBuilder({ page })
-    .options({ rules: { 'label-content-name-mismatch': { enabled: true } } })
+    .options({ rules: { 'label-content-name-mismatch': { enabled: true }, 'heading-order': { enabled: true } } })
     .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
     .analyze();
 }
