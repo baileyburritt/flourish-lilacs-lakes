@@ -10,6 +10,12 @@ jobs:
     defaults:
       run:
         working-directory: app
+    env:
+      # E2: publishable, not secret — Clerk publishable keys are designed to
+      # ship inside a client bundle. Without it, App.tsx's module-scope
+      # throw crashes every page load, which is why every e2e spec times
+      # out rather than failing individually when this isn't set.
+      EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY }}
     steps:
       - uses: actions/checkout@v4
 
