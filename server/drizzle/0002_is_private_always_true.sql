@@ -1,0 +1,1 @@
+ALTER TABLE "user_private_gems" ADD CONSTRAINT "user_private_gems_is_private_always_true" CHECK ("user_private_gems"."is_private" = true);
