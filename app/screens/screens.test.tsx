@@ -12,6 +12,19 @@ import {
   TripPlannerScreen,
 } from './index';
 
+// E11 (§04, §16): expo-audio wraps native recording/playback APIs this test
+// environment doesn't have — the real module hung the whole suite rather
+// than failing loudly. NewPrivateGemScreen.test.tsx exercises the actual
+// recording/playback behavior against a more detailed version of this same
+// mock; this file only needs NewPrivateGemScreen to render without crashing.
+jest.mock('expo-audio', () => ({
+  RecordingPresets: { HIGH_QUALITY: {}, LOW_QUALITY: {} },
+  requestRecordingPermissionsAsync: jest.fn().mockResolvedValue({ granted: false, status: 'denied' }),
+  setAudioModeAsync: jest.fn().mockResolvedValue(undefined),
+  useAudioRecorder: jest.fn(() => ({ prepareToRecordAsync: jest.fn(), record: jest.fn(), stop: jest.fn(), uri: null })),
+  useAudioPlayer: jest.fn(() => ({ play: jest.fn(), seekTo: jest.fn() })),
+}));
+
 const navigate = () => {};
 
 // C4's done-when, checked directly: every screen renders from the shared

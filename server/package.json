@@ -20,7 +20,8 @@
     "test:rate-limit": "vitest run test/rateLimit.test.ts",
     "test:uploads": "vitest run test/uploads.test.ts",
     "test:account-deletion": "vitest run test/accountDeletion.test.ts",
-    "test:catalog-images": "vitest run test/catalogImages.test.ts"
+    "test:catalog-images": "vitest run test/catalogImages.test.ts",
+    "test:audio-memo": "vitest run test/audioMemo.test.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1131.0",

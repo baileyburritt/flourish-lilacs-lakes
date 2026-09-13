@@ -279,6 +279,54 @@ jobs:
 
       - run: npm run test:account-deletion
 
+  audio-memo:
+    # E11 (§04, §16): proves the committed audio-memo feature against real
+    # infra — Postgres and Clerk for the gem the memo attaches to, R2
+    # because the done-when is that the memo actually uploads, resolves to a
+    # working signed playback URL, and is genuinely gone from the bucket
+    # once its gem is deleted, not that a mock says so. Not a required
+    # status check, matching the jobs above.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: flourish_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/flourish_ci
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      CLERK_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      R2_ACCOUNT_ID: ${{ vars.R2_ACCOUNT_ID }}
+      R2_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+      R2_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+      R2_BUCKET_NAME: ${{ vars.R2_BUCKET_NAME }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run db:migrate
+
+      - run: npm run test:audio-memo
+
   catalog-images:
     # E10 (§03, §06): proves the owned image pipeline against the real app,
     # real Postgres/Clerk for the uploading user, and the real (separate,

@@ -82,6 +82,11 @@ function AuthGate() {
 function MainApp() {
   const [screen, setScreen] = useState<Screen>('explore');
   const [bookmarks, setBookmarks] = useState<Record<string, boolean>>({});
+  // E11 (§04, §16): the audio-memo capture flow (NewPrivateGemScreen) needs
+  // a session token to sync a new gem and its memo to the real backend.
+  // Under the e2e bypass this resolves to null (no real session), which the
+  // screen already treats as "no server to sync to."
+  const { getToken } = useAuth();
 
   function toggleBookmark(id: string) {
     setBookmarks((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -101,7 +106,7 @@ function MainApp() {
       {screen === 'itinerary' ? <TripPlannerScreen navigate={setScreen} /> : null}
       {screen === 'my-spots' ? <MySpotsScreen navigate={setScreen} savedTitles={savedTitles} /> : null}
       {screen === 'destination-detail' ? <DestinationDetailScreen navigate={setScreen} /> : null}
-      {screen === 'new-private-gem' ? <NewPrivateGemScreen navigate={setScreen} /> : null}
+      {screen === 'new-private-gem' ? <NewPrivateGemScreen navigate={setScreen} getToken={getToken} /> : null}
     </>
   );
 }
