@@ -20,3 +20,17 @@ export async function fetchMe(token: string): Promise<MeResponse> {
   }
   return response.json();
 }
+
+// E8 (§12): Apple 5.1.1(v) requires in-app account deletion. Calls the
+// server/src/routes/account.ts endpoint, which removes the user's gem
+// photo/audio storage objects, the Clerk account, and the local user row
+// (cascading to trips/gems/bookmarks) before this resolves.
+export async function deleteAccount(token: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/api/v1/account`, {
+    method: 'DELETE',
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!response.ok) {
+    throw new Error(`DELETE /api/v1/account failed: ${response.status}`);
+  }
+}
