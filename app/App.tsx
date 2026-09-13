@@ -15,12 +15,18 @@ import {
   TripPlannerScreen,
 } from './screens';
 import { AccountBanner, FocusRingStyle, LiveRegionProvider } from './components';
+import { initSentry } from './lib/sentry';
 import type { Screen } from './navigation/types';
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
 if (!publishableKey) {
   throw new Error('Missing EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY — set it in app/.env.local (see .env.example).');
 }
+
+// F3 (§13): unlike the throw above, this is an observability nice-to-have —
+// it must never block app boot. initSentry() itself no-ops (with a console
+// warning) when EXPO_PUBLIC_SENTRY_DSN is unset or on web; see lib/sentry.ts.
+initSentry();
 
 // E2 (§03): managed auth wrapping Google sign-in. ClerkProvider is the
 // outermost wrapper so every screen (and MainApp below) can use Clerk's

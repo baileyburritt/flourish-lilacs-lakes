@@ -1,5 +1,6 @@
 import { sql } from 'drizzle-orm';
 import Fastify from 'fastify';
+import * as Sentry from '@sentry/node';
 import { clerkPlugin } from '@clerk/fastify';
 import multipart from '@fastify/multipart';
 import rateLimit from '@fastify/rate-limit';
@@ -11,6 +12,7 @@ import { MAX_AUDIO_BYTES } from './lib/uploadLimits.js';
 import { accountRoutes } from './routes/account.js';
 import { bookmarksRoutes } from './routes/bookmarks.js';
 import { catalogImagesRoutes } from './routes/catalogImages.js';
+import { debugRoutes } from './routes/debug.js';
 import { gemsRoutes } from './routes/gems.js';
 import { tripsRoutes } from './routes/trips.js';
 
@@ -19,6 +21,13 @@ import { tripsRoutes } from './routes/trips.js';
 // does exactly that.
 export function buildApp() {
   const app = Fastify({ logger: true });
+
+  // F3 (§13): captures uncaught exceptions thrown by any route handler into
+  // Sentry. Safe to call unconditionally — Sentry's SDK no-ops on capture
+  // calls when Sentry.init was never called (SENTRY_DSN unset, see
+  // instrument.ts), so this never blocks boot or masks the underlying
+  // error, it just skips reporting it anywhere.
+  Sentry.setupFastifyErrorHandler(app);
 
   app.register(clerkPlugin);
 
@@ -65,6 +74,11 @@ export function buildApp() {
     // ownership-scoped like the plugins above — catalog images aren't a
     // private, per-user resource — but still behind requireAuth.
     app.register(catalogImagesRoutes, { prefix: '/api/v1/catalog-images' });
+
+    // F3 (§13): POST /api/v1/debug/test-error — a deliberate throw for the
+    // human to verify Sentry capture against a real deployed instance once
+    // SENTRY_DSN is configured. See docs/runbook.md.
+    app.register(debugRoutes, { prefix: '/api/v1/debug' });
 
     // E2's done-when: "the API receives a verified user id on every
     // authenticated request." This route is the proof, not a real resource

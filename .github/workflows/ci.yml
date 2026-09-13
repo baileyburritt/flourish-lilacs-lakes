@@ -327,6 +327,54 @@ jobs:
 
       - run: npm run test:audio-memo
 
+  error-tracking:
+    # F3 (§13): proves the no-op-when-unset behavior for both the app-boot
+    # side (server still boots, /health still responds) and the Fastify
+    # error-handler wiring, with SENTRY_DSN deliberately absent — no Sentry
+    # account exists yet (see docs/vendors.md). Needs Postgres and Clerk
+    # like `rate-limit` above, since buildApp() registers clerkPlugin. Not a
+    # required status check, matching the jobs above.
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: flourish_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/flourish_ci
+      CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+      CLERK_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      # A write-only ingestion identifier, not a true secret — see
+      # docs/vendors.md. Expected to be unset until the human creates a
+      # Sentry account; this job's whole point is proving that's fine.
+      SENTRY_DSN: ${{ vars.SENTRY_DSN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+
+      - run: npm ci
+
+      - run: npm run db:migrate
+
+      - run: npm run test:error-tracking
+
   catalog-images:
     # E10 (§03, §06): proves the owned image pipeline against the real app,
     # real Postgres/Clerk for the uploading user, and the real (separate,
