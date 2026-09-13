@@ -4,3 +4,8 @@
 export const MAX_PHOTO_BYTES = 10 * 1024 * 1024; // 10 MB
 export const MAX_AUDIO_BYTES = 25 * 1024 * 1024; // 25 MB
 export const MAX_PHOTOS_PER_GEM = 10;
+
+// E10 (§03, §06): the catalog-image upload path (destination/event cover
+// photos and galleries), same cap as a gem photo since both are single
+// still images.
+export const MAX_CATALOG_IMAGE_BYTES = 10 * 1024 * 1024; // 10 MB
