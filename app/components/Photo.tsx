@@ -3,14 +3,14 @@ import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-na
 import { colors } from '../theme/tokens';
 import { rad, textStyle } from '../theme/scale';
 
-// E10 (Stage E) replaces every lh3.googleusercontent.com reference with an
-// owned, CDN-served image; until real photography lands (procured by the
-// human, never sourced by an agent — see CLAUDE.md), this renders a labeled
-// placeholder instead of a live third-party image request. `alt` carries the
-// same real, descriptive text a finished <Image alt=...> will use, so
-// meaningful photography is never invisible to screen readers even as a
-// placeholder — D1's fix (real alt text) is built in from the start here,
-// not bolted on later.
+// E10 retired every third-party export-host image reference in favor of an
+// owned storage + CDN pipeline (server/src/lib/catalogStorage.ts); until real
+// photography lands through it (procured by the human, never sourced by an
+// agent — see CLAUDE.md), this renders a labeled placeholder instead of a
+// live image request. `alt` carries the same real, descriptive text a
+// finished <Image alt=...> will use, so meaningful photography is never
+// invisible to screen readers even as a placeholder — D1's fix (real alt
+// text) is built in from the start here, not bolted on later.
 type Props = {
   alt: string;
   style?: StyleProp<ViewStyle>;

@@ -5,10 +5,10 @@ import { rad, space, textStyle } from '../theme/scale';
 
 // The five source screens each hand-rolled their own header, and no two
 // agreed: three brand wordmarks ("Lilacs & Lakes" / "ROC & Lakes" / "LILACS &
-// LAKES"), and two of five screens fetched the logo from a live
-// lh3.googleusercontent.com URL that E10 (Stage E) will eventually retire.
-// One component, one wordmark, no external image dependency — every screen
-// renders exactly one of these and nothing else that looks like a header.
+// LAKES"), and two of five screens fetched the logo from a live third-party
+// export-host URL (retired repo-wide in E10). One component, one wordmark,
+// no external image dependency — every screen renders exactly one of these
+// and nothing else that looks like a header.
 type Props = {
   variant: 'root' | 'detail';
   title: string;

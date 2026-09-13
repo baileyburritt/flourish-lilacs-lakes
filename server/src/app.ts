@@ -10,6 +10,7 @@ import { PER_IP_MAX_REQUESTS, PER_IP_WINDOW } from './lib/rateLimitConfig.js';
 import { MAX_AUDIO_BYTES } from './lib/uploadLimits.js';
 import { accountRoutes } from './routes/account.js';
 import { bookmarksRoutes } from './routes/bookmarks.js';
+import { catalogImagesRoutes } from './routes/catalogImages.js';
 import { gemsRoutes } from './routes/gems.js';
 import { tripsRoutes } from './routes/trips.js';
 
@@ -59,6 +60,11 @@ export function buildApp() {
     // E8 (§12): DELETE /api/v1/account — Apple 5.1.1(v) in-app account
     // deletion. Its own preHandler(requireAuth) scopes it to the caller.
     app.register(accountRoutes, { prefix: '/api/v1/account' });
+
+    // E10 (§03, §06): the upload half of the owned image pipeline. Not
+    // ownership-scoped like the plugins above — catalog images aren't a
+    // private, per-user resource — but still behind requireAuth.
+    app.register(catalogImagesRoutes, { prefix: '/api/v1/catalog-images' });
 
     // E2's done-when: "the API receives a verified user id on every
     // authenticated request." This route is the proof, not a real resource
