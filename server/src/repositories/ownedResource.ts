@@ -22,6 +22,20 @@ export function ownedResourceRepo<T extends OwnedTable>(table: T) {
   const anyTable = table as unknown as PgTable;
 
   return {
+    // E11 (§04, §16): the audio-memo capture flow needs a gem to attach the
+    // upload to, and nothing before this ticket ever created one outside a
+    // test fixture's direct db.insert. `userId` is spread in last so a
+    // caller-supplied `data.userId` (there shouldn't be one — pick() in
+    // src/routes/gems.ts whitelists columns, and `userId` isn't among them)
+    // can never override the authenticated owner.
+    create: async (userId: string, data: Record<string, unknown>): Promise<Row> => {
+      const rows = (await db
+        .insert(anyTable)
+        .values({ ...data, userId })
+        .returning()) as Row[];
+      return rows[0];
+    },
+
     list: (userId: string): Promise<Row[]> =>
       db.select().from(anyTable).where(eq(table.userId, userId)) as unknown as Promise<Row[]>,
 

@@ -1,17 +1,27 @@
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import { RecordingPresets, requestRecordingPermissionsAsync, setAudioModeAsync, useAudioPlayer, useAudioRecorder } from 'expo-audio';
 
 import { BottomNav, Card, Chip, FormField, Header, Photo, useAnnounce } from '../components';
 import { DESTINATION_CATEGORIES } from '../constants/categories';
+import { createGem, uploadGemAudioMemo } from '../lib/api';
 import type { NavigateFn } from '../navigation/types';
 import { colors } from '../theme/tokens';
 import { rad, space, textStyle } from '../theme/scale';
 
 const REGIONS = ['Rochester Metro', 'Canandaigua Lake', 'Keuka Lake Bluff', 'Seneca & Watkins', 'Genesee Valley & Letchworth Gorge'];
 
-type Props = { navigate: NavigateFn };
+type Props = {
+  navigate: NavigateFn;
+  // E11 (§04, §16): optional so this screen renders standalone in
+  // screens.test.tsx with no Clerk provider in the tree — save() below
+  // treats a missing or null-resolving getToken (e2e's bypassed sign-in
+  // included) the same way, as "no server to sync to," and still completes
+  // the local save it already did before this ticket.
+  getToken?: () => Promise<string | null>;
+};
 
-export function NewPrivateGemScreen({ navigate }: Props) {
+export function NewPrivateGemScreen({ navigate, getToken }: Props) {
   const [category, setCategory] = useState(DESTINATION_CATEGORIES[1].label);
   const [region, setRegion] = useState(REGIONS[1]);
   const [name, setName] = useState('');
@@ -20,15 +30,82 @@ export function NewPrivateGemScreen({ navigate }: Props) {
   const [notes, setNotes] = useState('');
   const [keepSecret, setKeepSecret] = useState(true);
   const [photoAttached, setPhotoAttached] = useState(false);
-  const [hasMemo, setHasMemo] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [memoUri, setMemoUri] = useState<string | null>(null);
   const announce = useAnnounce();
+  const recorder = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
+  const player = useAudioPlayer(memoUri);
 
-  function save() {
-    if (!name.trim()) {
+  // E11 (§04, §16): permission is requested here, at the moment "Record
+  // Memo" is pressed — never at launch or anywhere in App.tsx — and freshly
+  // on every recording (including a re-record), never cached past a denial,
+  // so a user who changes their mind in device settings isn't stuck.
+  async function handleRecordPress() {
+    if (isRecording) {
+      await recorder.stop();
+      await setAudioModeAsync({ allowsRecording: false });
+      setIsRecording(false);
+      if (recorder.uri) {
+        setMemoUri(recorder.uri);
+        announce('Audio memo recorded.');
+      } else {
+        announce('The recording could not be saved. Please try again.');
+      }
+      return;
+    }
+
+    const permission = await requestRecordingPermissionsAsync();
+    if (!permission.granted) {
+      announce('Microphone access is needed to record an audio memo. Enable it in your device settings.');
+      return;
+    }
+
+    await setAudioModeAsync({ allowsRecording: true });
+    await recorder.prepareToRecordAsync();
+    recorder.record();
+    setIsRecording(true);
+    announce('Recording started.');
+  }
+
+  function playMemo() {
+    player.seekTo(0);
+    player.play();
+  }
+
+  async function save() {
+    const savedName = name.trim();
+    if (!savedName) {
       announce('Enter a gem name before saving.');
       return;
     }
-    announce(`Saved ${name.trim()} to My Private Gems.`);
+
+    // Best-effort sync: a signed-in session attaches this gem (and its memo,
+    // if any) to the real backend from E5/E6/E7. Without one — no
+    // ClerkProvider in a unit test, or a real session that just isn't signed
+    // in, e2e's bypassed sign-in included — the save still completes locally
+    // exactly as it did before this ticket, rather than blocking on a server
+    // this screen has never required until now.
+    const token = await getToken?.();
+    if (token) {
+      try {
+        const categoryId = DESTINATION_CATEGORIES.find((c) => c.label === category)?.id;
+        const gem = await createGem(token, {
+          title: savedName,
+          landmarkNote: landmarkClue.trim() || undefined,
+          notes: notes.trim() || undefined,
+          category: categoryId,
+        });
+        if (memoUri) {
+          await uploadGemAudioMemo(token, gem.id, memoUri);
+        }
+      } catch {
+        announce(`Saved ${savedName} on this device, but could not sync to the server. Check your connection and try again.`);
+        navigate('explore');
+        return;
+      }
+    }
+
+    announce(`Saved ${savedName} to My Private Gems.`);
     navigate('explore');
   }
 
@@ -111,14 +188,27 @@ export function NewPrivateGemScreen({ navigate }: Props) {
             {/* The audio-memo capture itself — a real, committed feature (not
                 a cut candidate) per CLAUDE.md. */}
             <Pressable
-              onPress={() => setHasMemo((v) => !v)}
+              onPress={() => void handleRecordPress()}
               role="button"
-              aria-pressed={hasMemo}
-              accessibilityLabel={hasMemo ? 'Stop recording audio memo' : 'Record an audio memo'}
+              aria-pressed={isRecording}
+              accessibilityLabel={
+                isRecording
+                  ? 'Stop recording audio memo'
+                  : memoUri
+                    ? 'Record a new audio memo, replacing the current one'
+                    : 'Record an audio memo'
+              }
               style={styles.captureButton}
             >
-              <Text style={styles.captureButtonText}>{hasMemo ? 'Recording… Tap to Stop' : 'Record Memo'}</Text>
+              <Text style={styles.captureButtonText}>
+                {isRecording ? 'Recording… Tap to Stop' : memoUri ? 'Memo Recorded — Tap to Re-record' : 'Record Memo'}
+              </Text>
             </Pressable>
+            {memoUri && !isRecording ? (
+              <Pressable onPress={playMemo} role="button" accessibilityLabel="Play recorded audio memo" style={styles.captureButton}>
+                <Text style={styles.captureButtonText}>▶ Play Memo</Text>
+              </Pressable>
+            ) : null}
           </View>
         </View>
 
