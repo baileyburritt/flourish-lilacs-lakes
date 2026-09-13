@@ -1,0 +1,52 @@
+# F4 (§13): staging Fly app for the Fastify API (server/).
+#
+# Deployed on every merge to master by .github/workflows/deploy.yml's
+# `deploy-staging-server` job, via:
+#   fly deploy --config fly.staging.toml --app flourish-api-staging
+#
+# `app` and `primary_region` are provisional. Fly app names are globally
+# unique across all Fly accounts, so the human picks (and creates, via
+# `fly apps create <name>`) the real name when this ticket's account is
+# set up — update `app` below to match whatever name is actually taken.
+# `primary_region = "iad"` (Ashburn, VA) was chosen as a reasonable
+# low-latency match for the Neon Postgres project's `aws-us-east-2` (Ohio)
+# region documented in docs/runbook.md; adjust freely, it isn't load-bearing.
+
+app = "flourish-api-staging"
+primary_region = "iad"
+
+[build]
+  # Auto-detects ./Dockerfile relative to this config file.
+
+[env]
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  # Staging is allowed to scale to zero between uses to keep cost near $0;
+  # production (fly.production.toml) keeps one machine warm instead.
+  min_machines_running = 0
+  processes = ["app"]
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[deploy]
+  # Runs the compiled migrator (server/src/db/migrate.ts ->
+  # dist/db/migrate.js) against DATABASE_URL on a fresh temporary machine
+  # before Fly routes traffic to the new release; the deploy is aborted if
+  # this fails. Safe to run ahead of every deploy without a manual gate
+  # because this repo's CLAUDE.md requires all schema changes to be
+  # additive migrations.
+  release_command = "node dist/db/migrate.js"

@@ -1,0 +1,147 @@
+name: Deploy
+
+# F4 (§13): deploy pipeline — staging on merge to master, production on a
+# version tag. Kept in its own workflow file rather than folded into
+# ci.yml: ci.yml's single `on: pull_request` trigger is the merge gate, and
+# a deploy step must never run on every PR (or every push to a feature
+# branch); a separate `on: push` trigger here keeps that guarantee obvious
+# at a glance instead of buried in per-job `if:` conditions on a shared
+# trigger.
+#
+# Every job below needs real vendor credentials that don't exist yet — a
+# `FLY_API_TOKEN` secret, a `CLOUDFLARE_PAGES_API_TOKEN` secret, and a
+# `CLOUDFLARE_ACCOUNT_ID` repo variable (see docs/vendors.md). Until the
+# human creates the Fly.io and Cloudflare Pages accounts and adds those,
+# every job here fails at its first authenticated step — that's expected,
+# not a bug, and this workflow activates with no code change once the
+# secrets/vars exist. None of these jobs are added to the branch ruleset as
+# required status checks (only ci.yml's `ci` and `server` jobs are), so a
+# red run here never blocks a PR — matching this repo's existing convention
+# for jobs like `storage` and `ownership` in ci.yml that also assume real
+# secrets exist and are commented the same way.
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-staging-server:
+    # Fires on every merge to master. Not a required status check, matching
+    # `storage` and `ownership` in ci.yml above.
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-staging-server
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      # Builds the Dockerfile image remotely on Fly's own builders (no local
+      # Docker needed in the runner) and runs fly.staging.toml's
+      # release_command (the drizzle migrator) before cutting traffic over.
+      - run: flyctl deploy --config fly.staging.toml --app flourish-api-staging --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  deploy-staging-web:
+    # Fires on every merge to master. Not a required status check, matching
+    # `storage` and `ownership` in ci.yml above.
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-staging-web
+    env:
+      # E2: publishable, safe in a client bundle — see ci.yml's identical
+      # comment on this same variable.
+      EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      # Baked in at build time (Expo inlines EXPO_PUBLIC_* vars into the
+      # static export, not at runtime) — this is the per-environment value
+      # app/.env.example's comment on this var says Stage F would resolve.
+      EXPO_PUBLIC_API_BASE_URL: https://flourish-api-staging.fly.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - working-directory: app
+        run: npm ci
+
+      - working-directory: app
+        run: npm run build:web
+
+      - uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_PAGES_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: app
+          # `--branch=main` names this Pages project's configured
+          # *production* branch, not this repo's git branch (master) — it
+          # tells Cloudflare to record this as a Production deployment
+          # rather than a preview one. See docs/runbook.md's F4 section for
+          # why staging and production use two separate Pages projects
+          # (flourish-web-staging / flourish-web-production) instead of one
+          # project's production/preview split.
+          command: pages deploy dist --project-name=flourish-web-staging --branch=main
+
+  deploy-production-server:
+    # Fires only on a pushed tag matching v* (e.g. v1.4.0). Not a required
+    # status check, matching `storage` and `ownership` in ci.yml above.
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-production-server
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - run: flyctl deploy --config fly.production.toml --app flourish-api-production --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+  deploy-production-web:
+    # Fires only on a pushed tag matching v* (e.g. v1.4.0). Not a required
+    # status check, matching `storage` and `ownership` in ci.yml above.
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    concurrency:
+      group: deploy-production-web
+    env:
+      EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ vars.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+      EXPO_PUBLIC_API_BASE_URL: https://flourish-api-production.fly.dev
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - working-directory: app
+        run: npm ci
+
+      - working-directory: app
+        run: npm run build:web
+
+      - uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_PAGES_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: app
+          command: pages deploy dist --project-name=flourish-web-production --branch=main

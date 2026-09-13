@@ -1,0 +1,43 @@
+# F4 (§13): production Fly app for the Fastify API (server/).
+#
+# Deployed only on a version-tag push (e.g. `v1.2.3`) by
+# .github/workflows/deploy.yml's `deploy-production-server` job, via:
+#   fly deploy --config fly.production.toml --app flourish-api-production
+#
+# See fly.staging.toml for the naming/region caveat — the human creates the
+# real app (`fly apps create <name>`) and this file's `app` value must match.
+
+app = "flourish-api-production"
+primary_region = "iad"
+
+[build]
+  # Auto-detects ./Dockerfile relative to this config file.
+
+[env]
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  # Unlike staging, production keeps one machine warm to avoid a cold-start
+  # penalty on the first request after idle.
+  min_machines_running = 1
+  processes = ["app"]
+
+  [[http_service.checks]]
+    grace_period = "10s"
+    interval = "30s"
+    method = "GET"
+    timeout = "5s"
+    path = "/health"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "256mb"
+
+[deploy]
+  # See fly.staging.toml's comment on release_command — identical reasoning
+  # applies here.
+  release_command = "node dist/db/migrate.js"
